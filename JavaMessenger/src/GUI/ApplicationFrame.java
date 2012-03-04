@@ -162,23 +162,6 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
-        Object obj = new Object();
-        Object obj2 = new Object();
-        Object obj3 = new Object();
-        Object obj4 = new Object();
-        Object obj5 = new Object();
-        Object obj6 = new Object();
-        Object obj7 = new Object();
-        
-        
-        obj = "String1";
-        obj2 = "String1";
-        obj3 = "String1";
-        obj4 = "String1";
-        obj5 = "String1";
-        obj6 = "String1";
-        obj7 = "String1";
-        
         MessegerFrame msgr = new MessegerFrame();
         msgr.setLocationRelativeTo(msgr.getRootPane());
         msgr.setVisible(true);
