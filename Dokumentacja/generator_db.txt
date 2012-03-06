@@ -13,7 +13,7 @@ CREATE TABLE contacts  (
 CREATE TABLE users  ( 
 	id         	serial unique primary key,
 	user_name  	varchar(255) NOT NULL,
-	ip    		varchar(255) NOT NULL,
+	ip    		varchar(255) NULL,
 	conference_id 	int4 NOT NULL
 );
 
@@ -26,16 +26,13 @@ CREATE TABLE messages  (
 	id         	serial unique primary key,
 	content  	varchar(255) NOT NULL,
 	user_id 	int4 NOT NULL,
-	time    	timestamp NULL,
+	timestamp    	timestamp NOT NULL,
 	sender		varchar(255) NOT NULL
 );
 
 ALTER TABLE contacts
 	ADD CONSTRAINT contacts_number_key
 	UNIQUE (number);
-ALTER TABLE contacts
-	ADD CONSTRAINT contacts_name_key
-	UNIQUE (name);
 
 ALTER TABLE contacts
 	ADD CONSTRAINT gets
