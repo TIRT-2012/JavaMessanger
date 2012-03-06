@@ -12,7 +12,7 @@ import java.sql.*;
 public class DataConnector {
     public static void main(String args[])
     {
-            System.out.println("MySQL Connect Example.");
+            System.out.println("Test polaczenia MySQL.");
             Connection conn = null;
             String url = "jdbc:mysql://sql09.freemysql.net/";
             String dbName = "jmcdata";
@@ -23,8 +23,8 @@ public class DataConnector {
                 Class.forName(driver).newInstance();
                 String dbURL = url+ "project?user=" + userName + "&password=" + password;
                 //conn = DriverManager.getConnection(url+dbName,userName,password);
-                //conn = DriverManager.getConnection(url+dbName,userName,password);
-                conn = DriverManager.getConnection(dbURL);
+                conn = DriverManager.getConnection(url+dbName,userName,password);
+                //conn = DriverManager.getConnection(dbURL);
                 System.out.println("Connected to the database");
                 conn.close();
                 System.out.println("Disconnected from database");
