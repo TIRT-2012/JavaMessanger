@@ -4,7 +4,7 @@
  */
 package MySQLConnector;
 import java.sql.Connection;
-import java.sql.*;
+import java.sql.DriverManager;
 /**
  *
  * @author Piotr

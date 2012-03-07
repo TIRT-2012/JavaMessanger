@@ -4,8 +4,6 @@
  */
 package GUI;
 
-import javax.swing.JDialog;
-
 /**
  *
  * @author Piotr
