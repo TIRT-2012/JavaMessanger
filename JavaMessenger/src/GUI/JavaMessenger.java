@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import crypto.Hasher;
+import java.security.NoSuchAlgorithmException;
+
 /**
  *
  * @author Piotr
@@ -19,8 +22,9 @@ public class JavaMessenger {
         app.setVisible(true);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NoSuchAlgorithmException {
         // TODO code application logic here
         JavaMessenger runnerClass = new JavaMessenger();
+        System.out.println(Hasher.generateHash("wtf", Hasher.HASH_SHA512));
     }
 }
