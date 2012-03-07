@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS contacts CASCADE;
 DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS conferences CASCADE;
 DROP TABLE IF EXISTS messages CASCADE;
+DROP TABLE IF EXISTS user_to_conference CASCADE;
 
 CREATE TABLE contacts  ( 
 	id         	serial unique primary key,
@@ -14,7 +15,7 @@ CREATE TABLE users  (
 	id         	serial unique primary key,
 	user_name  	varchar(255) NOT NULL,
 	ip    		varchar(255) NULL,
-	conference_id 	int4 NULL
+	password 	varchar(255) NOT NULL
 );
 
 CREATE TABLE conferences  ( 
@@ -25,39 +26,53 @@ CREATE TABLE conferences  (
 CREATE TABLE messages  ( 
 	id         	serial unique primary key,
 	content  	varchar(255) NOT NULL,
-	user_id 	int4 NOT NULL,
 	timestamp    	timestamp NOT NULL,
-	sender		varchar(255) NOT NULL
+	sender_id	varchar(255) NOT NULL
 );
+
+CREATE TABLE user_to_conference  ( 
+	id         	serial unique primary key,
+	user_id  	int4 NOT NULL,
+	conference_id	int4 NOT NULL
+);
+
 
 ALTER TABLE contacts
 	ADD CONSTRAINT contacts_number_key
 	UNIQUE (number);
 
 ALTER TABLE contacts
-	ADD CONSTRAINT gets
+	ADD CONSTRAINT gets_user_id
 	FOREIGN KEY(user_id)
 	REFERENCES users(id);
+
 
 ALTER TABLE users
 	ADD CONSTRAINT users_user_name_key
 	UNIQUE (user_name);
+
 ALTER TABLE users
 	ADD CONSTRAINT users_ip_key
 	UNIQUE (ip);
 
-ALTER TABLE users
-	ADD CONSTRAINT gets
-	FOREIGN KEY(conference_id)
-	REFERENCES conferences(id);
-
 ALTER TABLE conferences
-	ADD CONSTRAINT gets
+	ADD CONSTRAINT gets_message_id
 	FOREIGN KEY(message_id)
 	REFERENCES messages(id);
 
 
 ALTER TABLE messages
-	ADD CONSTRAINT gets
+	ADD CONSTRAINT gets_user_id
+	FOREIGN KEY(sender_id)
+	REFERENCES users(id);
+
+
+ALTER TABLE user_to_conference
+	ADD CONSTRAINT gets_user_id
 	FOREIGN KEY(user_id)
 	REFERENCES users(id);
+
+ALTER TABLE user_to_conference
+	ADD CONSTRAINT gets_conference_id
+	FOREIGN KEY(conference_id)
+	REFERENCES conferences(id);
