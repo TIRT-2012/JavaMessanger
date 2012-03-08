@@ -27,6 +27,7 @@ public class TrySelect {
         EntityManager em = emf.createEntityManager();
         
         em.getTransaction().begin();
+        System.out.println(" TRANSACTRION BEGIN");
         
         Query query = em.createNamedQuery( "Users.findByUserName");
         //query.setParameter("id", 1L);

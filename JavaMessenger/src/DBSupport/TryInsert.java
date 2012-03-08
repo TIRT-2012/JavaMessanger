@@ -25,7 +25,7 @@ public class TryInsert {
         
         Users user=new Users();
         user.setUserName("admin");
-        user.setIp("123.120.113.120");
+        user.setIp("123.120.113.129");
         user.setPassword("admin");
         em.persist(user);
         
