@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import DBSupport.TryInsert;
+
 /**
  *
  * @author Piotr
@@ -48,6 +50,11 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton1MouseClicked(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -130,7 +137,9 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         login = jTextField3.getText().toString();
         pass = jPasswordField1.getText().toString();
-        getAuthenticationData();
+        System.out.println(login + " : " + pass);
+        getAuthenticationData(login, pass);
+        
 
 
     }//GEN-LAST:event_jButton1MouseClicked
@@ -138,10 +147,17 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
-    public void getAuthenticationData()// metoda zwracająca dane z bazy - narazie tylko podstawiam dane do testowania
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+    public void getAuthenticationData(String login, String pass)// metoda zwracająca dane z bazy - narazie tylko podstawiam dane do testowania
     {
         //pobieramy z bazy ,  Obiekt obj = SELECT login, Pass FROM TableLogin WHERE login = "login" && password = "pass" itp.
         // Obiekt obj nie zwraca nulla to user jest zalogowany
+        DBSupport.TrySelect ti = new DBSupport.TrySelect();
+        System.out.println("Stworzono tryselect");
+        ti.selectAuthentication(login, pass);
     }
 
     /**

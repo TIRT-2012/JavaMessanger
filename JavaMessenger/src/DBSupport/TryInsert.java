@@ -24,9 +24,9 @@ public class TryInsert {
         em.getTransaction().begin();
         
         Users user=new Users();
-        user.setUserName("Kapitan Bomba");
+        user.setUserName("admin");
         user.setIp("123.120.113.120");
-        user.setPassword("secret1");
+        user.setPassword("admin");
         em.persist(user);
         
         
