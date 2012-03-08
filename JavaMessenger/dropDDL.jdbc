@@ -1,7 +1,0 @@
-DROP TABLE users
-DROP TABLE user_to_conference
-DROP TABLE conferences
-DROP TABLE messages
-DROP TABLE contacts
-DROP TABLE USER
-DELETE FROM SEQUENCE WHERE SEQ_NAME = 'SEQ_GEN'
