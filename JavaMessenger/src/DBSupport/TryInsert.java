@@ -4,10 +4,9 @@
  */
 package DBSupport;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-
+import java.util.Iterator;
+import java.util.List;
+import static java.lang.System.*;
 /**
  *
  * @author SysOp
@@ -17,21 +16,13 @@ public class TryInsert {
     
     
     public static void main(String[] a){
-        
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaMessengerPU");
-        EntityManager em = emf.createEntityManager();
-        
-        em.getTransaction().begin();
-        
-        Users user=new Users();
-        user.setUserName("testUser4");
-        user.setIp("123.123.123.126");
-        user.setPassword("secret");
-        em.persist(user);
-        
-        
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
+        UsersDAO uDAO= new UsersDAO();
+        Users tmp;//=uDAO.findById(2L);
+//        out.println(tmp.getUserName());
+        List<Users> list=uDAO.findAll();
+        for(Iterator it=list.iterator(); it.hasNext();){
+            tmp=(Users) it.next();
+            out.println(tmp.getUserName());
+        }
     }
 }
