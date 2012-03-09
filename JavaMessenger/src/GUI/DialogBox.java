@@ -15,8 +15,14 @@ public class DialogBox extends javax.swing.JFrame {
     /**
      * Creates new form DialogBox
      */
+    private String username;
+
     public DialogBox() {
         initComponents();
+    }
+
+    public void setUserName(String login) {
+        username = login;
     }
 
     /**
@@ -71,8 +77,14 @@ public class DialogBox extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
+        
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(false);
+        ApplicationFrame ap = new ApplicationFrame();
+        ap.setLocationRelativeTo(ap.getRootPane());
+        ap.changeProfilName(username);
+        ap.changeLoginButtonText("Wyloguj");
+        ap.setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
 
     /**
@@ -110,7 +122,7 @@ public class DialogBox extends javax.swing.JFrame {
          * Create and display the form
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             public void run() {
                 new DialogBox().setVisible(true);
             }

@@ -19,7 +19,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
      */
     private String login = null;
     private String pass = null;
-
+    
     public AuthenticationFrame() {
         initComponents();
     }
@@ -134,7 +134,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
-
+    
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         login = jTextField3.getText().toString();
@@ -144,14 +144,14 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         this.setVisible(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
-
-
+        
+        
     }//GEN-LAST:event_jButton1MouseClicked
-
+    
     private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jPasswordField1ActionPerformed
-
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -159,12 +159,12 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     {
         DBSupport.TrySelect ti = new DBSupport.TrySelect();
         System.out.println("Stworzono tryselect");
-        if(ti.selectAuthentication(login, pass))
-        {
+        if (ti.selectAuthentication(login, pass)) {
             //tryinser ip
             DBSupport.TryInsertIP tip = new DBSupport.TryInsertIP();
             tip.setUserIp(login);
             DialogBox dialbox = new DialogBox();
+            dialbox.setUserName(login);
             dialbox.setLocationRelativeTo(dialbox.getRootPane());
             dialbox.setVisible(true);
         }
@@ -205,7 +205,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
          * Create and display the form
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             public void run() {
                 new AuthenticationFrame().setVisible(true);
             }
