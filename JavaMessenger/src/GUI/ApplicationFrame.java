@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author Piotr
@@ -15,6 +17,14 @@ public class ApplicationFrame extends javax.swing.JFrame {
      */
     public ApplicationFrame() {
         initComponents();
+    }
+
+    public void changeProfilName(String a) {
+        this.jLabel2.setText("" + a);
+    }
+
+    public void changeLoginButtonText(String a) {
+        this.jButton1.setText(a);
     }
 
     /**
@@ -177,6 +187,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
         AuthenticationFrame lg = new AuthenticationFrame();
         lg.setLocationRelativeTo(lg.getRootPane());
         lg.setVisible(true);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(false);
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
@@ -184,8 +196,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
         MessegerFrame msgr = new MessegerFrame();
         msgr.setLocationRelativeTo(msgr.getRootPane());
         msgr.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_jList1MouseClicked
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
