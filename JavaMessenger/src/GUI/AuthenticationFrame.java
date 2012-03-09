@@ -167,6 +167,8 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             tip.setUserIp(login);
             
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
+        }else{
+            JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
         }
     }
 

@@ -4,9 +4,6 @@
  */
 package GUI;
 
-import crypto.Hasher;
-import java.security.NoSuchAlgorithmException;
-
 /**
  *
  * @author Piotr

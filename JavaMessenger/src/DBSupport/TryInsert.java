@@ -4,6 +4,7 @@
  */
 package DBSupport;
 
+import crypto.Hasher;
 import static java.lang.System.out;
 import java.util.Iterator;
 import java.util.List;
@@ -29,8 +30,7 @@ public class TryInsert {
 
             Users user=new Users();
             user.setUserName(userName);
-            //user.setIp("177.123.123.126");
-            user.setPassword(password);
+            user.setPassword(Hasher.generateHash(password, Hasher.HASH_SHA512));
             em.persist(user);
 
             em.getTransaction().commit();

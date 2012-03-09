@@ -4,6 +4,7 @@
  */
 package DBSupport;
 
+import crypto.Hasher;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -19,7 +20,7 @@ public class TrySelect {
     public TrySelect() {
     }
 
-    public boolean selectAuthentication(String a, String b) {
+    public boolean selectAuthentication(String userName, String password) {
         boolean error = true;
 
         boolean islooged = false;
@@ -30,14 +31,14 @@ public class TrySelect {
 
                 em.getTransaction().begin();
                 Query query = em.createNamedQuery("Users.findByUserName");
-                query.setParameter("userName", a);
+                query.setParameter("userName", userName);
                 if (query.getResultList().isEmpty()) {
                     islooged = false;
                 } else {
                     List<Users> users = query.getResultList();
                     for (Users u : users) {
                         System.out.println(" Id usera: "+u.getId() + " : " + u.getUserName() + " : " + u.getPassword());
-                        if (u.getPassword().equals(b)) {
+                        if (u.getPassword().equals(Hasher.generateHash(password, Hasher.HASH_SHA512))) {
                             islooged = true;
                         }
                     }

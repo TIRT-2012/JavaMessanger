@@ -12,7 +12,8 @@ import javax.swing.JOptionPane;
  * @author Piotr
  */
 public class RegistrationFrame extends javax.swing.JFrame {
-
+    public static final int minLoginLenght = 5;
+    public static final int minPassLenght = 5;
     /**
      * Creates new form RegistrationFrame
      */
@@ -32,13 +33,11 @@ public class RegistrationFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jPasswordField2 = new javax.swing.JPasswordField();
+        jPass = new javax.swing.JPasswordField();
+        jRetypePass = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jLogin = new javax.swing.JTextField();
 
         jLabel1.setText("Login");
 
@@ -46,9 +45,9 @@ public class RegistrationFrame extends javax.swing.JFrame {
 
         jLabel3.setText("Rewrite password");
 
-        jPasswordField2.addActionListener(new java.awt.event.ActionListener() {
+        jRetypePass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField2ActionPerformed(evt);
+                jRetypePassActionPerformed(evt);
             }
         });
 
@@ -62,9 +61,9 @@ public class RegistrationFrame extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
         jLabel4.setText("Rejestracja");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        jLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                jLoginActionPerformed(evt);
             }
         });
 
@@ -81,10 +80,10 @@ public class RegistrationFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                    .addComponent(jRetypePass, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                     .addComponent(jButton1)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField2))
+                    .addComponent(jPass, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLogin))
                 .addContainerGap(54, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -95,15 +94,15 @@ public class RegistrationFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jRetypePass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton1)
                 .addContainerGap(56, Short.MAX_VALUE))
@@ -113,10 +112,29 @@ public class RegistrationFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String userName = jLogin.getText();
+        String password = jPass.getText();
+        String retypePassword = jRetypePass.getText();
+        
+        if(userName.length() < minLoginLenght){
+            JOptionPane.showMessageDialog(this, "Login musi składać się z przynajmniej " + minLoginLenght + " znaków");
+            return;
+        }
+        
+        if(password.length() < minPassLenght){
+            JOptionPane.showMessageDialog(this, "Hasło musi składać się z przynajmniej " + minPassLenght + " znaków");
+            return;
+        }
+        
+        if(!password.equals(retypePassword)){
+            JOptionPane.showMessageDialog(this, "Hasło nie zostało potwierdzone");
+            return;            
+        }
+        
         DBSupport.TryInsert ti = new DBSupport.TryInsert();
         System.out.println("Stworzono TryInsert");
         
-        switch (ti.createAccount("test", "test")){
+        switch (ti.createAccount(userName, password)){
             case TryInsert.STATUS_OK : {
                 JOptionPane.showMessageDialog(this, "Rejestracja zakończona pomyślnie");
                 break;
@@ -132,13 +150,13 @@ public class RegistrationFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed
+    private void jRetypePassActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRetypePassActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField2ActionPerformed
+    }//GEN-LAST:event_jRetypePassActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void jLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLoginActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_jLoginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -187,8 +205,8 @@ public class RegistrationFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jLogin;
+    private javax.swing.JPasswordField jPass;
+    private javax.swing.JPasswordField jRetypePass;
     // End of variables declaration//GEN-END:variables
 }

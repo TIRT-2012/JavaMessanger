@@ -188,7 +188,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         lg.setLocationRelativeTo(lg.getRootPane());
         lg.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setVisible(false);
+        //this.setVisible(false);
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
