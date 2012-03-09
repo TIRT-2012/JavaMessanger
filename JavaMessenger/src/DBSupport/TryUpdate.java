@@ -24,7 +24,7 @@ public class TryUpdate {
         em.getTransaction().begin();
         
         Query query = em.createNamedQuery( "Users.findById");
-        query.setParameter("id", 1L);
+        query.setParameter("id", 8);
         List<Users> users = query.getResultList();
         for (Users u : users) {
             System.out.println (u.getId() + " " + u.getUserName());

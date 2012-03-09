@@ -6,6 +6,7 @@ package GUI;
 
 import DBSupport.TryInsert;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 
 /**
  *
@@ -140,6 +141,8 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         pass = jPasswordField1.getText().toString();
         System.out.println(login + " : " + pass);
         getAuthenticationData(login, pass);
+        this.setVisible(false);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
 
 
@@ -158,6 +161,9 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         System.out.println("Stworzono tryselect");
         if(ti.selectAuthentication(login, pass))
         {
+            //tryinser ip
+            DBSupport.TryInsertIP tip = new DBSupport.TryInsertIP();
+            tip.setUserIp(login);
             DialogBox dialbox = new DialogBox();
             dialbox.setLocationRelativeTo(dialbox.getRootPane());
             dialbox.setVisible(true);

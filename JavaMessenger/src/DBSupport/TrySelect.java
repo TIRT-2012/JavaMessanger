@@ -18,55 +18,39 @@ public class TrySelect {
 
     public TrySelect() {
     }
-    
-    public boolean selectAuthentication(String a, String b)
-    {
+
+    public boolean selectAuthentication(String a, String b) {
         boolean error = true;
-        
+
         boolean islooged = false;
-        while(error){
-        try{
-            System.out.println(" selectAuthentication ");
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaMessengerPU");
-            EntityManager em = emf.createEntityManager();
+        while (error) {
+            try {
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaMessengerPU");
+                EntityManager em = emf.createEntityManager();
 
-            em.getTransaction().begin();
-            System.out.println(" Transakcja rozpoczęta" + " login "+ a + " pass " + b);
-            System.out.println(" islogged = "+islooged);
-        
-
-            
-            Query query = em.createNamedQuery( "Users.findByUserName");
-            query.setParameter("userName", a);
-            System.out.println("Jest pusta?"+query.getResultList().isEmpty());
-            if(query.getResultList().isEmpty())
-            {
-                islooged = false;
-            }            
-            else
-            {
-                List<Users> users = query.getResultList();
-                for (Users u : users) {
-                    System.out.println (u.getId() + " " + u.getUserName() + " " + u.getPassword());
-                    System.out.println("Tester ");
-                    if(u.getPassword().equals(b))
-                    {islooged = true;
-                        System.out.println("Jest zalogowany "+islooged);
+                em.getTransaction().begin();
+                Query query = em.createNamedQuery("Users.findByUserName");
+                query.setParameter("userName", a);
+                if (query.getResultList().isEmpty()) {
+                    islooged = false;
+                } else {
+                    List<Users> users = query.getResultList();
+                    for (Users u : users) {
+                        System.out.println(" Id usera: "+u.getId() + " : " + u.getUserName() + " : " + u.getPassword());
+                        if (u.getPassword().equals(b)) {
+                            islooged = true;
+                        }
                     }
+                    System.out.println("Czy jest zalogowany? " + islooged);
                 }
-                System.out.println("Czy jest zalogowany? "+islooged);
-            }
-            em.getTransaction().commit();
-            em.close();
-            emf.close();
-            error = false;
-            }catch(Exception e){
+                em.getTransaction().commit();
+                em.close();
+                emf.close();
+                error = false;
+            } catch (Exception e) {
                 error = true;
             }
         }
-        
-        System.out.println("KONIEC");
         return islooged;
     }
-    
 }
