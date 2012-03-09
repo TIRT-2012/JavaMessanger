@@ -84,6 +84,7 @@ public class DialogBox extends javax.swing.JFrame {
         ap.setLocationRelativeTo(ap.getRootPane());
         ap.changeProfilName(username);
         ap.changeLoginButtonText("Wyloguj");
+        ap.loginFlag = true;
         ap.setVisible(true);
     }//GEN-LAST:event_jButton1MouseClicked
 

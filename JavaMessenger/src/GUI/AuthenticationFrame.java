@@ -163,7 +163,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         if(ti.selectAuthentication(login, pass))
         {
             //tryinser ip
-            DBSupport.TryInsertIP tip = new DBSupport.TryInsertIP();
+            DBSupport.TryInsertIP tip = new DBSupport.TryInsertIP(true);
             tip.setUserIp(login);
             
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
