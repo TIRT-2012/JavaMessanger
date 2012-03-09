@@ -5,6 +5,7 @@
 package GUI;
 
 import DBSupport.TryInsert;
+import javax.swing.JDialog;
 
 /**
  *
@@ -153,11 +154,14 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
     public void getAuthenticationData(String login, String pass)// metoda zwracająca dane z bazy - narazie tylko podstawiam dane do testowania
     {
-        //pobieramy z bazy ,  Obiekt obj = SELECT login, Pass FROM TableLogin WHERE login = "login" && password = "pass" itp.
-        // Obiekt obj nie zwraca nulla to user jest zalogowany
         DBSupport.TrySelect ti = new DBSupport.TrySelect();
         System.out.println("Stworzono tryselect");
-        ti.selectAuthentication(login, pass);
+        if(ti.selectAuthentication(login, pass))
+        {
+            DialogBox dialbox = new DialogBox();
+            dialbox.setLocationRelativeTo(dialbox.getRootPane());
+            dialbox.setVisible(true);
+        }
     }
 
     /**

@@ -38,16 +38,24 @@ public class TrySelect {
             
             Query query = em.createNamedQuery( "Users.findByUserName");
             query.setParameter("userName", a);
-            List<Users> users = query.getResultList();
-            for (Users u : users) {
-                System.out.println (u.getId() + " " + u.getUserName() + " " + u.getPassword());
-                System.out.println("Tester ");
-                if(u.getPassword().equals(b))
-                {islooged = true;
-                    System.out.println("Jest zalogowany "+islooged);
+            System.out.println("Jest pusta?"+query.getResultList().isEmpty());
+            if(query.getResultList().isEmpty())
+            {
+                islooged = false;
+            }            
+            else
+            {
+                List<Users> users = query.getResultList();
+                for (Users u : users) {
+                    System.out.println (u.getId() + " " + u.getUserName() + " " + u.getPassword());
+                    System.out.println("Tester ");
+                    if(u.getPassword().equals(b))
+                    {islooged = true;
+                        System.out.println("Jest zalogowany "+islooged);
+                    }
                 }
+                System.out.println("Czy jest zalogowany? "+islooged);
             }
-            System.out.println("Czy jest zalogowany? "+islooged);
             em.getTransaction().commit();
             em.close();
             emf.close();
