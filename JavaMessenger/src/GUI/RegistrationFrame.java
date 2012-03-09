@@ -4,6 +4,9 @@
  */
 package GUI;
 
+import DBSupport.TryInsert;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Piotr
@@ -110,7 +113,23 @@ public class RegistrationFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        DBSupport.TryInsert ti = new DBSupport.TryInsert();
+        System.out.println("Stworzono TryInsert");
+        
+        switch (ti.createAccount("test", "test")){
+            case TryInsert.STATUS_OK : {
+                JOptionPane.showMessageDialog(this, "Rejestracja zakończona pomyślnie");
+                break;
+            }
+            case TryInsert.STATUS_INVALID_DATA : {
+                 JOptionPane.showMessageDialog(this, "Nie można wykonać rejestracji. Istneje już użytkownik o podanej nazwie");
+                break;               
+            }
+            case TryInsert.STATUS_CONNECTION_ERROR : {
+                 JOptionPane.showMessageDialog(this, "Nie można wykonać rejestracji. Wystąpił błąd połączenia");
+                break;               
+            }
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField2ActionPerformed

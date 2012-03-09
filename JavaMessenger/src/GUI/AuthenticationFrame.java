@@ -7,6 +7,7 @@ package GUI;
 import DBSupport.TryInsert;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -164,9 +165,8 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             //tryinser ip
             DBSupport.TryInsertIP tip = new DBSupport.TryInsertIP();
             tip.setUserIp(login);
-            DialogBox dialbox = new DialogBox();
-            dialbox.setLocationRelativeTo(dialbox.getRootPane());
-            dialbox.setVisible(true);
+            
+            JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
         }
     }
 
