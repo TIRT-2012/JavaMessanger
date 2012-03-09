@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import DBSupport.TryInsertIP;
 import javax.swing.JFrame;
 
 /**
@@ -12,6 +13,7 @@ import javax.swing.JFrame;
  */
 public class ApplicationFrame extends javax.swing.JFrame {
 
+    public boolean loginFlag = false;
     /**
      * Creates new form ApplicationFrame
      */
@@ -184,11 +186,17 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
+        if(loginFlag){
+            DBSupport.TryInsertIP tr = new TryInsertIP(false);
+            System.out.println("Użytkownik wylogowany");
+        }
+        else{
         AuthenticationFrame lg = new AuthenticationFrame();
         lg.setLocationRelativeTo(lg.getRootPane());
         lg.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setVisible(false);
+        }
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked

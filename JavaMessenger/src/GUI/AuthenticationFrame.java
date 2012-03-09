@@ -161,7 +161,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         System.out.println("Stworzono tryselect");
         if (ti.selectAuthentication(login, pass)) {
             //tryinser ip
-            DBSupport.TryInsertIP tip = new DBSupport.TryInsertIP();
+            DBSupport.TryInsertIP tip = new DBSupport.TryInsertIP(true);
             tip.setUserIp(login);
             DialogBox dialbox = new DialogBox();
             dialbox.setUserName(login);

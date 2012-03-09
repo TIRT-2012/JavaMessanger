@@ -20,52 +20,60 @@ import javax.persistence.Query;
  */
 public class TryInsertIP {
 
-    public TryInsertIP() {
+    boolean setIpFlag = false;
+
+    public TryInsertIP(boolean flag) {
+        setIpFlag = flag;
     }
 
     public void setUserIp(String a) {
         boolean ipUpdate = false;
         boolean error = true;
-        while(error){
-        try {
+        while (error) {
+            try {
 
 
-            EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaMessengerPU");
-            EntityManager em = emf.createEntityManager();
+                EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaMessengerPU");
+                EntityManager em = emf.createEntityManager();
 
-            em.getTransaction().begin();
+                em.getTransaction().begin();
 
-            Query query = em.createNamedQuery( "Users.findByUserName");
-            query.setParameter("userName", a);
-            List<Users> users = query.getResultList();
-            for (Users u : users) {
-                u.setIp(""+this.getMyPublicIP());
-                System.out.println("Moje IP publicze " + this.getMyPublicIP());
-                em.persist(u);
+                Query query = em.createNamedQuery("Users.findByUserName");
+                query.setParameter("userName", a);
+                List<Users> users = query.getResultList();
+                for (Users u : users) {
+                    if (setIpFlag) {
+                        u.setIp("" + this.getMyPublicIP());
+                        System.out.println("Moje IP publicze " + this.getMyPublicIP());
+                    } else {
+                        u.setIp("kurwa chodzi?");
+                        System.out.println("Wylogowany");
+                    }
+
+                    em.persist(u);
+                }
+                em.getTransaction().commit();
+                em.close();
+                emf.close();
+                error = false;
+            } catch (Exception e) {
+                error = true;
             }
-            em.getTransaction().commit();
-            em.close();
-            emf.close();
-            error = false;
-        } catch (Exception e) {
-            error = true;
         }
     }
-    }
-    public String getMyPublicIP(){
+
+    public String getMyPublicIP() {
         try {
             URL readIp = new URL("http://automation.whatismyip.com/n09230945.asp");
-            BufferedReader in = new BufferedReader( new InputStreamReader(readIp.openStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(readIp.openStream()));
             String ip_address = (in.readLine()).trim();
- 
+
             return ip_address;
- 
-         }catch (Exception e){
-	    	e.printStackTrace();
- 
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
             return "Blad odczytu";
-	    }
+        }
     }
-    
-    
 }
