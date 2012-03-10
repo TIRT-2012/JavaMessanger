@@ -37,8 +37,9 @@ public class TrySelect {
                 } else {
                     List<Users> users = query.getResultList();
                     for (Users u : users) {
-                        System.out.println(" Id usera: "+u.getId() + " : " + u.getUserName() + " : " + u.getPassword());
+                        System.out.println(" Id usera: " + u.getId() + " : " + u.getUserName() + " : " + u.getPassword());
                         if (u.getPassword().equals(Hasher.generateHash(password, Hasher.HASH_SHA512))) {
+                            //if (u.getPassword().equals(password)) {
                             islooged = true;
                         }
                     }
