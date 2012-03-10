@@ -42,11 +42,12 @@ public class TryInsertIP {
                 query.setParameter("userName", a);
                 List<Users> users = query.getResultList();
                 for (Users u : users) {
+                    System.out.println("setIPFLAG: " + setIpFlag);
                     if (setIpFlag) {
                         u.setIp("" + this.getMyPublicIP());
                         System.out.println("Moje IP publicze " + this.getMyPublicIP());
                     } else {
-                        u.setIp("kurwa chodzi?");
+                        u.setIp(null);
                         System.out.println("Wylogowany");
                     }
 

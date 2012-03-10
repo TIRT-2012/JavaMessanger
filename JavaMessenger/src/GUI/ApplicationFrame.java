@@ -6,6 +6,7 @@ package GUI;
 
 import DBSupport.TryInsertIP;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -14,7 +15,7 @@ import javax.swing.JFrame;
 public class ApplicationFrame extends javax.swing.JFrame {
 
     public boolean loginFlag = false;
-
+    private String login = null;
     /**
      * Creates new form ApplicationFrame
      */
@@ -29,6 +30,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
     public void changeLoginButtonText(String a) {
         this.jButton1.setText(a);
     }
+    public void setLogin(String a)
+    {
+        login = a;
+    }  
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -189,10 +195,12 @@ public class ApplicationFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (loginFlag) {
             DBSupport.TryInsertIP tr = new TryInsertIP(false);
+            tr.setUserIp(login);
             System.out.println("Użytkownik wylogowany");
             loginFlag = false;
             this.changeProfilName("ProfilName");
             this.changeLoginButtonText("Logowanie");
+            JOptionPane.showMessageDialog(this, "Użytkownik wylogowany");
         } else {
             AuthenticationFrame lg = new AuthenticationFrame();
             lg.setLocationRelativeTo(lg.getRootPane());
