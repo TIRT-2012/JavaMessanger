@@ -16,6 +16,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     public boolean loginFlag = false;
     private String login = null;
+
     /**
      * Creates new form ApplicationFrame
      */
@@ -23,18 +24,17 @@ public class ApplicationFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    public void changeProfilName(String a) {
-        this.jLabel2.setText("" + a);
+    public void changeProfilName(String profilName) {
+        this.jLabel2.setText("" + profilName);
     }
 
-    public void changeLoginButtonText(String a) {
-        this.jButton1.setText(a);
+    public void changeLoginButtonText(String buttonText) {
+        this.jButton1.setText(buttonText);
     }
-    public void setLogin(String a)
-    {
-        login = a;
-    }  
-    
+
+    public void setLogin(String userName) {
+        login = userName;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

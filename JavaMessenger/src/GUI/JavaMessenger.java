@@ -22,6 +22,5 @@ public class JavaMessenger {
     public static void main(String[] args){
         // TODO code application logic here
         JavaMessenger runnerClass = new JavaMessenger();
-        //System.out.println(Hasher.generateHash("wtf", Hasher.HASH_SHA512));
     }
 }

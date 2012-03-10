@@ -26,20 +26,17 @@ public class TryInsertIP {
         setIpFlag = flag;
     }
 
-    public void setUserIp(String a) {
-        boolean ipUpdate = false;
+    public void setUserIp(String login) {
         boolean error = true;
         while (error) {
             try {
 
-
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaMessengerPU");
                 EntityManager em = emf.createEntityManager();
-
                 em.getTransaction().begin();
 
                 Query query = em.createNamedQuery("Users.findByUserName");
-                query.setParameter("userName", a);
+                query.setParameter("userName", login);
                 List<Users> users = query.getResultList();
                 for (Users u : users) {
                     if (setIpFlag) {
@@ -48,7 +45,6 @@ public class TryInsertIP {
                     } else {
                         u.setIp(null);
                     }
-
                     em.persist(u);
                 }
                 em.getTransaction().commit();

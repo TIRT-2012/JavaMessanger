@@ -144,8 +144,6 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         getAuthenticationData(login, pass);
         this.setVisible(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        
-
 
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -160,12 +158,10 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     {
         DBSupport.TrySelect ti = new DBSupport.TrySelect();
         System.out.println("Stworzono tryselect");
-        if(ti.selectAuthentication(login, pass))
-        {
-            //tryinser ip
+        if (ti.selectAuthentication(login, pass)) {
             DBSupport.TryInsertIP tip = new DBSupport.TryInsertIP(true);
             tip.setUserIp(login);
-            
+
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
             ApplicationFrame ap = new ApplicationFrame();
             ap.setLocationRelativeTo(ap.getRootPane());
@@ -174,8 +170,8 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             ap.setLogin(login);
             ap.loginFlag = true;
             ap.setVisible(true);
-            
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
         }
     }
