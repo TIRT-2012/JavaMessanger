@@ -4,7 +4,12 @@
  */
 package GUI;
 
+import DBSupport.Contacts;
 import DBSupport.TryInsert;
+import DBSupport.TrySelect;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -163,11 +168,22 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             tip.setUserIp(login);
 
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
+            
+            TrySelect tr = new TrySelect();
+            List<Contacts> mylist = tr.getContacts(login);
+            int totalElements = mylist.size();
+            System.out.println("Lista kontaktów to");
+            for(int i=0;i<totalElements; i++)
+            {
+                System.out.println(mylist.get(i).getName() + " " + mylist.get(i).getNumber());
+            }
+            
             ApplicationFrame ap = new ApplicationFrame();
             ap.setLocationRelativeTo(ap.getRootPane());
             ap.changeProfilName(login);
             ap.changeLoginButtonText("Wyloguj");
             ap.setLogin(login);
+            ap.setJlist(mylist);
             ap.loginFlag = true;
             ap.setVisible(true);
 
