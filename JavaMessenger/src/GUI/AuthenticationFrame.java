@@ -4,12 +4,7 @@
  */
 package GUI;
 
-import DBSupport.Contacts;
-import DBSupport.TryInsert;
-import DBSupport.TrySelect;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import Temps.TryInsert;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -161,29 +156,18 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
     public void getAuthenticationData(String login, String pass)// metoda zwracająca dane z bazy - narazie tylko podstawiam dane do testowania
     {
-        DBSupport.TrySelect ti = new DBSupport.TrySelect();
+        Temps.TrySelect ti = new Temps.TrySelect();
         System.out.println("Stworzono tryselect");
         if (ti.selectAuthentication(login, pass)) {
-            DBSupport.TryInsertIP tip = new DBSupport.TryInsertIP(true);
+            Temps.TryInsertIP tip = new Temps.TryInsertIP(true);
             tip.setUserIp(login);
 
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
-            
-            TrySelect tr = new TrySelect();
-            List<Contacts> mylist = tr.getContacts(login);
-            int totalElements = mylist.size();
-            System.out.println("Lista kontaktów to");
-            for(int i=0;i<totalElements; i++)
-            {
-                System.out.println(mylist.get(i).getName() + " " + mylist.get(i).getNumber());
-            }
-            
             ApplicationFrame ap = new ApplicationFrame();
             ap.setLocationRelativeTo(ap.getRootPane());
             ap.changeProfilName(login);
             ap.changeLoginButtonText("Wyloguj");
             ap.setLogin(login);
-            ap.setJlist(mylist);
             ap.loginFlag = true;
             ap.setVisible(true);
 

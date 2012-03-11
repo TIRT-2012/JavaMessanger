@@ -4,16 +4,9 @@
  */
 package GUI;
 
-import DBSupport.Contacts;
-import DBSupport.TryInsertIP;
-import DBSupport.TrySelect;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import Temps.TryInsertIP;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 
 /**
  *
@@ -41,17 +34,6 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     public void setLogin(String userName) {
         login = userName;
-    }
-    public void setJlist(List<Contacts> userslist)
-    {
-        //implementacja własnego listmodelu z zawartoscia listy
-        String userNameTab[] = new String[userslist.size()];
-        for(int i=0; i<userslist.size() ; i++)
-        {
-            userNameTab[i] = userslist.get(i).getName().toString();
-            System.out.println("UŻYTKOWNIK "+ userNameTab[i].toString());
-        }
-        jList1.setListData(userNameTab);
     }
 
     /**
@@ -217,7 +199,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         if (loginFlag) {
-            DBSupport.TryInsertIP tr = new TryInsertIP(false);
+            Temps.TryInsertIP tr = new TryInsertIP(false);
             tr.setUserIp(login);
             System.out.println("Użytkownik wylogowany");
             loginFlag = false;
