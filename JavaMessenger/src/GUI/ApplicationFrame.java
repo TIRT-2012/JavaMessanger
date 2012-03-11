@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import DBSupport.TryInsertIP;
+import Temps.TryInsertIP;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -199,7 +199,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         if (loginFlag) {
-            DBSupport.TryInsertIP tr = new TryInsertIP(false);
+            Temps.TryInsertIP tr = new TryInsertIP(false);
             tr.setUserIp(login);
             System.out.println("Użytkownik wylogowany");
             loginFlag = false;

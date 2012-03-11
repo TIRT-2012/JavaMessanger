@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import DBSupport.TryInsert;
+import Temps.TryInsert;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -156,10 +156,10 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
     public void getAuthenticationData(String login, String pass)// metoda zwracająca dane z bazy - narazie tylko podstawiam dane do testowania
     {
-        DBSupport.TrySelect ti = new DBSupport.TrySelect();
+        Temps.TrySelect ti = new Temps.TrySelect();
         System.out.println("Stworzono tryselect");
         if (ti.selectAuthentication(login, pass)) {
-            DBSupport.TryInsertIP tip = new DBSupport.TryInsertIP(true);
+            Temps.TryInsertIP tip = new Temps.TryInsertIP(true);
             tip.setUserIp(login);
 
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");

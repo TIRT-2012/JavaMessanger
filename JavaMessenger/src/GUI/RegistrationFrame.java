@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import DBSupport.TryInsert;
+import Temps.TryInsert;
 import javax.swing.JOptionPane;
 
 /**
@@ -131,7 +131,7 @@ public class RegistrationFrame extends javax.swing.JFrame {
             return;            
         }
         
-        DBSupport.TryInsert ti = new DBSupport.TryInsert();
+        Temps.TryInsert ti = new Temps.TryInsert();
         System.out.println("Stworzono TryInsert");
         
         switch (ti.createAccount(userName, password)){
