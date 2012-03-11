@@ -5,6 +5,7 @@
 package GUI;
 
 import Temps.TryInsert;
+import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -161,13 +162,22 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         if (ti.selectAuthentication(login, pass)) {
             Temps.TryInsertIP tip = new Temps.TryInsertIP(true);
             tip.setUserIp(login);
-
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
+
+            Temps.TrySelect tr = new Temps.TrySelect();
+            List<Entities.Contacts> mylist = tr.getContacts(login);
+//            int totalElements = mylist.size();
+//            System.out.println("Lista kontaktów to");
+//            for(int i=0;i<totalElements; i++)
+//            {
+//                System.out.println(mylist.get(i).getName() + " " + mylist.get(i).getNumber());
+//            }
             ApplicationFrame ap = new ApplicationFrame();
             ap.setLocationRelativeTo(ap.getRootPane());
             ap.changeProfilName(login);
             ap.changeLoginButtonText("Wyloguj");
             ap.setLogin(login);
+            ap.setJlist(mylist);
             ap.loginFlag = true;
             ap.setVisible(true);
 

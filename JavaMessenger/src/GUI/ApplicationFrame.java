@@ -5,6 +5,7 @@
 package GUI;
 
 import Temps.TryInsertIP;
+import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -34,6 +35,16 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     public void setLogin(String userName) {
         login = userName;
+    }
+
+    public void setJlist(List<Entities.Contacts> userslist) {
+        //implementacja własnego listmodelu z zawartoscia listy
+        String userNameTab[] = new String[userslist.size()];
+        for (int i = 0; i < userslist.size(); i++) {
+            userNameTab[i] = userslist.get(i).getName().toString();
+            System.out.println("UŻYTKOWNIK " + userNameTab[i].toString());
+        }
+        jList1.setListData(userNameTab);
     }
 
     /**
