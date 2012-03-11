@@ -166,12 +166,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
 
             Temps.TrySelect tr = new Temps.TrySelect();
             List<Entities.Contacts> mylist = tr.getContacts(login);
-//            int totalElements = mylist.size();
-//            System.out.println("Lista kontaktów to");
-//            for(int i=0;i<totalElements; i++)
-//            {
-//                System.out.println(mylist.get(i).getName() + " " + mylist.get(i).getNumber());
-//            }
+
             ApplicationFrame ap = new ApplicationFrame();
             ap.setLocationRelativeTo(ap.getRootPane());
             ap.changeProfilName(login);

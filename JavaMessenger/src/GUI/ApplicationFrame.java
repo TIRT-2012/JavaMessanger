@@ -226,15 +226,6 @@ public class ApplicationFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
-    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
-        // TODO add your handling code here:
-        MessegerFrame msgr = new MessegerFrame();
-        msgr.setLocationRelativeTo(msgr.getRootPane());
-        msgr.setVisible(true);
-
-
-    }//GEN-LAST:event_jList1MouseClicked
-
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
@@ -245,6 +236,14 @@ public class ApplicationFrame extends javax.swing.JFrame {
         rf.setLocationRelativeTo(rf.getRootPane());
         rf.setVisible(true);
     }//GEN-LAST:event_jMenuItem1MousePressed
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        // TODO add your handling code here:
+        MessegerFrame msgr = new MessegerFrame();
+        msgr.setLocationRelativeTo(msgr.getRootPane());
+        msgr.setVisible(true);
+
+    }//GEN-LAST:event_jList1MouseClicked
 
     /**
      * @param args the command line arguments
