@@ -16,9 +16,10 @@ import javax.swing.JOptionPane;
  */
 public class ApplicationFrame extends javax.swing.JFrame {
 
-    public boolean loginFlag = false;
     private String login = null;
-    private ApplicationComponents applicationComponents = null;;
+    private ApplicationComponents applicationComponents = null;
+
+    ;
 
     public ApplicationComponents getApplicationComponents() {
         return applicationComponents;
@@ -215,15 +216,17 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        if (loginFlag) {
-            Temps.TryInsertIP tr = new TryInsertIP(false);
-            tr.setUserIp(login);
+        Object o = this.getApplicationComponents().getApplicationState().getLoggedUser();
+        if (o != null) {
+            System.out.println("wylogowanie");
+            this.getApplicationComponents().getLoginController().removeUserIp(login, this.getApplicationComponents().getApplicationState());
             System.out.println("Użytkownik wylogowany");
-            loginFlag = false;
             this.changeProfilName("ProfilName");
             this.changeLoginButtonText("Logowanie");
+            this.getApplicationComponents().getApplicationState().setLoggedUser(null);
             JOptionPane.showMessageDialog(this, "Użytkownik wylogowany");
         } else {
+            System.out.println("logowanie");
             AuthenticationFrame lg = new AuthenticationFrame();
             lg.setApplicationComponents(applicationComponents);
             lg.setLocationRelativeTo(lg.getRootPane());

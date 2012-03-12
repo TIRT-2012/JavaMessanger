@@ -11,7 +11,7 @@ import Entities.Users;
  * @author SysOp
  */
 public class ApplicationState {
-    private Users loggedUser;
+    private Users loggedUser = null;
     
     public Users getLoggedUser(){
         return loggedUser;

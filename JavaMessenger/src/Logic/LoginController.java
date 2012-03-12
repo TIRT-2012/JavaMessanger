@@ -30,11 +30,8 @@ public class LoginController {
     }
 
     public boolean getAuthenticationData(String login, String pass) {
-        System.out.println("Stworzono tryselect");
+        System.out.println("getAuthenticationData()");
         if (this.selectAuthentication(login, pass)) {
-            //Temps.TrySelect tr = new Temps.TrySelect();
-            //List<Entities.Contacts> mylist = tr.getContacts(login);
-            //.setJlist(mylist);
             return true;
         } else {
             return false;
@@ -43,39 +40,31 @@ public class LoginController {
     }
 
     public void setUserIp(String login, ApplicationState applicationState) {
-//        System.out.println("WSTAWIAMY: "+login + " APPLICATIONSTATE: " + applicationState.toString());
-        Users user;
+        System.out.println("setUserIp()");
         UsersDAO userDao = new UsersDAO();
         List<Users> userList = userDao.findByUserName(login);
-        user = userList.get(0);
-        if (applicationState.getLoggedUser() == null) {
-               user.setIp("" + this.getMyPublicIP());
-                System.out.println("Moje IP publicze " + this.getMyPublicIP());
-                System.out.println("JEST");
-                applicationState.setLoggedUser(user);
-        } else {
-            user.setIp(null);
-            applicationState.setLoggedUser(null);
-            System.out.println("NULL");
+        for (Users u : userList) {
+            u.setIp(this.getMyPublicIP().toString());
+            System.out.println("Moje IP publicze " + this.getMyPublicIP());
+            System.out.println("JEST");
+            applicationState.setLoggedUser(u);
+            userDao.persist(u);
         }
-            userDao.persist(user);
-            
-//        for (Users u : userList) {
-//            if (applicationState.getLoggedUser() == null) {
-//                u.setIp("" + this.getMyPublicIP());
-//                System.out.println("Moje IP publicze " + this.getMyPublicIP());
-//                System.out.println("JEST");
-//            } else {
-//                u.setIp(null);
-//                System.out.println("NULL");
-//            }
-//            userDao.persist(u);// problem z updatem
-//        }
-
-
     }
-    
+
+    public void removeUserIp(String login, ApplicationState applicationState) {
+        System.out.println("removeUserIp()");
+        UsersDAO userDao = new UsersDAO();
+        List<Users> userList = userDao.findByUserName(login);
+        for (Users u : userList) {
+            u.setIp(null);
+            applicationState.setLoggedUser(null);
+            userDao.persist(u);
+        }
+    }
+
     public String getMyPublicIP() {
+        System.out.println("getMyPublicIP()");
         try {
             URL readIp = new URL("http://automation.whatismyip.com/n09230945.asp");
             BufferedReader in = new BufferedReader(new InputStreamReader(readIp.openStream()));
@@ -89,9 +78,9 @@ public class LoginController {
             return "Blad odczytu";
         }
     }
-    
 
     public boolean selectAuthentication(String userName, String password) {
+        System.out.println("selectAuthentication()");
         boolean islooged = false;
         String s = Hasher.generateHash(password, Hasher.HASH_SHA512);
         UsersDAO userDao = new UsersDAO();
