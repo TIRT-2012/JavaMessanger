@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Others.ApplicationComponents;
 import Temps.TryInsertIP;
 import java.util.List;
 import javax.swing.JFrame;
@@ -17,6 +18,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     public boolean loginFlag = false;
     private String login = null;
+    private ApplicationComponents applicationComponents = null;;
+
+    public ApplicationComponents getApplicationComponents() {
+        return applicationComponents;
+    }
 
     /**
      * Creates new form ApplicationFrame
@@ -219,6 +225,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Użytkownik wylogowany");
         } else {
             AuthenticationFrame lg = new AuthenticationFrame();
+            lg.setApplicationComponents(applicationComponents);
             lg.setLocationRelativeTo(lg.getRootPane());
             lg.setVisible(true);
             this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -303,4 +310,8 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    public void setApplicationComponents(ApplicationComponents applicationComponents) {
+        this.applicationComponents = applicationComponents;
+    }
 }

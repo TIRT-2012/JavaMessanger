@@ -52,15 +52,20 @@ public class TryInsert {
 //        Users tmp;//=uDAO.findById(2L);
 ////        out.println(tmp.getUserName());
         
-            Users test=new Users();
-            test.setUserName("TestDAOs2");
-            test.setIp("123.123.123.2");
-            test.setPassword("secretRef");
+            Users test;
+            List<Users> mylist = uDAO.findByUserName("wind12");
+            test = mylist.get(0);
+            System.out.println( " XXXXXXX " + test.getPassword().toString());
+            test.setUserName("Marca");
+//            test.setUserName("TestDAOs2");
+//            test.setIp("123.123.123.2");
+//            test.setPassword("KUTAS");
+//            uDAO.persist(test);
             uDAO.persist(test);
-        List<Users> list=uDAO.findByUserName("TestDAOs1");
-        for(Iterator it=list.iterator(); it.hasNext();){
-            Users tmp=(Users) it.next();
-            out.println(tmp.getUserName());
-        }
+//        List<Users> list=uDAO.findByUserName("TestDAOs1");
+//        for(Iterator it=list.iterator(); it.hasNext();){
+//            Users tmp=(Users) it.next();
+//            out.println(tmp.getUserName());
+//        }
     }
 }

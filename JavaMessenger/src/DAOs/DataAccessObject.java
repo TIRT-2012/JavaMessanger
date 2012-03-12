@@ -16,6 +16,10 @@ import javax.persistence.Persistence;
 public class DataAccessObject {
 
     protected EntityManager entityManager;
+
+    public EntityManager getEntityManager() {
+        return entityManager;
+    }
     final static int MAX_TRY = 5;
 
     public DataAccessObject() {

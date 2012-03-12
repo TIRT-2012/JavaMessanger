@@ -15,14 +15,23 @@ public class JavaMessenger {
     /**
      * @param args the command line arguments
      */
+    ApplicationComponents applicationComponents;
+    ApplicationFrame app;
     public JavaMessenger() {
-        ApplicationComponents applicationComponents=new ApplicationComponents();
-        ApplicationFrame app = new ApplicationFrame();
-//        app.setApplicationComponents(applicationComponents);
+        applicationComponents=new ApplicationComponents();
+        
+        app = new ApplicationFrame();
+        app.setApplicationComponents(applicationComponents);
         app.setLocationRelativeTo(app.getRootPane());
         app.setVisible(true);
     }
-
+    
+    public JavaMessenger(ApplicationComponents applicationComponents, ApplicationFrame app)
+    {
+        this.applicationComponents = applicationComponents;
+        this.app = app;
+    }        
+    
     public static void main(String[] args) {
         // TODO code application logic here
         JavaMessenger runnerClass = new JavaMessenger();

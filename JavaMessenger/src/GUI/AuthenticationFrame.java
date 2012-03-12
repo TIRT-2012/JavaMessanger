@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Others.ApplicationComponents;
+import Others.JavaMessenger;
 import Temps.TryInsert;
 import java.util.List;
 import javax.swing.JDialog;
@@ -21,6 +23,13 @@ public class AuthenticationFrame extends javax.swing.JFrame {
      */
     private String login = null;
     private String pass = null;
+    private ApplicationComponents applicationComponents = null;
+
+    ;
+
+    public ApplicationComponents getApplicationComponents() {
+        return applicationComponents;
+    }
 
     public AuthenticationFrame() {
         initComponents();
@@ -141,8 +150,27 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         login = jTextField3.getText().toString();
         pass = jPasswordField1.getText().toString();
-        System.out.println(login + " : " + pass);
-        getAuthenticationData(login, pass);
+
+        if (this.applicationComponents.getLoginController().getAuthenticationData(login, pass)) {
+            this.applicationComponents.getLoginController().setUserIp(login,this.applicationComponents.getApplicationState());
+            
+            JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
+            
+            
+            ApplicationFrame ap = new ApplicationFrame();
+            ap.setLocationRelativeTo(ap.getRootPane());
+            ap.changeProfilName(login);
+            ap.changeLoginButtonText("Wyloguj");
+            ap.setLogin(login);
+            
+            ap.loginFlag = true;
+            ap.setVisible(true);
+            JavaMessenger jm = new JavaMessenger(this.applicationComponents, ap);
+            
+        } else {
+            JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
+        }
+        //getAuthenticationData(login, pass);
         this.setVisible(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -155,31 +183,31 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-    public void getAuthenticationData(String login, String pass)// metoda zwracająca dane z bazy - narazie tylko podstawiam dane do testowania
-    {
-        Temps.TrySelect ti = new Temps.TrySelect();
-        System.out.println("Stworzono tryselect");
-        if (ti.selectAuthentication(login, pass)) {
-            Temps.TryInsertIP tip = new Temps.TryInsertIP(true);
-            tip.setUserIp(login);
-            JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
-
-            Temps.TrySelect tr = new Temps.TrySelect();
-            List<Entities.Contacts> mylist = tr.getContacts(login);
-
-            ApplicationFrame ap = new ApplicationFrame();
-            ap.setLocationRelativeTo(ap.getRootPane());
-            ap.changeProfilName(login);
-            ap.changeLoginButtonText("Wyloguj");
-            ap.setLogin(login);
-            ap.setJlist(mylist);
-            ap.loginFlag = true;
-            ap.setVisible(true);
-
-        } else {
-            JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
-        }
-    }
+//    public void getAuthenticationData(String login, String pass)// metoda zwracająca dane z bazy - narazie tylko podstawiam dane do testowania
+//    {
+//        Temps.TrySelect ti = new Temps.TrySelect();
+//        System.out.println("Stworzono tryselect");
+//        if (ti.selectAuthentication(login, pass)) {
+//            Temps.TryInsertIP tip = new Temps.TryInsertIP(true);
+//            tip.setUserIp(login);
+//            JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
+//
+//            Temps.TrySelect tr = new Temps.TrySelect();
+//            List<Entities.Contacts> mylist = tr.getContacts(login);
+//
+//            ApplicationFrame ap = new ApplicationFrame();
+//            ap.setLocationRelativeTo(ap.getRootPane());
+//            ap.changeProfilName(login);
+//            ap.changeLoginButtonText("Wyloguj");
+//            ap.setLogin(login);
+//            ap.setJlist(mylist);
+//            ap.loginFlag = true;
+//            ap.setVisible(true);
+//
+//        } else {
+//            JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
+//        }
+//    }
 
     /**
      * @param args the command line arguments
@@ -231,4 +259,8 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField3;
     // End of variables declaration//GEN-END:variables
+
+    void setApplicationComponents(ApplicationComponents applicationComponents) {
+        this.applicationComponents = applicationComponents;
+    }
 }
