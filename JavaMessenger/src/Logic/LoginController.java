@@ -4,11 +4,8 @@
  */
 package Logic;
 
-<<<<<<< HEAD
 import DAOs.ContactsDAO;
 import DAOs.DataAccessObject;
-=======
->>>>>>> origin/master
 import DAOs.UsersDAO;
 import Entities.Contacts;
 import Entities.Users;
@@ -59,8 +56,7 @@ public class LoginController {
         
         ContactsDAO contactDao = new ContactsDAO();
         List<Contacts> contactList = null;
-        contactList = contactDao.findByUserId(id);
-        
+        contactList = (List<Contacts>) contactDao.findByUserId(id);
         
         return contactList;
     }
