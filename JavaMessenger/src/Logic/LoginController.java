@@ -58,29 +58,6 @@ public class LoginController {
         Users user;
         UsersDAO userDao = new UsersDAO();
         List<Users> userList = userDao.findByUserName(login);
-<<<<<<< HEAD
-        for (Users u : userList) {
-            u.setIp(this.getMyPublicIP().toString());
-            System.out.println("Moje IP publicze " + this.getMyPublicIP());
-            System.out.println("JEST");
-            applicationState.setLoggedUser(u);
-            applicationState.setUserState(true);
-            loggedUser = true;
-            userDao.persist(u);
-        }
-    }
-
-    public void removeUserIp(String login, ApplicationState applicationState) {
-        System.out.println("removeUserIp()");
-        UsersDAO userDao = new UsersDAO();
-        List<Users> userList = userDao.findByUserName(login);
-        for (Users u : userList) {
-            u.setIp(null);
-            applicationState.setLoggedUser(null);
-            applicationState.setUserState(false);
-            loggedUser = false;
-            userDao.persist(u);
-=======
         user = userList.get(0);
         if (applicationState.getLoggedUser() == null) {
                user.setIp("" + this.getMyPublicIP());
@@ -91,7 +68,6 @@ public class LoginController {
             user.setIp(null);
             applicationState.setLoggedUser(null);
             System.out.println("NULL");
->>>>>>> origin/master
         }
         userDao.update(user);
             
@@ -108,6 +84,19 @@ public class LoginController {
 //        }
 
 
+    }
+    
+    public void removeUserIp(String login, ApplicationState applicationState) {
+        System.out.println("removeUserIp()");
+        UsersDAO userDao = new UsersDAO();
+        List<Users> userList = userDao.findByUserName(login);
+        for (Users u : userList) {
+            u.setIp(null);
+            applicationState.setLoggedUser(null);
+            applicationState.setUserState(false);
+            loggedUser = false;
+            userDao.update(u);
+        }
     }
     
     public String getMyPublicIP() {
