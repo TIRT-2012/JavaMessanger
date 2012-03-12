@@ -4,23 +4,20 @@
  */
 package Logic;
 
+<<<<<<< HEAD
 import DAOs.ContactsDAO;
 import DAOs.DataAccessObject;
+=======
+>>>>>>> origin/master
 import DAOs.UsersDAO;
 import Entities.Contacts;
 import Entities.Users;
-import GUI.ApplicationFrame;
 import Others.ApplicationState;
 import crypto.Hasher;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -92,10 +89,9 @@ public class LoginController {
             applicationState.setUserState(false);
             loggedUser = false;
             userDao.update(u);
-
-        }
+       }
     }
-
+    
     public String getMyPublicIP() {
         System.out.println("getMyPublicIP()");
         try {
