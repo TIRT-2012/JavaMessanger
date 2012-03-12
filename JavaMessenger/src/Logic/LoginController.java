@@ -26,9 +26,20 @@ import javax.swing.JOptionPane;
  */
 public class LoginController {
 
+    private boolean loggedUser = false;
+
     public LoginController() {
     }
-
+    
+    public void setLoggedUser(boolean loggedUser) {
+        this.loggedUser = loggedUser;
+    }
+    
+    public boolean isLoggedUser()
+    {
+        return loggedUser;
+    }
+    
     public boolean getAuthenticationData(String login, String pass) {
         System.out.println("getAuthenticationData()");
         if (this.selectAuthentication(login, pass)) {
@@ -48,6 +59,8 @@ public class LoginController {
             System.out.println("Moje IP publicze " + this.getMyPublicIP());
             System.out.println("JEST");
             applicationState.setLoggedUser(u);
+            applicationState.setUserState(true);
+            loggedUser = true;
             userDao.persist(u);
         }
     }
@@ -59,6 +72,8 @@ public class LoginController {
         for (Users u : userList) {
             u.setIp(null);
             applicationState.setLoggedUser(null);
+            applicationState.setUserState(false);
+            loggedUser = false;
             userDao.persist(u);
         }
     }

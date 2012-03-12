@@ -216,8 +216,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        Object o = this.getApplicationComponents().getApplicationState().getLoggedUser();
-        if (o != null) {
+        if(this.getApplicationComponents().getLoginController().isLoggedUser()) {
             System.out.println("wylogowanie");
             this.getApplicationComponents().getLoginController().removeUserIp(login, this.getApplicationComponents().getApplicationState());
             System.out.println("Użytkownik wylogowany");

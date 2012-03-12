@@ -159,6 +159,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             
             ApplicationFrame ap = new ApplicationFrame();
             ap.setLocationRelativeTo(ap.getRootPane());
+            ap.setApplicationComponents(this.applicationComponents);
             ap.changeProfilName(login);
             ap.changeLoginButtonText("Wyloguj");
             ap.setLogin(login);
