@@ -60,8 +60,8 @@ public class TryInsert {
 //            test.setUserName("TestDAOs2");
 //            test.setIp("123.123.123.2");
 //            test.setPassword("KUTAS");
-//            uDAO.persist(test);
-            uDAO.persist(test);
+//            uDAO.insert(test);
+            uDAO.update(test);
 //        List<Users> list=uDAO.findByUserName("TestDAOs1");
 //        for(Iterator it=list.iterator(); it.hasNext();){
 //            Users tmp=(Users) it.next();

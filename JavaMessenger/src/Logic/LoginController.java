@@ -41,8 +41,11 @@ public class LoginController {
     }
     
     public boolean getAuthenticationData(String login, String pass) {
-        System.out.println("getAuthenticationData()");
+        System.out.println("Stworzono tryselect");
         if (this.selectAuthentication(login, pass)) {
+            //Temps.TrySelect tr = new Temps.TrySelect();
+            //List<Entities.Contacts> mylist = tr.getContacts(login);
+            //.setJlist(mylist);
             return true;
         } else {
             return false;
@@ -51,9 +54,11 @@ public class LoginController {
     }
 
     public void setUserIp(String login, ApplicationState applicationState) {
-        System.out.println("setUserIp()");
+//        System.out.println("WSTAWIAMY: "+login + " APPLICATIONSTATE: " + applicationState.toString());
+        Users user;
         UsersDAO userDao = new UsersDAO();
         List<Users> userList = userDao.findByUserName(login);
+<<<<<<< HEAD
         for (Users u : userList) {
             u.setIp(this.getMyPublicIP().toString());
             System.out.println("Moje IP publicze " + this.getMyPublicIP());
@@ -75,11 +80,37 @@ public class LoginController {
             applicationState.setUserState(false);
             loggedUser = false;
             userDao.persist(u);
+=======
+        user = userList.get(0);
+        if (applicationState.getLoggedUser() == null) {
+               user.setIp("" + this.getMyPublicIP());
+                System.out.println("Moje IP publicze " + this.getMyPublicIP());
+                System.out.println("JEST");
+                applicationState.setLoggedUser(user);
+        } else {
+            user.setIp(null);
+            applicationState.setLoggedUser(null);
+            System.out.println("NULL");
+>>>>>>> origin/master
         }
-    }
+        userDao.update(user);
+            
+//        for (Users u : userList) {
+//            if (applicationState.getLoggedUser() == null) {
+//                u.setIp("" + this.getMyPublicIP());
+//                System.out.println("Moje IP publicze " + this.getMyPublicIP());
+//                System.out.println("JEST");
+//            } else {
+//                u.setIp(null);
+//                System.out.println("NULL");
+//            }
+//            userDao.insert(u);// problem z updatem
+//        }
 
+
+    }
+    
     public String getMyPublicIP() {
-        System.out.println("getMyPublicIP()");
         try {
             URL readIp = new URL("http://automation.whatismyip.com/n09230945.asp");
             BufferedReader in = new BufferedReader(new InputStreamReader(readIp.openStream()));
@@ -93,9 +124,9 @@ public class LoginController {
             return "Blad odczytu";
         }
     }
+    
 
     public boolean selectAuthentication(String userName, String password) {
-        System.out.println("selectAuthentication()");
         boolean islooged = false;
         String s = Hasher.generateHash(password, Hasher.HASH_SHA512);
         UsersDAO userDao = new UsersDAO();
