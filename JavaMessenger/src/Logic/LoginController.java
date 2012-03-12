@@ -58,7 +58,7 @@ public class LoginController {
             applicationState.setLoggedUser(null);
             System.out.println("NULL");
         }
-            userDao.persist(user);
+        userDao.update(user);
             
 //        for (Users u : userList) {
 //            if (applicationState.getLoggedUser() == null) {
@@ -69,7 +69,7 @@ public class LoginController {
 //                u.setIp(null);
 //                System.out.println("NULL");
 //            }
-//            userDao.persist(u);// problem z updatem
+//            userDao.insert(u);// problem z updatem
 //        }
 
 

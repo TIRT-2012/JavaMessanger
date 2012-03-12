@@ -27,12 +27,16 @@ public class DataAccessObject {
         entityManager = emf.createEntityManager();
     }
 
-    public void persist(Object entity) {
+    public void insert(Object entity) {
         wrap(entityManager, "persist", new Class[]{Object.class}, new Object[]{entity}, true);
     }
 
     public void remove(Object entity) {
         wrap(entityManager, "remove", new Class[]{Object.class}, new Object[]{entity}, true);
+    }
+    
+    public void update(Object entity) {
+        wrap(entityManager, "merge", new Class[]{Object.class}, new Object[]{entity}, true);
     }
 
     public Object wrap(Object object, String function, Class[] parametersClass, Object[] parameters, boolean isTransaction) {
