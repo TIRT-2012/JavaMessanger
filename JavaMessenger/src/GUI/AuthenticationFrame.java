@@ -167,10 +167,8 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             JavaMessenger jm = new JavaMessenger(this.applicationComponents, ap);
             
         } else {
-//            TODO: nic sie nie pokazuje po nieudanym logowaniu ale aplikacja dalej dziala, ptrzebny setVisible na czyms
             JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
         }
-        //getAuthenticationData(login, pass);
         this.setVisible(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -183,31 +181,6 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-//    public void getAuthenticationData(String login, String pass)// metoda zwracająca dane z bazy - narazie tylko podstawiam dane do testowania
-//    {
-//        Temps.TrySelect ti = new Temps.TrySelect();
-//        System.out.println("Stworzono tryselect");
-//        if (ti.selectAuthentication(login, pass)) {
-//            Temps.TryInsertIP tip = new Temps.TryInsertIP(true);
-//            tip.setUserIp(login);
-//            JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
-//
-//            Temps.TrySelect tr = new Temps.TrySelect();
-//            List<Entities.Contacts> mylist = tr.getContacts(login);
-//
-//            ApplicationFrame ap = new ApplicationFrame();
-//            ap.setLocationRelativeTo(ap.getRootPane());
-//            ap.changeProfilName(login);
-//            ap.changeLoginButtonText("Wyloguj");
-//            ap.setLogin(login);
-//            ap.setJlist(mylist);
-//            ap.loginFlag = true;
-//            ap.setVisible(true);
-//
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
-//        }
-//    }
 
     /**
      * @param args the command line arguments
