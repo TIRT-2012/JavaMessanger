@@ -44,23 +44,20 @@ public class LoginController {
         }
 
     }
-    
+
     public List<Contacts> getContacts(String userName) {
         Long id = null;
-        
+
         UsersDAO userDao = new UsersDAO();
         List<Users> userList = userDao.findByUserName(userName);
         for (Users u : userList) {
-                    id = (Long) u.getId();
+            id = (Long) u.getId();
         }
-        
         ContactsDAO contactDao = new ContactsDAO();
-        List<Contacts> contactList = null;
-        contactList = (List<Contacts>) contactDao.findByUserId(id);
-        
+        List<Contacts> contactList = (List<Contacts>) contactDao.findByUserId(id);
+
         return contactList;
     }
-    
 
     public void setUserIp(String login, ApplicationState applicationState) {
         System.out.println("setUserIp()");
@@ -85,9 +82,9 @@ public class LoginController {
             applicationState.setUserState(false);
             loggedUser = false;
             userDao.update(u);
-       }
+        }
     }
-    
+
     public String getMyPublicIP() {
         System.out.println("getMyPublicIP()");
         try {
