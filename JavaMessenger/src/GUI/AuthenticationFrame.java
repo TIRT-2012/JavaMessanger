@@ -167,10 +167,8 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             JavaMessenger jm = new JavaMessenger(this.applicationComponents, ap);
             
         } else {
-//            TODO: nic sie nie pokazuje po nieudanym logowaniu ale aplikacja dalej dziala, ptrzebny setVisible na czyms
             JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
         }
-        //getAuthenticationData(login, pass);
         this.setVisible(false);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
