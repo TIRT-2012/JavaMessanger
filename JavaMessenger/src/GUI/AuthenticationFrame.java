@@ -163,7 +163,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             ap.changeProfilName(login);
             ap.changeLoginButtonText("Wyloguj");
             ap.setLogin(login);
-            ap.setJlist(this.applicationComponents.getLoginController().getContacts(login));
+            //ap.setJlist(this.applicationComponents.getLoginController().getContacts(login)); do poprawy
             ap.setVisible(true);
             JavaMessenger jm = new JavaMessenger(this.applicationComponents, ap);
             

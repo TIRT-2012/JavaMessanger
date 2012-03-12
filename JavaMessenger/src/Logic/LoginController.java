@@ -54,7 +54,7 @@ public class LoginController {
             id = (Long) u.getId();
         }
         ContactsDAO contactDao = new ContactsDAO();
-        List<Contacts> contactList = (List<Contacts>) contactDao.findByUserId(id);
+        List<Contacts> contactList = contactDao.findByUserId(id);
 
         return contactList;
     }
