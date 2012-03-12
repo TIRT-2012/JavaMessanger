@@ -4,8 +4,10 @@
  */
 package Logic;
 
+import DAOs.ContactsDAO;
 import DAOs.DataAccessObject;
 import DAOs.UsersDAO;
+import Entities.Contacts;
 import Entities.Users;
 import GUI.ApplicationFrame;
 import Others.ApplicationState;
@@ -48,6 +50,24 @@ public class LoginController {
         }
 
     }
+    
+    public List<Contacts> getContacts(String userName) {
+        Long id = null;
+        
+        UsersDAO userDao = new UsersDAO();
+        List<Users> userList = userDao.findByUserName(userName);
+        for (Users u : userList) {
+                    id = (Long) u.getId();
+        }
+        
+        ContactsDAO contactDao = new ContactsDAO();
+        List<Contacts> contactList = null;
+        contactList = contactDao.findByUserId(id);
+        
+        
+        return contactList;
+    }
+    
 
     public void setUserIp(String login, ApplicationState applicationState) {
         System.out.println("setUserIp()");
