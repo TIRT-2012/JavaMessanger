@@ -8,6 +8,7 @@ import java.lang.reflect.Method;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.RollbackException;
 
 /**
  *
@@ -27,16 +28,16 @@ public class DataAccessObject {
         entityManager = emf.createEntityManager();
     }
 
-    public void insert(Object entity) {
-        wrap(entityManager, "persist", new Class[]{Object.class}, new Object[]{entity}, true);
+    public boolean insert(Object entity) {
+        return (Boolean) wrap(entityManager, "persist", new Class[]{Object.class}, new Object[]{entity}, true);
     }
 
-    public void remove(Object entity) {
-        wrap(entityManager, "remove", new Class[]{Object.class}, new Object[]{entity}, true);
+    public boolean remove(Object entity) {
+        return (Boolean) wrap(entityManager, "remove", new Class[]{Object.class}, new Object[]{entity}, true);
     }
     
-    public void update(Object entity) {
-        wrap(entityManager, "merge", new Class[]{Object.class}, new Object[]{entity}, true);
+    public boolean update(Object entity) {
+        return (Boolean) wrap(entityManager, "merge", new Class[]{Object.class}, new Object[]{entity}, true);
     }
 
     public Object wrap(Object object, String function, Class[] parametersClass, Object[] parameters, boolean isTransaction) {
@@ -54,6 +55,8 @@ public class DataAccessObject {
                     entityManager.getTransaction().commit();
                 }
                 repeat = false;
+            } catch (RollbackException rbe){
+                errorCount=MAX_TRY;
             } catch (Exception e) {
                 if (isTransaction && entityManager.getTransaction().isActive()) {
                     entityManager.getTransaction().rollback();
@@ -62,6 +65,9 @@ public class DataAccessObject {
                 errorCount++;
             }
         } while (repeat && errorCount < MAX_TRY);
-        return result;
+        if(errorCount >= MAX_TRY )
+            return null;
+        else
+            return result!=null? result:Boolean.TRUE;
     }
 }
