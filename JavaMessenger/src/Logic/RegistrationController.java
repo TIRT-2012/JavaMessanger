@@ -18,17 +18,16 @@ public class RegistrationController {
     public boolean createAccount(String userName, String password){
         System.out.println("createAccount()");
         
-        Users user = new Users();
-        user.setUserName(userName);
-        user.setPassword(Hasher.generateHash(password, Hasher.HASH_SHA512));
-        
         UsersDAO userDao = new UsersDAO();
         List<Users> userList = userDao.findByUserName(userName);
-        
         boolean isEmpty = userList.isEmpty();
         
-        if(isEmpty)
+        if(isEmpty){
+            Users user = new Users();
+            user.setUserName(userName);
+            user.setPassword(Hasher.generateHash(password, Hasher.HASH_SHA512));
             userDao.insert(user);
+        }
         
         return isEmpty;
     }
