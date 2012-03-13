@@ -6,7 +6,9 @@ package GUI;
 
 import Others.ApplicationComponents;
 import Others.JavaMessenger;
-import Temps.TryInsert;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -24,15 +26,20 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private String login = null;
     private String pass = null;
     private ApplicationComponents applicationComponents = null;
-
-    ;
-
-    public ApplicationComponents getApplicationComponents() {
-        return applicationComponents;
-    }
+    private ApplicationFrame application = null;
 
     public AuthenticationFrame() {
         initComponents();
+    }
+
+    public AuthenticationFrame(ApplicationFrame app) {
+        initComponents();
+        application = app;
+        this.addWindowListener(listener);
+    }
+
+    public ApplicationComponents getApplicationComponents() {
+        return applicationComponents;
     }
 
     /**
@@ -148,25 +155,17 @@ public class AuthenticationFrame extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        login = jTextField3.getText().toString();
-        pass = jPasswordField1.getText().toString();
+        if (this.applicationComponents.getLoginController().selectAuthentication(jTextField3.getText().toString(), jPasswordField1.getText().toString())) {
+            this.applicationComponents.getLoginController().setUserIp();
 
-        if (this.applicationComponents.getLoginController().getAuthenticationData(login, pass)) {
-            this.applicationComponents.getLoginController().setUserIp(login,this.applicationComponents.getApplicationState());
-            
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
-            
-            
-            ApplicationFrame ap = new ApplicationFrame();
-            ap.setLocationRelativeTo(ap.getRootPane());
-            ap.setApplicationComponents(this.applicationComponents);
-            ap.changeProfilName(login);
-            ap.changeLoginButtonText("Wyloguj");
-            ap.setLogin(login);
-            ap.setJlist(this.applicationComponents.getLoginController().getContacts(login));
-            ap.setVisible(true);
-            JavaMessenger jm = new JavaMessenger(this.applicationComponents, ap);
-            
+
+            application.setLocationRelativeTo(application.getRootPane());
+            application.setApplicationComponents(this.applicationComponents);
+            application.changeProfilName(this.getApplicationComponents().getLoginController().getUserObject().getUserName());
+            application.changeLoginButtonText("Wyloguj");
+            application.setJlist(this.applicationComponents.getLoginController().getContacts());
+            application.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
         }
@@ -182,32 +181,6 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-//    public void getAuthenticationData(String login, String pass)// metoda zwracająca dane z bazy - narazie tylko podstawiam dane do testowania
-//    {
-//        Temps.TrySelect ti = new Temps.TrySelect();
-//        System.out.println("Stworzono tryselect");
-//        if (ti.selectAuthentication(login, pass)) {
-//            Temps.TryInsertIP tip = new Temps.TryInsertIP(true);
-//            tip.setUserIp(login);
-//            JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
-//
-//            Temps.TrySelect tr = new Temps.TrySelect();
-//            List<Entities.Contacts> mylist = tr.getContacts(login);
-//
-//            ApplicationFrame ap = new ApplicationFrame();
-//            ap.setLocationRelativeTo(ap.getRootPane());
-//            ap.changeProfilName(login);
-//            ap.changeLoginButtonText("Wyloguj");
-//            ap.setLogin(login);
-//            ap.setJlist(mylist);
-//            ap.loginFlag = true;
-//            ap.setVisible(true);
-//
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
-//        }
-//    }
-
     /**
      * @param args the command line arguments
      */
@@ -262,4 +235,10 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     void setApplicationComponents(ApplicationComponents applicationComponents) {
         this.applicationComponents = applicationComponents;
     }
+
+    WindowListener listener = new WindowAdapter() {
+      public void windowClosing(WindowEvent w) {
+        application.setVisible(true);
+      }
+    };
 }

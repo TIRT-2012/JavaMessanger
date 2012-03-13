@@ -14,17 +14,10 @@ public class ApplicationComponents {
     
     public ApplicationComponents(){
         loginController=new LoginController();
-        applicationState=new ApplicationState();
     }
     
     private LoginController loginController;
     
-    private ApplicationState applicationState;
-
-    public ApplicationState getApplicationState() {
-        return applicationState;
-    }
-
     public LoginController getLoginController() {
         return loginController;
     }

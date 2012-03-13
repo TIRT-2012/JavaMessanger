@@ -20,10 +20,10 @@ public class ContactsDAO extends DataAccessObject{
         return (List<Contacts>) wrap(q, "getResultList", null, null, false);
     }
 
-    public Contacts findByUserId(Long id) {
+    public List<Contacts> findByUserId(Long id) {
         Query q = entityManager.createNamedQuery("Contacts.findByUserId");
-        q.setParameter("id", id);
-        return (Contacts) wrap(q, "getSingleResult", null, null, false);
+        q.setParameter("userId", id);
+        return (List<Contacts>) wrap(q, "getResultList", null, null, false);
     }
 
     public List<Contacts> findByNumber(int number) {
