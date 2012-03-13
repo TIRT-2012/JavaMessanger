@@ -7,6 +7,8 @@ package GUI;
 import Others.ApplicationComponents;
 import Others.JavaMessenger;
 import Temps.TryInsert;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.List;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -24,16 +26,23 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private String login = null;
     private String pass = null;
     private ApplicationComponents applicationComponents = null;
+    private ApplicationFrame application = null;
 
-    ;
+    public AuthenticationFrame() {
+        initComponents();
+    }
+    public AuthenticationFrame(ApplicationFrame app)
+    {
+        initComponents();
+        application = app;
+        this.addWindowListener(new LoginCloseListener());
+    }
 
     public ApplicationComponents getApplicationComponents() {
         return applicationComponents;
     }
 
-    public AuthenticationFrame() {
-        initComponents();
-    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -157,15 +166,15 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
             
             
-            ApplicationFrame ap = new ApplicationFrame();
-            ap.setLocationRelativeTo(ap.getRootPane());
-            ap.setApplicationComponents(this.applicationComponents);
-            ap.changeProfilName(login);
-            ap.changeLoginButtonText("Wyloguj");
-            ap.setLogin(login);
-            //ap.setJlist(this.applicationComponents.getLoginController().getContacts(login)); do poprawy
-            ap.setVisible(true);
-            JavaMessenger jm = new JavaMessenger(this.applicationComponents, ap);
+            application.setLocationRelativeTo(application.getRootPane());
+            application.setApplicationComponents(this.applicationComponents);
+            application.changeProfilName(login);
+            application.changeLoginButtonText("Wyloguj");
+            application.setLogin(login);
+           // application.setJlist(this.applicationComponents.getLoginController().getContacts(login)); //do poprawy
+            application.setVisible(true);
+            //application.add
+            JavaMessenger jm = new JavaMessenger(this.applicationComponents, application);
             
         } else {
             JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
@@ -261,5 +270,45 @@ public class AuthenticationFrame extends javax.swing.JFrame {
 
     void setApplicationComponents(ApplicationComponents applicationComponents) {
         this.applicationComponents = applicationComponents;
+    }
+    
+    public class LoginCloseListener implements WindowListener {
+
+        @Override
+        public void windowOpened(WindowEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void windowClosing(WindowEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet.");
+            application.setVisible(true);
+        }
+
+        @Override
+        public void windowClosed(WindowEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void windowIconified(WindowEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void windowDeiconified(WindowEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void windowActivated(WindowEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void windowDeactivated(WindowEvent e) {
+            //throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
     }
 }

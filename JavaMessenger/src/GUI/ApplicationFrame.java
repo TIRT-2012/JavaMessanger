@@ -226,7 +226,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Użytkownik wylogowany");
         } else {
             System.out.println("logowanie");
-            AuthenticationFrame lg = new AuthenticationFrame();
+            AuthenticationFrame lg = new AuthenticationFrame(this);
             lg.setApplicationComponents(applicationComponents);
             lg.setLocationRelativeTo(lg.getRootPane());
             lg.setVisible(true);

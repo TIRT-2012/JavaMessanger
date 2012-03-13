@@ -50,10 +50,11 @@ public class LoginController {
         UsersDAO userDao = new UsersDAO();
         List<Users> userList = userDao.findByUserName(userName);
         for (Users u : userList) {
-            id = (Long) u.getId();
+            id = u.getId();
+            System.out.println("ID: "+id);
         }
         ContactsDAO contactDao = new ContactsDAO();
-        List<Contacts> contactList = contactDao.findByUserId(id);
+        List<Contacts> contactList = contactDao.findByUserId(1L);
         return contactList;
     }
 
