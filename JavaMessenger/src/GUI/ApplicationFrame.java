@@ -16,14 +16,7 @@ import javax.swing.JOptionPane;
  */
 public class ApplicationFrame extends javax.swing.JFrame {
 
-    private String login = null;
     private ApplicationComponents applicationComponents = null;
-
-    ;
-
-    public ApplicationComponents getApplicationComponents() {
-        return applicationComponents;
-    }
 
     /**
      * Creates new form ApplicationFrame
@@ -40,16 +33,17 @@ public class ApplicationFrame extends javax.swing.JFrame {
         this.jButton1.setText(buttonText);
     }
 
-    public void setLogin(String userName) {
-        login = userName;
-    }
-
     public void setJlist(List<Entities.Contacts> userslist) {
         //implementacja własnego listmodelu z zawartoscia listy
-        String userNameTab[] = new String[userslist.size()];
-        for (int i = 0; i < userslist.size(); i++) {
-            userNameTab[i] = userslist.get(i).getName().toString();
-            System.out.println("UŻYTKOWNIK " + userNameTab[i].toString());
+        String userNameTab[];
+        if (userslist == null) {
+            userNameTab = new String[1];
+            userNameTab[0] = "Brak listy";
+        } else {
+            userNameTab = new String[userslist.size()];
+            for (int i = 0; i < userslist.size(); i++) {
+                userNameTab[i] = userslist.get(i).getName().toString();
+            }
         }
         jList1.setListData(userNameTab);
     }
@@ -216,16 +210,14 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        if(this.getApplicationComponents().getLoginController().isLoggedUser()) {
-            System.out.println("wylogowanie");
-            this.getApplicationComponents().getLoginController().removeUserIp(login, this.getApplicationComponents().getApplicationState());
-            System.out.println("Użytkownik wylogowany");
+        if (this.getApplicationComponents().getLoginController().isLoggedUser()) {
+            this.getApplicationComponents().getLoginController().removeUserIp();
             this.changeProfilName("ProfilName");
             this.changeLoginButtonText("Logowanie");
-            this.getApplicationComponents().getApplicationState().setLoggedUser(null);
+            this.setJlist(null);
+            System.out.println("Użytkownik wylogowany");
             JOptionPane.showMessageDialog(this, "Użytkownik wylogowany");
         } else {
-            System.out.println("logowanie");
             AuthenticationFrame lg = new AuthenticationFrame(this);
             lg.setApplicationComponents(applicationComponents);
             lg.setLocationRelativeTo(lg.getRootPane());
@@ -315,5 +307,9 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     public void setApplicationComponents(ApplicationComponents applicationComponents) {
         this.applicationComponents = applicationComponents;
+    }
+
+    public ApplicationComponents getApplicationComponents() {
+        return applicationComponents;
     }
 }

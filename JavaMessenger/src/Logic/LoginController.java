@@ -5,11 +5,9 @@
 package Logic;
 
 import DAOs.ContactsDAO;
-import DAOs.DataAccessObject;
 import DAOs.UsersDAO;
 import Entities.Contacts;
 import Entities.Users;
-import Others.ApplicationState;
 import crypto.Hasher;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -22,11 +20,22 @@ import java.util.List;
  */
 public class LoginController {
 
+    private Users userObject = null;
+
+    
     private boolean loggedUser = false;
 
     public LoginController() {
     }
 
+    public Users getUserObject() {
+        return userObject;
+    }
+
+    public void setUserObject(Users userObject) {
+        this.userObject = userObject;
+    }
+    
     public void setLoggedUser(boolean loggedUser) {
         this.loggedUser = loggedUser;
     }
@@ -45,43 +54,50 @@ public class LoginController {
 
     }
 
-    public List<Contacts> getContacts(String userName) {
+    public List<Contacts> getContacts() {
         Long id = null;
-        UsersDAO userDao = new UsersDAO();
-        List<Users> userList = userDao.findByUserName(userName);
-        for (Users u : userList) {
-            id = u.getId();
-            System.out.println("ID: "+id);
-        }
+//        UsersDAO userDao = new UsersDAO();
+//        List<Users> userList = userDao.findByUserName(userName);
+//        for (Users u : userList) {
+//            id = u.getId();
+//            System.out.println("ID: "+id);
+//        }
+        id = userObject.getId();
         ContactsDAO contactDao = new ContactsDAO();
         List<Contacts> contactList = contactDao.findByUserId(1L);
         return contactList;
     }
 
-    public void setUserIp(String login, ApplicationState applicationState) {
+    public void setUserIp() {
         System.out.println("setUserIp()");
         UsersDAO userDao = new UsersDAO();
-        List<Users> userList = userDao.findByUserName(login);
-        for (Users u : userList) {
-            u.setIp(this.getMyPublicIP().toString());
-            applicationState.setLoggedUser(u);
-            applicationState.setUserState(true);
-            loggedUser = true;
-            userDao.update(u);
-        }
+//        List<Users> userList = userDao.findByUserName(login);
+//        for (Users u : userList) {
+//            u.setIp(this.getMyPublicIP().toString());
+//            applicationState.setLoggedUser(u);
+//            applicationState.setUserState(true);
+//            loggedUser = true;
+//            userDao.update(u);
+//        }
+        userObject.setIp(this.getMyPublicIP().toString());
+        userDao.update(userObject);
+        loggedUser = true;
     }
 
-    public void removeUserIp(String login, ApplicationState applicationState) {
+    public void removeUserIp() {
         System.out.println("removeUserIp()");
         UsersDAO userDao = new UsersDAO();
-        List<Users> userList = userDao.findByUserName(login);
-        for (Users u : userList) {
-            u.setIp(null);
-            applicationState.setLoggedUser(null);
-            applicationState.setUserState(false);
-            loggedUser = false;
-            userDao.update(u);
-        }
+//        List<Users> userList = userDao.findByUserName(login);
+//        for (Users u : userList) {
+//            u.setIp(null);
+//            applicationState.setLoggedUser(null);
+//            applicationState.setUserState(false);
+//            loggedUser = false;
+//            userDao.update(u);
+//        }
+        userObject.setIp(null);
+        userDao.update(userObject);
+        loggedUser = false;
     }
 
     public String getMyPublicIP() {
@@ -112,6 +128,7 @@ public class LoginController {
             for (Users u : userList) {
                 if (u.getPassword().toString().equals("" + s)) {
                     islooged = true;
+                    userObject = u;
                 }
             }
             System.out.println("Czy jest zalogowany? " + islooged);

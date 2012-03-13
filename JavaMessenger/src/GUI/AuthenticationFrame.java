@@ -157,24 +157,18 @@ public class AuthenticationFrame extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        login = jTextField3.getText().toString();
-        pass = jPasswordField1.getText().toString();
-
-        if (this.applicationComponents.getLoginController().getAuthenticationData(login, pass)) {
-            this.applicationComponents.getLoginController().setUserIp(login,this.applicationComponents.getApplicationState());
+        if (this.applicationComponents.getLoginController().getAuthenticationData(jTextField3.getText().toString(), jPasswordField1.getText().toString())) {
+            this.applicationComponents.getLoginController().setUserIp();
             
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
             
-            
             application.setLocationRelativeTo(application.getRootPane());
             application.setApplicationComponents(this.applicationComponents);
-            application.changeProfilName(login);
+            application.changeProfilName(this.getApplicationComponents().getLoginController().getUserObject().getUserName());
             application.changeLoginButtonText("Wyloguj");
-            application.setLogin(login);
-            application.setJlist(this.applicationComponents.getLoginController().getContacts(login)); //do poprawy
+            application.setJlist(this.applicationComponents.getLoginController().getContacts());
             application.setVisible(true);
-            //application.add
-            JavaMessenger jm = new JavaMessenger(this.applicationComponents, application);
+//            JavaMessenger jm = new JavaMessenger(this.applicationComponents, application);
             
         } else {
             JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
