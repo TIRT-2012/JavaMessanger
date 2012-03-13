@@ -46,11 +46,9 @@ public class LoginController {
 
     public boolean getAuthenticationData(String login, String pass) {
         System.out.println("getAuthenticationData()");
-        if (this.selectAuthentication(login, pass)) {
+        if (this.selectAuthentication(login, pass))
             return true;
-        } else {
-            return false;
-        }
+        return false;
 
     }
 
