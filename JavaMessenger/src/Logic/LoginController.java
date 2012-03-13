@@ -56,12 +56,6 @@ public class LoginController {
 
     public List<Contacts> getContacts() {
         Long id = null;
-//        UsersDAO userDao = new UsersDAO();
-//        List<Users> userList = userDao.findByUserName(userName);
-//        for (Users u : userList) {
-//            id = u.getId();
-//            System.out.println("ID: "+id);
-//        }
         id = userObject.getId();
         ContactsDAO contactDao = new ContactsDAO();
         List<Contacts> contactList = contactDao.findByUserId(1L);
@@ -71,14 +65,6 @@ public class LoginController {
     public void setUserIp() {
         System.out.println("setUserIp()");
         UsersDAO userDao = new UsersDAO();
-//        List<Users> userList = userDao.findByUserName(login);
-//        for (Users u : userList) {
-//            u.setIp(this.getMyPublicIP().toString());
-//            applicationState.setLoggedUser(u);
-//            applicationState.setUserState(true);
-//            loggedUser = true;
-//            userDao.update(u);
-//        }
         userObject.setIp(this.getMyPublicIP().toString());
         userDao.update(userObject);
         loggedUser = true;
@@ -87,14 +73,6 @@ public class LoginController {
     public void removeUserIp() {
         System.out.println("removeUserIp()");
         UsersDAO userDao = new UsersDAO();
-//        List<Users> userList = userDao.findByUserName(login);
-//        for (Users u : userList) {
-//            u.setIp(null);
-//            applicationState.setLoggedUser(null);
-//            applicationState.setUserState(false);
-//            loggedUser = false;
-//            userDao.update(u);
-//        }
         userObject.setIp(null);
         userDao.update(userObject);
         loggedUser = false;
