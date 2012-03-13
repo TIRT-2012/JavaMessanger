@@ -66,7 +66,7 @@ public class DataAccessObject {
             }
         } while (repeat && errorCount < MAX_TRY);
         if(errorCount >= MAX_TRY )
-            return null;
+            return Boolean.FALSE;
         else
             return result!=null? result:Boolean.TRUE;
     }
