@@ -7,6 +7,7 @@ package GUI;
 import Others.ApplicationComponents;
 import Others.JavaMessenger;
 import Temps.TryInsert;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
@@ -35,7 +36,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     public AuthenticationFrame(ApplicationFrame app) {
         initComponents();
         application = app;
-        this.addWindowListener(new LoginCloseListener());
+        this.addWindowListener(listener);
     }
 
     public ApplicationComponents getApplicationComponents() {
@@ -236,42 +237,9 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         this.applicationComponents = applicationComponents;
     }
 
-    public class LoginCloseListener implements WindowListener {
-
-        @Override
-        public void windowOpened(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void windowClosing(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-            application.setVisible(true);
-        }
-
-        @Override
-        public void windowClosed(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void windowIconified(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void windowDeiconified(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void windowActivated(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void windowDeactivated(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-    }
+    WindowListener listener = new WindowAdapter() {
+      public void windowClosing(WindowEvent w) {
+        application.setVisible(true);
+      }
+    };
 }
