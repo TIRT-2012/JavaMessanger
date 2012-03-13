@@ -171,7 +171,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             application.changeProfilName(login);
             application.changeLoginButtonText("Wyloguj");
             application.setLogin(login);
-           // application.setJlist(this.applicationComponents.getLoginController().getContacts(login)); //do poprawy
+            application.setJlist(this.applicationComponents.getLoginController().getContacts(login)); //do poprawy
             application.setVisible(true);
             //application.add
             JavaMessenger jm = new JavaMessenger(this.applicationComponents, application);
