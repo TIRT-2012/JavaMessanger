@@ -23,7 +23,7 @@ public class ContactsDAO extends DataAccessObject{
     public List<Contacts> findByUserId(Long id) {
         Query q = entityManager.createNamedQuery("Contacts.findByUserId");
         q.setParameter("id", id);
-        return (List<Contacts>) wrap(q, "getSingleResult", null, null, false);
+        return (List<Contacts>) wrap(q, "getResultList", null, null, false);
     }
 
     public List<Contacts> findByNumber(int number) {

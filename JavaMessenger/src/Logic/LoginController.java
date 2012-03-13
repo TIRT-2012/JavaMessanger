@@ -47,7 +47,6 @@ public class LoginController {
 
     public List<Contacts> getContacts(String userName) {
         Long id = null;
-
         UsersDAO userDao = new UsersDAO();
         List<Users> userList = userDao.findByUserName(userName);
         for (Users u : userList) {
@@ -55,7 +54,6 @@ public class LoginController {
         }
         ContactsDAO contactDao = new ContactsDAO();
         List<Contacts> contactList = contactDao.findByUserId(id);
-
         return contactList;
     }
 
