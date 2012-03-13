@@ -6,7 +6,7 @@ package GUI;
 
 import Others.ApplicationComponents;
 import Others.JavaMessenger;
-import Temps.TryInsert;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.List;
@@ -31,18 +31,16 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     public AuthenticationFrame() {
         initComponents();
     }
-    public AuthenticationFrame(ApplicationFrame app)
-    {
+
+    public AuthenticationFrame(ApplicationFrame app) {
         initComponents();
         application = app;
-        this.addWindowListener(new LoginCloseListener());
+        this.addWindowListener(listener);
     }
 
     public ApplicationComponents getApplicationComponents() {
         return applicationComponents;
     }
-
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -159,17 +157,15 @@ public class AuthenticationFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         if (this.applicationComponents.getLoginController().selectAuthentication(jTextField3.getText().toString(), jPasswordField1.getText().toString())) {
             this.applicationComponents.getLoginController().setUserIp();
-            
+
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
-            
+
             application.setLocationRelativeTo(application.getRootPane());
             application.setApplicationComponents(this.applicationComponents);
             application.changeProfilName(this.getApplicationComponents().getLoginController().getUserObject().getUserName());
             application.changeLoginButtonText("Wyloguj");
             application.setJlist(this.applicationComponents.getLoginController().getContacts());
             application.setVisible(true);
-//            JavaMessenger jm = new JavaMessenger(this.applicationComponents, application);
-            
         } else {
             JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
         }
@@ -185,32 +181,6 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-//    public void getAuthenticationData(String login, String pass)// metoda zwracająca dane z bazy - narazie tylko podstawiam dane do testowania
-//    {
-//        Temps.TrySelect ti = new Temps.TrySelect();
-//        System.out.println("Stworzono tryselect");
-//        if (ti.selectAuthentication(login, pass)) {
-//            Temps.TryInsertIP tip = new Temps.TryInsertIP(true);
-//            tip.setUserIp(login);
-//            JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");
-//
-//            Temps.TrySelect tr = new Temps.TrySelect();
-//            List<Entities.Contacts> mylist = tr.getContacts(login);
-//
-//            ApplicationFrame ap = new ApplicationFrame();
-//            ap.setLocationRelativeTo(ap.getRootPane());
-//            ap.changeProfilName(login);
-//            ap.changeLoginButtonText("Wyloguj");
-//            ap.setLogin(login);
-//            ap.setJlist(mylist);
-//            ap.loginFlag = true;
-//            ap.setVisible(true);
-//
-//        } else {
-//            JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");
-//        }
-//    }
-
     /**
      * @param args the command line arguments
      */
@@ -265,44 +235,10 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     void setApplicationComponents(ApplicationComponents applicationComponents) {
         this.applicationComponents = applicationComponents;
     }
-    
-    public class LoginCloseListener implements WindowListener {
 
-        @Override
-        public void windowOpened(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void windowClosing(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-            application.setVisible(true);
-        }
-
-        @Override
-        public void windowClosed(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void windowIconified(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void windowDeiconified(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void windowActivated(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-
-        @Override
-        public void windowDeactivated(WindowEvent e) {
-            //throw new UnsupportedOperationException("Not supported yet.");
-        }
-        
-    }
+    WindowListener listener = new WindowAdapter() {
+      public void windowClosing(WindowEvent w) {
+        application.setVisible(true);
+      }
+    };
 }
