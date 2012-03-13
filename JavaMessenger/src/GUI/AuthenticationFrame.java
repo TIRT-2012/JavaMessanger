@@ -157,7 +157,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        if (this.applicationComponents.getLoginController().getAuthenticationData(jTextField3.getText().toString(), jPasswordField1.getText().toString())) {
+        if (this.applicationComponents.getLoginController().selectAuthentication(jTextField3.getText().toString(), jPasswordField1.getText().toString())) {
             this.applicationComponents.getLoginController().setUserIp();
             
             JOptionPane.showMessageDialog(this, "Logowanie zakończone pomyślnie");

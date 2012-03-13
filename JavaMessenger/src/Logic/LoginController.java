@@ -44,7 +44,7 @@ public class LoginController {
         return loggedUser;
     }
 
-    public boolean getAuthenticationData(String login, String pass) {
+    /*public boolean getAuthenticationData(String login, String pass) {
         System.out.println("getAuthenticationData()");
         if (this.selectAuthentication(login, pass)) {
             return true;
@@ -52,7 +52,7 @@ public class LoginController {
             return false;
         }
 
-    }
+    }*/
 
     public List<Contacts> getContacts() {
         Long id = null;

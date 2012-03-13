@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Logic.RegistrationController;
 import Temps.TryInsert;
 import javax.swing.JOptionPane;
 
@@ -131,19 +132,19 @@ public class RegistrationFrame extends javax.swing.JFrame {
             return;            
         }
         
-        Temps.TryInsert ti = new Temps.TryInsert();
-        System.out.println("Stworzono TryInsert");
+        RegistrationController register = new RegistrationController();
         
-        switch (ti.createAccount(userName, password)){
-            case TryInsert.STATUS_OK : {
+        switch (register.createAccount(userName, password)){
+            case RegistrationController.STATUS_OK : {
                 JOptionPane.showMessageDialog(this, "Rejestracja zakończona pomyślnie");
+                this.setVisible(false);
                 break;
             }
-            case TryInsert.STATUS_INVALID_DATA : {
+            case RegistrationController.STATUS_INVALID_DATA : {
                  JOptionPane.showMessageDialog(this, "Nie można wykonać rejestracji. Istneje już użytkownik o podanej nazwie");
                 break;               
             }
-            case TryInsert.STATUS_CONNECTION_ERROR : {
+            case RegistrationController.STATUS_CONNECTION_ERROR : {
                  JOptionPane.showMessageDialog(this, "Nie można wykonać rejestracji. Wystąpił błąd połączenia");
                 break;               
             }
