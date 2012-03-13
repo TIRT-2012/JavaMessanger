@@ -6,22 +6,16 @@ package Logic;
 
 import DAOs.UsersDAO;
 import Entities.Users;
-import GUI.AuthenticationFrame;
 import crypto.Hasher;
-import javax.persistence.RollbackException;
+import java.util.List;
 
 /**
  *
  * @author PWr
  */
 public class RegistrationController {
-    public static final int STATUS_OK = 0;
-    public static final int STATUS_INVALID_DATA = 1;
-    public static final int STATUS_CONNECTION_ERROR = 2;
-    public String userName;
-    public String password;
     
-    public int createAccount(String userName, String password){
+    public boolean createAccount(String userName, String password){
         System.out.println("createAccount()");
         
         Users user = new Users();
@@ -29,12 +23,14 @@ public class RegistrationController {
         user.setPassword(Hasher.generateHash(password, Hasher.HASH_SHA512));
         
         UsersDAO userDao = new UsersDAO();
-        userDao.insert(user);
-            
-        this.userName = userName;
-        this.password = password;
+        List<Users> userList = userDao.findByUserName(userName);
         
-        return STATUS_OK;
+        boolean isEmpty = userList.isEmpty();
+        
+        if(isEmpty)
+            userDao.insert(user);
+        
+        return isEmpty;
     }
     
 }

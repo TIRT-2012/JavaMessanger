@@ -5,7 +5,6 @@
 package GUI;
 
 import Logic.RegistrationController;
-import Temps.TryInsert;
 import javax.swing.JOptionPane;
 
 /**
@@ -15,11 +14,13 @@ import javax.swing.JOptionPane;
 public class RegistrationFrame extends javax.swing.JFrame {
     public static final int minLoginLenght = 5;
     public static final int minPassLenght = 5;
+    private RegistrationController register;
     /**
      * Creates new form RegistrationFrame
      */
     public RegistrationFrame() {
         initComponents();
+        register = new RegistrationController();
     }
 
     /**
@@ -132,22 +133,11 @@ public class RegistrationFrame extends javax.swing.JFrame {
             return;            
         }
         
-        RegistrationController register = new RegistrationController();
-        
-        switch (register.createAccount(userName, password)){
-            case RegistrationController.STATUS_OK : {
-                JOptionPane.showMessageDialog(this, "Rejestracja zakończona pomyślnie");
-                this.setVisible(false);
-                break;
-            }
-            case RegistrationController.STATUS_INVALID_DATA : {
-                 JOptionPane.showMessageDialog(this, "Nie można wykonać rejestracji. Istneje już użytkownik o podanej nazwie");
-                break;               
-            }
-            case RegistrationController.STATUS_CONNECTION_ERROR : {
-                 JOptionPane.showMessageDialog(this, "Nie można wykonać rejestracji. Wystąpił błąd połączenia");
-                break;               
-            }
+        if(register.createAccount(userName, password)){
+            JOptionPane.showMessageDialog(this, "Rejestracja zakończona pomyślnie");
+            this.setVisible(false);
+        }else{
+             JOptionPane.showMessageDialog(this, "Nie można wykonać rejestracji. W bazie istnieje już użytkownik o podanej nazwie");             
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
