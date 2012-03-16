@@ -41,6 +41,8 @@ public class RegistrationFrame extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLogin = new javax.swing.JTextField();
 
+        setResizable(false);
+
         jLabel1.setText("Login");
 
         jLabel2.setText("Password");

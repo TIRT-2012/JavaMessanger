@@ -5,7 +5,6 @@
 package GUI;
 
 import Others.ApplicationComponents;
-import Temps.TryInsertIP;
 import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -96,11 +95,6 @@ public class ApplicationFrame extends javax.swing.JFrame {
         setForeground(new java.awt.Color(255, 255, 255));
         setResizable(false);
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
         jList1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jList1MouseClicked(evt);
@@ -165,7 +159,12 @@ public class ApplicationFrame extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem1);
 
-        jMenuItem2.setText("jMenuItem2");
+        jMenuItem2.setText("Nowa konferencja");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem2);
 
         jMenuBar2.add(jMenu4);
@@ -245,6 +244,16 @@ public class ApplicationFrame extends javax.swing.JFrame {
         msgr.setVisible(true);
 
     }//GEN-LAST:event_jList1MouseClicked
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // Kod konferencji
+        if (this.getApplicationComponents().getLoginController().isLoggedUser()) {
+            ConferenceFrame conf = new ConferenceFrame(this);
+            conf.setLocationRelativeTo(conf.getRootPane());
+            conf.setVisible(true);
+        }else
+            JOptionPane.showMessageDialog(this, "Aby rozpocząc konferencję, musisz się wpierw zalogować");
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
