@@ -70,6 +70,9 @@ public class ConferenceFrame extends javax.swing.JFrame {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 avialabeUsersMouseClicked(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                avialabeUsersMouseReleased(evt);
+            }
         });
         jScrollPane1.setViewportView(avialabeUsers);
 
@@ -95,6 +98,9 @@ public class ConferenceFrame extends javax.swing.JFrame {
         selectedUsers.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 selectedUsersMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                selectedUsersMouseReleased(evt);
             }
         });
         jScrollPane2.setViewportView(selectedUsers);
@@ -133,27 +139,26 @@ public class ConferenceFrame extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(74, 74, 74)
-                                .addComponent(addUserBtn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(removeUserBtn))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(40, 40, 40)
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(jLabel2)
+                        .addGap(74, 74, 74)
+                        .addComponent(addUserBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
-                .addComponent(startConferenceBtn)
-                .addGap(21, 21, 21))
+                        .addComponent(removeUserBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                        .addComponent(startConferenceBtn)
+                        .addGap(21, 21, 21))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -190,14 +195,28 @@ public class ConferenceFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_addUserBtnActionPerformed
 
     private void selectedUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectedUsersMouseClicked
-        if(this.selectedUsers.getSelectedIndex() > -1){
-            removeUserBtn.setEnabled(true);
-        }
+        //if(this.selectedUsers.getSelectedIndex() > -1){
+        //    removeUserBtn.setEnabled(true);
+        //}
     }//GEN-LAST:event_selectedUsersMouseClicked
 
     private void avialabeUsersMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_avialabeUsersMouseClicked
-        // TODO add your handling code here:
+        //if(this.avialabeUsers.getSelectedIndex() > -1){
+        //    addUserBtn.setEnabled(true);
+        //}
     }//GEN-LAST:event_avialabeUsersMouseClicked
+
+    private void avialabeUsersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_avialabeUsersMouseReleased
+        if(this.avialabeUsers.getSelectedIndex() > -1){
+            addUserBtn.setEnabled(true);
+        }
+    }//GEN-LAST:event_avialabeUsersMouseReleased
+
+    private void selectedUsersMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectedUsersMouseReleased
+        if(this.selectedUsers.getSelectedIndex() > -1){
+            removeUserBtn.setEnabled(true);
+        }
+    }//GEN-LAST:event_selectedUsersMouseReleased
 
     /**
      * @param args the command line arguments
