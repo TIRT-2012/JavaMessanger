@@ -8,10 +8,8 @@ import DAOs.ContactsDAO;
 import DAOs.UsersDAO;
 import Entities.Contacts;
 import Entities.Users;
+import Others.JMHelper;
 import crypto.Hasher;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.List;
 
 /**
@@ -63,7 +61,7 @@ public class LoginController {
     public void setUserIp() {
         System.out.println("setUserIp()");
         UsersDAO userDao = new UsersDAO();
-        userObject.setIp(this.getMyPublicIP().toString());
+        userObject.setIp(JMHelper.getMyPublicIP());
         userDao.update(userObject);
         loggedUser = true;
     }
@@ -74,22 +72,6 @@ public class LoginController {
         userObject.setIp(null);
         userDao.update(userObject);
         loggedUser = false;
-    }
-
-    public String getMyPublicIP() {
-        System.out.println("getMyPublicIP()");
-        try {
-            URL readIp = new URL("http://automation.whatismyip.com/n09230945.asp");
-            BufferedReader in = new BufferedReader(new InputStreamReader(readIp.openStream()));
-            String ip_address = (in.readLine()).trim();
-
-            return ip_address;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            return "Blad odczytu";
-        }
     }
 
     public boolean selectAuthentication(String userName, String password) {
