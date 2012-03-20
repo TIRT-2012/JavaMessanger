@@ -79,7 +79,7 @@ public class LoginController {
     public String getMyPublicIP() {
         System.out.println("getMyPublicIP()");
         try {
-            URL readIp = new URL("http://automation.whatismyip.com/n09230945.asp");
+            URL readIp = new URL("http://automation.whatismyip.com/n                                                             09230945.asp");
             BufferedReader in = new BufferedReader(new InputStreamReader(readIp.openStream()));
             String ip_address = (in.readLine()).trim();
 
