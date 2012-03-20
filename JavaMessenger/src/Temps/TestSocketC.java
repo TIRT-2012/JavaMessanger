@@ -10,13 +10,14 @@ package Temps;
  */
 public class TestSocketC {
 
-    static boolean SERVER = true;
+    static boolean SERVER = false;
 
     public static void main(String[] args) {
         if (SERVER) {
             Server s = new Server();
+            Thread ts = new Thread(s);
             s.prepare();
-            s.run();
+            ts.start();
         }
         else{
             Client c=new Client();
