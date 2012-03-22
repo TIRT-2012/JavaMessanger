@@ -22,7 +22,7 @@ public class SSLServer implements Runnable {
     private SSLServerSocket server = null;
     private SSLSocket socket = null;
     private DataInputStream streamIn = null;
-    private SocketConnection[] connections = new SocketConnection[MAX];
+    private SSLSocketConnection[] connections = new SSLSocketConnection[MAX];
     
     public SSLServer() {
         System.setProperty("javax.net.ssl.keyStore", "testKey");
@@ -59,14 +59,14 @@ public class SSLServer implements Runnable {
     public void run() {
         while (true) {
             try {
-                addConnection(new SocketConnection((SSLSocket) server.accept()));
+                addConnection(new SSLSocketConnection((SSLSocket) server.accept()));
             } catch (IOException ex) {
                 out.println("Server: IO Exception occured");
             }
         }
     }
 
-    private void addConnection(SocketConnection sc) {
+    private void addConnection(SSLSocketConnection sc) {
         boolean iterate = true;
         int i = 0;
         while (iterate && i < MAX) {
