@@ -8,28 +8,36 @@ package Temps;
  *
  * @author SysOp
  */
-import java.io.IOException;
-import java.io.DataInputStream;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import static java.lang.System.out;
+import javax.net.ssl.*;
 
-public class Server implements Runnable{
-    
+public class SSLServer implements Runnable {
 
     private static int MAX = 50;
     private static int PORT = 5050;
-    private Socket socket = null;
-    private ServerSocket server = null;
+    private SSLServerSocketFactory factory = null;
+    private SSLServerSocket server = null;
+    private SSLSocket socket = null;
     private DataInputStream streamIn = null;
-    private SocketConnection[] connections=new SocketConnection[MAX];
+    private SocketConnection[] connections = new SocketConnection[MAX];
+    
+    public SSLServer() {
+        System.setProperty("javax.net.ssl.keyStore", "testKey");
+        System.setProperty("javax.net.ssl.keyStorePassword", "tester");
+    }
 
     public void prepare() {
         try {
             out.println("Binding to port " + PORT + ", please wait  ...");
-            server = new ServerSocket(PORT, MAX, null);
-            out.println("SocketAddr: "+server.getLocalSocketAddress());
+            factory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
+            server = (SSLServerSocket) factory.createServerSocket(PORT, MAX, null);
+            out.println("SocketAddr: " + server.getLocalSocketAddress());
             out.println("Server running: " + server);
+            
+            
         } catch (IOException ioe) {
             out.println(ioe);
         }
@@ -46,42 +54,40 @@ public class Server implements Runnable{
         } catch (IOException ex) {
         }
     }
-    
+
     @Override
-    public void run(){
-        while(true){
+    public void run() {
+        while (true) {
             try {
-                addConnection(new SocketConnection(server.accept()));
+                addConnection(new SocketConnection((SSLSocket) server.accept()));
             } catch (IOException ex) {
                 out.println("Server: IO Exception occured");
             }
         }
     }
-    
-    private void addConnection(SocketConnection sc){
-        boolean iterate=true;
-        int i=0;
-        while(iterate && i < MAX){
-            if(connections[i]==null){
-                connections[i]=sc;
-                iterate=false;
+
+    private void addConnection(SocketConnection sc) {
+        boolean iterate = true;
+        int i = 0;
+        while (iterate && i < MAX) {
+            if (connections[i] == null) {
+                connections[i] = sc;
+                iterate = false;
                 sc.start();
-            }
-            else{
+            } else {
                 i++;
             }
         }
     }
-    
-    private void closeConnection(SocketConnection sc){
+
+    private void closeConnection(SocketConnection sc) {
         sc.quit();
-        for(int i=0; i<connections.length; i++){
-            if(connections[i].getId()==sc.getId()){
-                connections[i]=null;
+        for (int i = 0; i < connections.length; i++) {
+            if (connections[i].getId() == sc.getId()) {
+                connections[i] = null;
             }
         }
     }
-    
     //OLD
 //    public void run() {
 //        boolean done = false;

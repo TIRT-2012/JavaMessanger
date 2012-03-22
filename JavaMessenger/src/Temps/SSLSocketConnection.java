@@ -9,19 +9,21 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import static java.lang.System.out;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 /**
  *
  * @author SysOp
  */
-public class SocketConnection extends Thread {
+public class SSLSocketConnection extends Thread {
 
-    private Socket socket;
+    private SSLSocket socket;
     private int id;
     private DataInputStream streamIn;
     private boolean keepRunning;
 
-    public SocketConnection(Socket socket) throws IOException {
+    public SSLSocketConnection(SSLSocket socket) throws IOException {
         this.socket = socket;
         id = socket.getPort();
         keepRunning = true;

@@ -5,32 +5,39 @@
 package Temps;
 
 import Others.JMHelper;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import javax.net.ssl.*;
 
 /**
  *
  * @author SysOp
  */
-public class Client {
+public class SSLClient {
 
     private static int PORT = 5050;
-    private Socket socket = null;
+    private SSLSocketFactory factory = null;
+    private SSLSocket socket = null;
     private DataInputStream console = null;
     private DataOutputStream streamOut = null;
     private String host;
 
+    public SSLClient() {
+        System.setProperty("javax.net.ssl.trustStore", "testKey");
+        System.setProperty("javax.net.ssl.trustStorePassword", "tester");
+    }
+
     public void prepare() {
-        host=JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
+        host = JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
         System.out.println("Establishing connection. Please wait ...");
         try {
-            socket = new Socket(host, PORT);
+            factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+            socket = (SSLSocket) factory.createSocket(host, PORT);
             System.out.println("Connected: " + socket);
             console = new DataInputStream(System.in);
             streamOut = new DataOutputStream(socket.getOutputStream());
+
         } catch (UnknownHostException uhe) {
             System.out.println("Host unknown: " + uhe.getMessage());
         } catch (IOException ioe) {
@@ -67,5 +74,4 @@ public class Client {
             System.out.println("Error closing ...");
         }
     }
-
 }

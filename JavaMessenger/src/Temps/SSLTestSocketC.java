@@ -8,19 +8,19 @@ package Temps;
  *
  * @author SysOp
  */
-public class TestSocketC {
+public class SSLTestSocketC {
 
     static boolean SERVER = false;
 
     public static void main(String[] args) {
         if (SERVER) {
-            Server s = new Server();
+            SSLServer s = new SSLServer();
             Thread ts = new Thread(s);
             s.prepare();
             ts.start();
         }
         else{
-            Client c=new Client();
+            SSLClient c=new SSLClient();
             c.prepare();
             c.run();
         }
