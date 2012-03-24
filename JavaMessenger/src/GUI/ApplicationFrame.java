@@ -15,7 +15,7 @@ import javax.swing.*;
  * @author Piotr
  */
 public class ApplicationFrame extends javax.swing.JFrame {
-
+    
     private ApplicationComponents applicationComponents = null;
 
     /**
@@ -24,15 +24,15 @@ public class ApplicationFrame extends javax.swing.JFrame {
     public ApplicationFrame() {
         initComponents();
     }
-
+    
     public void changeProfilName(String profilName) {
         this.jLabel2.setText("" + profilName);
     }
-
+    
     public void changeLoginButtonText(String buttonText) {
         this.jButton1.setText(buttonText);
     }
-
+    
     public void setJlist(List<Entities.Contacts> userslist) {
         //implementacja własnego listmodelu z zawartoscia listy
         String userNameTab[];
@@ -50,10 +50,6 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jList1.setCellRenderer(new MyCellRenderer());
     }
 
-    
-
-  
-            
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -213,7 +209,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
-
+    
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         if (this.getApplicationComponents().getLoginController().isLoggedUser()) {
@@ -232,34 +228,37 @@ public class ApplicationFrame extends javax.swing.JFrame {
             this.setVisible(false);
         }
     }//GEN-LAST:event_jButton1MouseClicked
-
+    
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
+    
     private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
         // TODO add your handling code here:
         RegistrationFrame rf = new RegistrationFrame();
         rf.setLocationRelativeTo(rf.getRootPane());
         rf.setVisible(true);
     }//GEN-LAST:event_jMenuItem1MousePressed
-
+    
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
-        MessegerFrame msgr = new MessegerFrame();
-        msgr.setLocationRelativeTo(msgr.getRootPane());
-        msgr.setVisible(true);
-
+        if (evt.getClickCount() == 2) {
+            MessegerFrame msgr = new MessegerFrame();
+            msgr.setLocationRelativeTo(msgr.getRootPane());
+            msgr.setVisible(true);
+        }
+       
     }//GEN-LAST:event_jList1MouseClicked
-
+    
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // Kod konferencji
         if (this.getApplicationComponents().getLoginController().isLoggedUser()) {
             ConferenceFrame conf = new ConferenceFrame(this);
             conf.setLocationRelativeTo(conf.getRootPane());
             conf.setVisible(true);
-        }else
+        } else {
             JOptionPane.showMessageDialog(this, "Aby rozpocząc konferencję, musisz się wpierw zalogować");
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
@@ -280,56 +279,24 @@ public class ApplicationFrame extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
-
-
-
-
-
-
-
-}
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ApplicationFrame.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-
-
-
-
-
-
-catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ApplicationFrame.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-
-
-
-
-
-
-catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ApplicationFrame.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } 
-
-
-
-
-
-
-
-catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ApplicationFrame.class  
-
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -337,7 +304,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
          * Create and display the form
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             public void run() {
                 new ApplicationFrame().setVisible(true);
             }
@@ -364,7 +331,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
     public void setApplicationComponents(ApplicationComponents applicationComponents) {
         this.applicationComponents = applicationComponents;
     }
-
+    
     public ApplicationComponents getApplicationComponents() {
         return applicationComponents;
     }

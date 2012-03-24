@@ -32,11 +32,11 @@ public class MyCellRenderer extends DefaultListCellRenderer {
             JLabel label = (JLabel)super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
             
             if (isSelected) {
-                label.setBackground(Color.green);
+                label.setBackground(Color.white);
             } else {
                 if (index % 2 == 0) {
-                    Color cr = new Color(238, 210, 238);
-                    label.setBackground(cr);
+                    Color cr2 = new Color(238, 210, 238);
+                    label.setBackground(cr2);
                 } else {
                     label.setBackground(Color.lightGray);
                 }
