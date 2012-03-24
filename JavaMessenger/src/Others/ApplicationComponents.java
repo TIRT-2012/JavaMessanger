@@ -12,14 +12,14 @@ import Logic.LoginController;
  */
 public class ApplicationComponents {
     
-    public ApplicationComponents(){
-        loginController=new LoginController();
-    }
-    
     private LoginController loginController;
+    
+    public ApplicationComponents() {
+        loginController = new LoginController();
+        
+    }
     
     public LoginController getLoginController() {
         return loginController;
     }
-    
 }
