@@ -17,8 +17,6 @@ import javax.swing.ListCellRenderer;
  */
 public class MyCellRenderer extends DefaultListCellRenderer {
 
-        // This is the only method defined by ListCellRenderer.
-        // We just reconfigure the JLabel each time we're called.
         public MyCellRenderer()
         {
             setOpaque(true);
@@ -37,6 +35,9 @@ public class MyCellRenderer extends DefaultListCellRenderer {
                 if (index % 2 == 0) {
                     Color cr2 = new Color(238, 210, 238);
                     label.setBackground(cr2);
+                    
+                    System.out.println(value.toString());
+                    label.setText(value.toString());
                 } else {
                     label.setBackground(Color.lightGray);
                 }

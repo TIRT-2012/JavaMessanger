@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Logic.ContactsListController.ContactsLocationListModel;
 import Logic.ContactsListController.MyCellRenderer;
 import Others.ApplicationComponents;
 import java.awt.Color;
@@ -40,15 +41,22 @@ public class ApplicationFrame extends javax.swing.JFrame {
         if (userslist == null) {
             userNameTab = new String[1];
             userNameTab[0] = "Brak listy";
+            jList1.setListData(userNameTab);
         } else {
-            userNameTab = new String[userslist.size()];
-            for (int i = 0; i < userslist.size(); i++) {
-                userNameTab[i] = userslist.get(i).getName().toString();
-            }
-        }
-        
-        jList1.setListData(userNameTab);
+//            userNameTab = new String[userslist.size()];
+//            for (int i = 0; i < userslist.size(); i++) {
+//                userNameTab[i] = userslist.get(i).getName().toString();
+//            }
+            ContactsLocationListModel contactsLocationListModel = new ContactsLocationListModel(userslist);
+        //System.out.println(" Pokaz liste:  "+contactsLocationListModel.getElementAt(2));
+        jList1.setModel(contactsLocationListModel);
         jList1.setCellRenderer(new MyCellRenderer());
+        }
+//        jList1.setListData(userNameTab);
+//        ContactsLocationListModel contactsLocationListModel = new ContactsLocationListModel(userslist);
+//        //System.out.println(" Pokaz liste:  "+contactsLocationListModel.getElementAt(2));
+//        jList1.setModel(contactsLocationListModel);
+//        jList1.setCellRenderer(new MyCellRenderer());
     }
 
     /**
