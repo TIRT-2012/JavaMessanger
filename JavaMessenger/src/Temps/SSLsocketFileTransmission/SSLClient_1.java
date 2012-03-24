@@ -32,7 +32,8 @@ public class SSLClient_1 {
     }
 
     public void prepare() {
-        host = JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
+        //host = JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
+        host = "83.5.165.184";
         System.out.println("Establishing connection. Please wait ...");
         try {
             factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -80,22 +81,6 @@ public class SSLClient_1 {
                 output.flush();
                 socket.close();
 
-//                byte[] mybytearray = new byte[(int) myFile.length()];
-//                    BufferedInputStream bis = new BufferedInputStream(new FileInputStream(myFile));
-//                    bis.read(mybytearray, 0, mybytearray.length);
-//                    OutputStream os = socket.getOutputStream();
-//                    os.write(mybytearray, 0, mybytearray.length);
-//                    os.flush();
-//                
-//                byte[] mybytearray = new byte[1024];
-//                FileOutputStream fos = new FileOutputStream("C:\\test.txt");
-//                BufferedOutputStream bos = new BufferedOutputStream(fos);
-//                InputStream is = socket.getInputStream();
-//                int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-//                bos.write(mybytearray, 0, bytesRead);
-//                bos.flush();
-//                bos.close();
-//                socket.close();
             } catch (IOException ioe) {
                 System.out.println("Sending error: " + ioe.getMessage());
             }

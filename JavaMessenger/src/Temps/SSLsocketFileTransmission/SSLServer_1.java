@@ -120,18 +120,5 @@ public class SSLServer_1 implements Runnable {
             }
         }
     }
-    //OLD
-//    public void run() {
-//        boolean done = false;
-//        while (!done) {
-//            try {
-//                String line = streamIn.readUTF();
-//                out.println(line);
-//                done = line.equals(".bye");
-//            } catch (IOException ioe) {
-//                done = true;
-//            }
-//        }
-//        close();
-//    }
+ 
 }
