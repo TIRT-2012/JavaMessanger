@@ -5,9 +5,10 @@
 package GUI;
 
 import Others.ApplicationComponents;
+import java.awt.Color;
+import java.awt.Component;
 import java.util.List;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 /**
  *
@@ -44,9 +45,15 @@ public class ApplicationFrame extends javax.swing.JFrame {
                 userNameTab[i] = userslist.get(i).getName().toString();
             }
         }
+        
         jList1.setListData(userNameTab);
+        jList1.setCellRenderer(new MyCellRenderer());
     }
 
+    
+
+  
+            
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -273,16 +280,56 @@ public class ApplicationFrame extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+
+
+
+
+
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ApplicationFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ApplicationFrame.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+
+
+
+
+
+
+catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(ApplicationFrame.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+
+
+
+
+
+
+catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(ApplicationFrame.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+
+
+
+
+
+
+catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(ApplicationFrame.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
