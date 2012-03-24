@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import Logic.ContactsListController.MyCellRenderer;
 import Others.ApplicationComponents;
 import java.awt.Color;
 import java.awt.Component;
