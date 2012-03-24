@@ -4,7 +4,6 @@
  */
 package GUI;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 
@@ -16,6 +15,11 @@ public class ConferenceFrame extends javax.swing.JFrame {
     ApplicationFrame application;
     Vector<String> availableUsersTab;
     Vector<String> selectedUsersTab;
+    
+    public static final int CONFERENCE_TYPE_TEXT = 1;
+    public static final int CONFERENCE_TYPE_VIDEO = 0;
+    private int selectedConferenceType;
+    private boolean isNewConference = true;
     
     public ConferenceFrame() {
         initComponents();
@@ -30,6 +34,13 @@ public class ConferenceFrame extends javax.swing.JFrame {
         selectedUsersTab = new Vector<String>();
     }
     
+    public void modifyConference(){
+        this.conferenceType.setEnabled(false);
+        this.startVideoConferenceBtn.setText("Zastosuj");
+        this.isNewConference = false;
+        this.setVisible(true);
+    }
+    
     public void setAvailableUserList(List<Entities.Contacts> userslist){
         if (userslist != null) {
             availableUsersTab = new Vector<String>();
@@ -39,6 +50,14 @@ public class ConferenceFrame extends javax.swing.JFrame {
             
             this.avialabeUsers.setListData(availableUsersTab);
         }
+    }
+    
+    public String[] getUsersListToConference(){
+           String[] list = new String[this.selectedUsers.getModel().getSize()];
+           for(int i = 0; i < this.selectedUsers.getModel().getSize(); i++)
+               list[i] = (String)this.selectedUsers.getModel().getElementAt(i);
+           
+           return list;
     }
 
     /**
@@ -58,8 +77,11 @@ public class ConferenceFrame extends javax.swing.JFrame {
         removeUserBtn = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         selectedUsers = new javax.swing.JList();
-        startConferenceBtn = new javax.swing.JButton();
+        conferenceType = new javax.swing.JComboBox();
+        jLabel3 = new javax.swing.JLabel();
+        startVideoConferenceBtn = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -105,8 +127,17 @@ public class ConferenceFrame extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(selectedUsers);
 
-        startConferenceBtn.setText("Rozpocznij");
-        startConferenceBtn.setEnabled(false);
+        conferenceType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Wideokonferencja", "Konferencja tekstowa" }));
+
+        jLabel3.setText("Rodzaj konferencji:");
+
+        startVideoConferenceBtn.setText("Rozpocznij");
+        startVideoConferenceBtn.setEnabled(false);
+        startVideoConferenceBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startVideoConferenceBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,46 +149,58 @@ public class ConferenceFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(addUserBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeUserBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(conferenceType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(addUserBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(removeUserBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
-                .addGap(108, 108, 108)
-                .addComponent(jLabel1)
-                .addGap(0, 113, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(startConferenceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(165, 165, 165))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(105, 105, 105)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(154, 154, 154)
+                        .addComponent(startVideoConferenceBtn)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(74, 74, 74)
-                        .addComponent(addUserBtn)
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(removeUserBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                        .addComponent(startConferenceBtn)
-                        .addGap(21, 21, 21))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap()
+                        .addComponent(jLabel1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(40, 40, 40)
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(71, 71, 71)
+                                .addComponent(addUserBtn)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(removeUserBtn)))))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(conferenceType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addComponent(startVideoConferenceBtn)
                 .addContainerGap())
         );
 
@@ -175,7 +218,7 @@ public class ConferenceFrame extends javax.swing.JFrame {
             addUserBtn.setEnabled(avialabeUsers.getModel().getSize() > 0 && avialabeUsers.getSelectedIndex() > -1);
             removeUserBtn.setEnabled(selectedUsers.getModel().getSize() > 0 && selectedUsers.getSelectedIndex() > -1);
             
-            startConferenceBtn.setEnabled(selectedUsers.getModel().getSize() > 0);
+            startVideoConferenceBtn.setEnabled(selectedUsers.getModel().getSize() > 0);
         }
     }//GEN-LAST:event_removeUserBtnActionPerformed
 
@@ -190,7 +233,7 @@ public class ConferenceFrame extends javax.swing.JFrame {
             addUserBtn.setEnabled(avialabeUsers.getModel().getSize() > 0 && avialabeUsers.getSelectedIndex() > -1);
             removeUserBtn.setEnabled(selectedUsers.getModel().getSize() > 0 && selectedUsers.getSelectedIndex() > -1);
             
-            startConferenceBtn.setEnabled(selectedUsers.getModel().getSize() > 0);
+            startVideoConferenceBtn.setEnabled(selectedUsers.getModel().getSize() > 0);
         }
     }//GEN-LAST:event_addUserBtnActionPerformed
 
@@ -217,6 +260,22 @@ public class ConferenceFrame extends javax.swing.JFrame {
             removeUserBtn.setEnabled(true);
         }
     }//GEN-LAST:event_selectedUsersMouseReleased
+
+    private void startVideoConferenceBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startVideoConferenceBtnActionPerformed
+        if(this.isNewConference){
+            this.selectedConferenceType = this.conferenceType.getSelectedIndex();
+            
+            this.setVisible(false);
+            
+            if(this.selectedConferenceType == CONFERENCE_TYPE_TEXT){
+                MessegerFrame msgr = new MessegerFrame(this);
+                msgr.setLocationRelativeTo(msgr.getRootPane());
+                msgr.setVisible(true);
+            }
+        }else{
+            this.setVisible(false);
+        }
+    }//GEN-LAST:event_startVideoConferenceBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -262,12 +321,14 @@ public class ConferenceFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addUserBtn;
     private javax.swing.JList avialabeUsers;
+    private javax.swing.JComboBox conferenceType;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton removeUserBtn;
     private javax.swing.JList selectedUsers;
-    private javax.swing.JButton startConferenceBtn;
+    private javax.swing.JButton startVideoConferenceBtn;
     // End of variables declaration//GEN-END:variables
 }

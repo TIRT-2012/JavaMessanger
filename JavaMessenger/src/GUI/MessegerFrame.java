@@ -4,17 +4,26 @@
  */
 package GUI;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Piotr
  */
 public class MessegerFrame extends javax.swing.JFrame {
+    private ConferenceFrame conference;
 
     /**
      * Creates new form Messeger
      */
     public MessegerFrame() {
         initComponents();
+    }
+    
+    public MessegerFrame(ConferenceFrame conf) {
+        initComponents();
+        
+        this.conference = conf;
     }
 
     /**
@@ -35,6 +44,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
+        manageConference = new javax.swing.JMenuItem();
 
         jTextArea1.setColumns(20);
         jTextArea1.setRows(5);
@@ -62,6 +72,15 @@ public class MessegerFrame extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Profil");
+
+        manageConference.setText("Zarządzaj konferencją");
+        manageConference.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageConferenceActionPerformed(evt);
+            }
+        });
+        jMenu2.add(manageConference);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -106,6 +125,15 @@ public class MessegerFrame extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void manageConferenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageConferenceActionPerformed
+        if(conference == null)
+            JOptionPane.showMessageDialog(this, "Aby rozpocząc konferencję, musisz się wpierw zalogować");
+        else{
+            conference.modifyConference();
+        }
+            
+    }//GEN-LAST:event_manageConferenceActionPerformed
 
     /**
      * @param args the command line arguments
@@ -158,5 +186,6 @@ public class MessegerFrame extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JMenuItem manageConference;
     // End of variables declaration//GEN-END:variables
 }

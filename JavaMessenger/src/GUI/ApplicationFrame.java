@@ -243,10 +243,12 @@ public class ApplicationFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem1ActionPerformed
     
     private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
-        // TODO add your handling code here:
-        RegistrationFrame rf = new RegistrationFrame();
-        rf.setLocationRelativeTo(rf.getRootPane());
-        rf.setVisible(true);
+        if(!this.getApplicationComponents().getLoginController().isLoggedUser()){
+            RegistrationFrame rf = new RegistrationFrame();
+            rf.setLocationRelativeTo(rf.getRootPane());
+            rf.setVisible(true);
+        }else
+            JOptionPane.showMessageDialog(this, "Aby zarejestrować nowe konto, musisz się wpierw wylogować");
     }//GEN-LAST:event_jMenuItem1MousePressed
     
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
