@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import GUI.ContactsListConstruction.MyCellRenderer;
 import Others.ApplicationComponents;
 import java.awt.Color;
 import java.awt.Component;
