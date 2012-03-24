@@ -29,7 +29,7 @@ public class EchoClient {
 //                bw.flush();
 //            }
 
-            File myFile = new File("C:\\finish.log");
+            File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
             byte[] mybytearray = new byte[(int) myFile.length()];
             FileInputStream fis = new FileInputStream(myFile);
             BufferedInputStream bis = new BufferedInputStream(fis);

@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Temps;
+package Temps.SSLsocketFileTransmission;
 
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
@@ -16,14 +16,14 @@ import javax.net.ssl.SSLSocketFactory;
  *
  * @author SysOp
  */
-public class SSLSocketConnection extends Thread {
+public class SSLSocketConnection_1 extends Thread {
 
     private SSLSocket socket;
     private int id;
     private DataInputStream streamIn;
     private boolean keepRunning;
 
-    public SSLSocketConnection(SSLSocket socket) throws IOException {
+    public SSLSocketConnection_1(SSLSocket socket) throws IOException {
         this.socket = socket;
         id = socket.getPort();
         keepRunning = true;

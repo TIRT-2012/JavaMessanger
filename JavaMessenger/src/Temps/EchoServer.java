@@ -34,7 +34,7 @@ public class EchoServer {
             int current = 0;
             byte[] mybytearray = new byte[filesize];
             InputStream is = s.getInputStream();
-            FileOutputStream fos = new FileOutputStream("source-copy.pdf");
+            FileOutputStream fos = new FileOutputStream("flip.mp3");
             BufferedOutputStream bos = new BufferedOutputStream(fos);
             bytesRead = is.read(mybytearray, 0, mybytearray.length);
             current = bytesRead;
@@ -45,7 +45,7 @@ public class EchoServer {
                     current += bytesRead;
                 }
             } while (bytesRead > -1);
-            bos.write(mybytearray, 0, current);
+            bos.write(mybytearray, 0, mybytearray.length);
             bos.flush();
             long end = System.currentTimeMillis();
             System.out.println(end - start);

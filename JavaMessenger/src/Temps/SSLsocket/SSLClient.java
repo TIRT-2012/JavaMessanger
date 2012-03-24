@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Temps;
+package Temps.SSLsocket;
 
 import Others.JMHelper;
 import java.io.*;
@@ -29,7 +29,9 @@ public class SSLClient {
     }
 
     public void prepare() {
-        host = JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
+        //host = JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
+        //host = "83.5.234.211";
+        host = "83.5.165.184";
         System.out.println("Establishing connection. Please wait ...");
         try {
             factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
