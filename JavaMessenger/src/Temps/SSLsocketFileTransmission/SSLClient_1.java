@@ -33,7 +33,8 @@ public class SSLClient_1 {
 
     public void prepare() {
         //host = JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
-        host = "83.5.165.184";
+        //host = "83.5.165.184";
+        host = "192.168.1.103";
         System.out.println("Establishing connection. Please wait ...");
         try {
             factory = (SSLSocketFactory) SSLSocketFactory.getDefault();

@@ -11,7 +11,7 @@ package Temps.SSLsocket;
 public class SSLTestSocketC {
 
     static boolean SERVER = false;
-
+    
     public static void main(String[] args) {
         if (SERVER) {
             SSLServer s = new SSLServer();
