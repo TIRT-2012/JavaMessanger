@@ -34,12 +34,11 @@ public class JCECrypter {
    public void run() throws Exception{
        //Wygeneruj klucze
        KeyPair RSAKey = this.generateRSAKey();
-       SecretKey symetricKey = this.generateSymetricKey();
        
        //Wczytuje dane do strumienia i je szyfruje
        InputStream in = new FileInputStream(testFile);
        DataOutputStream out = new DataOutputStream(new FileOutputStream(encryptedFile));
-       this.crypt(RSAKey.getPublic(), symetricKey, in, out);
+       this.crypt(RSAKey.getPublic(), in, out);
        
        //Deszyfruje zaszyfrowane dane i je zapiuje
        DataInputStream in2 = new DataInputStream(new FileInputStream(encryptedFile));
@@ -47,16 +46,18 @@ public class JCECrypter {
        this.decrypt(RSAKey.getPrivate(), in2, out2);
    }
    
-   public void crypt(PublicKey publicKey, SecretKey symethricKey, InputStream in, DataOutputStream out) throws Exception{
+   public void crypt(PublicKey publicKey, InputStream in, DataOutputStream out) throws Exception{
+       SecretKey symetricKey = this.generateSymetricKey();
+       
        Cipher cipher = Cipher.getInstance("RSA"); 
        cipher.init(Cipher.WRAP_MODE, publicKey); 
-       byte[] wrappedKey = cipher.wrap(symethricKey); 
+       byte[] wrappedKey = cipher.wrap(symetricKey); 
 
        out.writeInt(wrappedKey.length); 
        out.write(wrappedKey); 
        
        cipher = Cipher.getInstance(cryptographyAlgorith); 
-       cipher.init(Cipher.ENCRYPT_MODE, symethricKey); 
+       cipher.init(Cipher.ENCRYPT_MODE, symetricKey); 
        work(in, out, cipher); 
        in.close(); 
        out.close(); 
