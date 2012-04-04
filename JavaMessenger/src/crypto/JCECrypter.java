@@ -20,18 +20,40 @@ public class JCECrypter {
    private static final String encryptedFile = "encrypted.enc";
    private static final String testFile = "plik.txt";
    
+   private static final String testString = "Hello World!!";
+   
    private static final String cryptographyAlgorith = "AES";
    
    public static void main(String[] args) {
        JCECrypter c = new JCECrypter();
         try {
-            c.run();
+            //c.testFileCrypting();
+            c.testStringCrypting();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
    }
    
-   public void run() throws Exception{
+   public void testStringCrypting() throws Exception{
+       System.out.println("Szyfrowana wiadomość: " + testString);
+       
+       KeyPair RSAKey = this.generateRSAKey();
+       
+       ByteArrayInputStream in = new ByteArrayInputStream(testString.getBytes());
+       ByteArrayOutputStream out = new ByteArrayOutputStream();
+       this.crypt(RSAKey.getPublic(), in, out);
+       
+       System.out.println("Zaszyfrowana wiadomość: " + out.toString());
+       
+       ByteArrayInputStream in2 = new ByteArrayInputStream(out.toByteArray());
+       ByteArrayOutputStream out2 = new ByteArrayOutputStream(); 
+       this.decrypt(RSAKey.getPrivate(), in2, out2);
+       
+       System.out.println("Zdeszyfrowana wiadomość: " + out2.toString());
+       
+   }
+   
+   public void testFileCrypting() throws Exception{
        //Wygeneruj klucze
        KeyPair RSAKey = this.generateRSAKey();
        
@@ -46,14 +68,14 @@ public class JCECrypter {
        this.decrypt(RSAKey.getPrivate(), in2, out2);
    }
    
-   public void crypt(PublicKey publicKey, InputStream in, DataOutputStream out) throws Exception{
+   public void crypt(PublicKey publicKey, InputStream in, OutputStream out) throws Exception{
        SecretKey symetricKey = this.generateSymetricKey();
        
        Cipher cipher = Cipher.getInstance("RSA"); 
        cipher.init(Cipher.WRAP_MODE, publicKey); 
        byte[] wrappedKey = cipher.wrap(symetricKey); 
-
-       out.writeInt(wrappedKey.length); 
+       
+       out.write(wrappedKey.length); 
        out.write(wrappedKey); 
        
        cipher = Cipher.getInstance(cryptographyAlgorith); 
@@ -63,8 +85,8 @@ public class JCECrypter {
        out.close(); 
    }
    
-   public void decrypt(PrivateKey privateKey, DataInputStream in, OutputStream out) throws Exception{
-     int length = in.readInt(); 
+   public void decrypt(PrivateKey privateKey, InputStream in, OutputStream out) throws Exception{
+     int length = in.read(); 
      byte[] wrappedKey = new byte[length]; 
      in.read(wrappedKey, 0, length); 
        
