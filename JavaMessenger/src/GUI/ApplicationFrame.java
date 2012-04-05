@@ -279,6 +279,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
         if (!this.getApplicationComponents().getLoginController().isLoggedUser()) {
             RegistrationFrame rf = new RegistrationFrame();
+            rf.setApplicationController(applicationComponents);
             rf.setLocationRelativeTo(rf.getRootPane());
             rf.setVisible(true);
         } else {

@@ -5,6 +5,8 @@
 package DAOs;
 
 import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -16,52 +18,35 @@ import javax.persistence.Persistence;
 public class DataAccessObject {
 
     protected EntityManager entityManager;
+    private DBThreadManager dbTM;
 
     public EntityManager getEntityManager() {
         return entityManager;
     }
-    final static int MAX_TRY = 5;
 
-    public DataAccessObject() {
+    public DataAccessObject(DBThreadManager dbTM) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaMessengerPU");
         entityManager = emf.createEntityManager();
+        this.dbTM=dbTM;
     }
 
-    public void insert(Object entity) {
-        wrap(entityManager, "persist", new Class[]{Object.class}, new Object[]{entity}, true);
+    public void insert(Object entity, boolean... wait) {
+        wrap(entityManager, "persist", new Class[]{Object.class}, new Object[]{entity}, wait);
     }
 
-    public void remove(Object entity) {
-        wrap(entityManager, "remove", new Class[]{Object.class}, new Object[]{entity}, true);
-    }
-    
-    public void update(Object entity) {
-        wrap(entityManager, "merge", new Class[]{Object.class}, new Object[]{entity}, true);
+    public void remove(Object entity, boolean... wait) {
+        wrap(entityManager, "remove", new Class[]{Object.class}, new Object[]{entity}, wait);
     }
 
-    public Object wrap(Object object, String function, Class[] parametersClass, Object[] parameters, boolean isTransaction) {
-        Object result = null;
-        boolean repeat = false;
-        int errorCount = 0;
-        do {
-            try {
-                if (isTransaction) {
-                    entityManager.getTransaction().begin();
-                }
-                Method method = object.getClass().getMethod(function, parametersClass);
-                result = method.invoke(object, parameters);
-                if (isTransaction) {
-                    entityManager.getTransaction().commit();
-                }
-                repeat = false;
-            } catch (Exception e) {
-                if (isTransaction && entityManager.getTransaction().isActive()) {
-                    entityManager.getTransaction().rollback();
-                }
-                repeat = true;
-                errorCount++;
-            }
-        } while (repeat && errorCount < MAX_TRY);
-        return result;
+    public void update(Object entity, boolean... wait) {
+        wrap(entityManager, "merge", new Class[]{Object.class}, new Object[]{entity}, wait);
     }
+
+    protected Object wrap(Object object, String function, Class[] parametersClass, Object[] parameters, boolean... wait) {
+        Object result = "";
+        DBThread t = new DBThread(object, function, parametersClass, parameters);
+        long id=dbTM.add(t);
+        return wait.length>0 && wait[0]? dbTM.getResult(id) : null;
+    }
+
 }

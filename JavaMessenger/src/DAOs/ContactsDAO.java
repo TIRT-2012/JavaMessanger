@@ -14,32 +14,36 @@ import javax.persistence.Query;
  */
 public class ContactsDAO extends DataAccessObject{
     
-    public List<Contacts> findByName(String name) {
+    public ContactsDAO(DBThreadManager dbTM){
+        super(dbTM);
+    }
+    
+    public List<Contacts> findByName(String name, boolean... wait) {
         Query q = entityManager.createNamedQuery("Contacts.findByName");
         q.setParameter("name", name);
-        return (List<Contacts>) wrap(q, "getResultList", null, null, false);
+        return (List<Contacts>) wrap(q, "getResultList", null, null, wait);
     }
 
-    public List<Contacts> findByUserId(Long id) {
+    public List<Contacts> findByUserId(Long id, boolean... wait) {
         Query q = entityManager.createNamedQuery("Contacts.findByUserId");
         q.setParameter("userId", id);
-        return (List<Contacts>) wrap(q, "getResultList", null, null, false);
+        return (List<Contacts>) wrap(q, "getResultList", null, null, wait);
     }
 
-    public List<Contacts> findByNumber(int number) {
+    public List<Contacts> findByNumber(int number, boolean... wait) {
         Query q = entityManager.createNamedQuery("Contacts.findByNumber");
         q.setParameter("number", number);
-        return (List<Contacts>) wrap(q, "getResultList", null, null, false);
+        return (List<Contacts>) wrap(q, "getResultList", null, null, wait);
     }
 
-    public Contacts findById(Long id) {
+    public Contacts findById(Long id, boolean... wait) {
         Query q = entityManager.createNamedQuery("Contacts.findById");
         q.setParameter("id", id);
-        return (Contacts) wrap(q, "getSingleResult", null, null, false);
+        return (Contacts) wrap(q, "getSingleResult", null, null, wait);
     }
 
-    public List<Contacts> findAll() {
+    public List<Contacts> findAll(boolean... wait) {
         Query q = entityManager.createNamedQuery("Contacts.findAll");
-        return (List<Contacts>) wrap(q, "getResultList", null, null, false);
+        return (List<Contacts>) wrap(q, "getResultList", null, null, wait);
     }
 }

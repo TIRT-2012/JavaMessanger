@@ -6,6 +6,7 @@ package Logic;
 
 import DAOs.UsersDAO;
 import Entities.Users;
+import Others.ApplicationComponents;
 import crypto.Hasher;
 import java.util.List;
 
@@ -15,10 +16,16 @@ import java.util.List;
  */
 public class RegistrationController {
     
+    private ApplicationComponents applicationComponent;
+    
+    public RegistrationController(ApplicationComponents ac){
+        applicationComponent=ac;
+    }
+    
     public boolean createAccount(String userName, String password){
         System.out.println("createAccount()");
         
-        UsersDAO userDao = new UsersDAO();
+        UsersDAO userDao = applicationComponent.getUsersDAO();
         List<Users> userList = userDao.findByUserName(userName);
         boolean isEmpty = userList.isEmpty();
         

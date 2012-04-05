@@ -21,7 +21,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author SysOp
  */
 @Entity
-@Table(name = "jmcdata.contacts")
+@Table(name = "peross89_javaisc.contacts")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Contacts.findAll", query = "SELECT c FROM Contacts c"),

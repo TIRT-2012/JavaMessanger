@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import Logic.RegistrationController;
+import Others.ApplicationComponents;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,13 +14,12 @@ import javax.swing.JOptionPane;
 public class RegistrationFrame extends javax.swing.JFrame {
     public static final int minLoginLenght = 5;
     public static final int minPassLenght = 5;
-    private RegistrationController register;
+    private ApplicationComponents applicationComponents;
     /**
      * Creates new form RegistrationFrame
      */
     public RegistrationFrame() {
         initComponents();
-        register = new RegistrationController();
     }
 
     /**
@@ -115,6 +114,10 @@ public class RegistrationFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setApplicationController(ApplicationComponents ac){
+        applicationComponents=ac;
+    }
+    
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         String userName = jLogin.getText();
         String password = jPass.getText();
@@ -135,7 +138,7 @@ public class RegistrationFrame extends javax.swing.JFrame {
             return;            
         }
         
-        if(register.createAccount(userName, password)){
+        if(applicationComponents.getRegistrationController().createAccount(userName, password)){
             JOptionPane.showMessageDialog(this, "Rejestracja zakończona pomyślnie");
             this.setVisible(false);
         }else{

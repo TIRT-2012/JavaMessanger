@@ -14,32 +14,36 @@ import javax.persistence.Query;
  */
 public class MessagesDAO extends DataAccessObject{
     
-    public List<Messages> findBySenderId(Long id) {
+    public MessagesDAO(DBThreadManager dbTM){
+        super(dbTM);
+    }
+    
+    public List<Messages> findBySenderId(Long id, boolean... wait) {
         Query q = entityManager.createNamedQuery("Messages.findBySenderId");
         q.setParameter("id", id);
-        return (List<Messages>) wrap(q, "getResultList", null, null, false);
+        return (List<Messages>) wrap(q, "getResultList", null, null, wait);
     }
 
-    public Messages findByIp(String timestamp) {
+    public Messages findByTimestamp(String timestamp, boolean... wait) {
         Query q = entityManager.createNamedQuery("Messages.findByTimestamp");
         q.setParameter("timestamp", timestamp);
-        return (Messages) wrap(q, "getSingleResult", null, null, false);
+        return (Messages) wrap(q, "getSingleResult", null, null, wait);
     }
 
-    public List<Messages> findByContent(String content) {
+    public List<Messages> findByContent(String content, boolean... wait) {
         Query q = entityManager.createNamedQuery("Messages.findByContent");
         q.setParameter("content", content);
-        return (List<Messages>) wrap(q, "getResultList", null, null, false);
+        return (List<Messages>) wrap(q, "getResultList", null, null, wait);
     }
 
-    public Messages findById(Long id) {
+    public Messages findById(Long id, boolean... wait) {
         Query q = entityManager.createNamedQuery("Messages.findById");
         q.setParameter("id", id);
-        return (Messages) wrap(q, "getSingleResult", null, null, false);
+        return (Messages) wrap(q, "getSingleResult", null, null, wait);
     }
 
-    public List<Messages> findAll() {
+    public List<Messages> findAll(boolean... wait) {
         Query q = entityManager.createNamedQuery("Messages.findAll");
-        return (List<Messages>) wrap(q, "getResultList", null, null, false);
+        return (List<Messages>) wrap(q, "getResultList", null, null, wait);
     }
 }

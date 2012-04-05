@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author SysOp
  */
 @Entity
-@Table(name = "jmcdata.messages")
+@Table(name = "peross89_javaisc.messages")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Messages.findAll", query = "SELECT m FROM Messages m"),

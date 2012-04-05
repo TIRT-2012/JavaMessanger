@@ -13,33 +13,37 @@ import javax.persistence.Query;
  * @author SysOp
  */
 public class UsersDAO extends DataAccessObject {
+    
+    public UsersDAO(DBThreadManager dbTM){
+        super(dbTM);
+    }
 
-    public List<Users> findByUserName(String userName) {
+    public List<Users> findByUserName(String userName, boolean... wait) {
         Query q = entityManager.createNamedQuery("Users.findByUserName");
         q.setParameter("userName", userName);
-        return (List<Users>) wrap(q, "getResultList", null, null, false);
+        return (List<Users>) wrap(q, "getResultList", null, null, wait);
     }
 
-    public Users findByIp(String ip) {
+    public Users findByIp(String ip, boolean... wait) {
         Query q = entityManager.createNamedQuery("Users.findByIp");
         q.setParameter("ip", ip);
-        return (Users) wrap(q, "getSingleResult", null, null, false);
+        return (Users) wrap(q, "getSingleResult", null, null, wait);
     }
 
-    public List<Users> findByPassword(String password) {
+    public List<Users> findByPassword(String password, boolean... wait) {
         Query q = entityManager.createNamedQuery("Users.findByPassword");
         q.setParameter("password", password);
-        return (List<Users>) wrap(q, "getResultList", null, null, false);
+        return (List<Users>) wrap(q, "getResultList", null, null, wait);
     }
 
-    public Users findById(Long id) {
+    public Users findById(Long id, boolean... wait) {
         Query q = entityManager.createNamedQuery("Users.findById");
         q.setParameter("id", id);
-        return (Users) wrap(q, "getSingleResult", null, null, false);
+        return (Users) wrap(q, "getSingleResult", null, null, wait);
     }
 
-    public List<Users> findAll() {
+    public List<Users> findAll(boolean... wait) {
         Query q = entityManager.createNamedQuery("Users.findAll");
-        return (List<Users>) wrap(q, "getResultList", null, null, false);
+        return (List<Users>) wrap(q, "getResultList", null, null, wait);
     }
 }

@@ -8,6 +8,7 @@ import DAOs.ContactsDAO;
 import DAOs.UsersDAO;
 import Entities.Contacts;
 import Entities.Users;
+import Others.ApplicationComponents;
 import Others.JMHelper;
 import crypto.Hasher;
 import java.util.List;
@@ -19,11 +20,13 @@ import java.util.List;
 public class LoginController {
 
     private Users userObject = null;
+    private ApplicationComponents applicationComponent;
 
     
     private boolean loggedUser = false;
 
-    public LoginController() {
+    public LoginController(ApplicationComponents ac) {
+        applicationComponent=ac;
     }
 
     public Users getUserObject() {
@@ -53,14 +56,14 @@ public class LoginController {
     public List<Contacts> getContacts() {
         Long id = null;
         id = userObject.getId();
-        ContactsDAO contactDao = new ContactsDAO();
+        ContactsDAO contactDao = applicationComponent.getContactsDAO();
         List<Contacts> contactList = contactDao.findByUserId(1L);
         return contactList;
     }
 
     public void setUserIp() {
         System.out.println("setUserIp()");
-        UsersDAO userDao = new UsersDAO();
+        UsersDAO userDao = applicationComponent.getUsersDAO();
         userObject.setIp(JMHelper.getMyPublicIP());
         userDao.update(userObject);
         loggedUser = true;
@@ -68,7 +71,7 @@ public class LoginController {
 
     public void removeUserIp() {
         System.out.println("removeUserIp()");
-        UsersDAO userDao = new UsersDAO();
+        UsersDAO userDao = applicationComponent.getUsersDAO();
         userObject.setIp(null);
         userDao.update(userObject);
         loggedUser = false;
@@ -78,7 +81,7 @@ public class LoginController {
         System.out.println("selectAuthentication()");
         boolean islooged = false;
         String s = Hasher.generateHash(password, Hasher.HASH_SHA512);
-        UsersDAO userDao = new UsersDAO();
+        UsersDAO userDao = applicationComponent.getUsersDAO();
         List<Users> userList = userDao.findByUserName(userName);
         if (userList.isEmpty()) {
             islooged = false;
