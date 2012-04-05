@@ -56,7 +56,7 @@ public class LoginController {
     public String getUserName(String ip)
     {
         System.out.println("getUserName()");
-        UsersDAO userDao = new UsersDAO();
+        UsersDAO userDao = applicationComponent.getUsersDAO();
         Users temp = userDao.findByIp(ip);
         return temp.getUserName();
     }
@@ -72,7 +72,7 @@ public class LoginController {
     public String getAnotherUserIp(String name)
     {
         System.out.println("getAnotherUserIp()");
-        UsersDAO userDao = new UsersDAO();
+        UsersDAO userDao = applicationComponent.getUsersDAO();
         List<Users> temp = userDao.findByUserName(name);
         return temp.get(0).getIp();
     }
