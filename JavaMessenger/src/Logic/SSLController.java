@@ -7,10 +7,9 @@ package Logic;
 import DAOs.UsersDAO;
 import Entities.Users;
 import GUI.MessegerFrame;
+import Others.ApplicationComponents;
 import Others.SSLClient;
 import Others.SSLServer;
-import java.awt.AWTException;
-import java.awt.Robot;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -20,7 +19,7 @@ import java.util.logging.Logger;
  *
  * @author Piotr
  */
-public class SSLControler {
+public class SSLController {
 
     private boolean isServer = false;
     private SSLServer server = null;
@@ -28,16 +27,18 @@ public class SSLControler {
     private HashMap clientsMap = null;
     private Thread ts;
     private MessegerFrame msgr = null;
+    private ApplicationComponents applicationComponents;
 
-    public SSLControler() {
+    public SSLController(ApplicationComponents ac) {
         runServer();
         clientsMap = new HashMap();
+        applicationComponents=ac;
     }
-
+    
     public String getUserName(String ip)
     {
         System.out.println("getUserName()");
-        UsersDAO userDao = new UsersDAO();
+        UsersDAO userDao = applicationComponents.getUsersDAO();
         Users temp = userDao.findByIp(ip);
         return temp.getUserName();
     }
@@ -60,7 +61,7 @@ public class SSLControler {
         }
     }
 
-    public void runServer() {
+    public final void runServer() {
         System.out.println("runServer()");
         setSSLConnection(false);
     }
@@ -76,7 +77,7 @@ public class SSLControler {
             server.quit();
             server.close();
         } catch (IOException ex) {
-            Logger.getLogger(SSLControler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SSLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -86,7 +87,7 @@ public class SSLControler {
             server.quit();
             server.close();
         } catch (IOException ex) {
-            Logger.getLogger(SSLControler.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(SSLController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

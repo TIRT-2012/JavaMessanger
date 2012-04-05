@@ -5,7 +5,7 @@
 package Others;
 
 import GUI.MessegerFrame;
-import Logic.SSLControler;
+import Logic.SSLController;
 import Temps.SSLsocket.*;
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;

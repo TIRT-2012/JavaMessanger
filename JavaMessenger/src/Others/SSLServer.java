@@ -9,7 +9,7 @@ package Others;
  * @author SysOp
  */
 import GUI.MessegerFrame;
-import Logic.SSLControler;
+import Logic.SSLController;
 import Temps.SSLsocket.*;
 import Temps.SocketConnection;
 import java.awt.AWTException;
@@ -38,11 +38,11 @@ public class SSLServer implements Runnable {
     private SSLSocketConnection[] connections = new SSLSocketConnection[MAX];
     private SSLSocketConnection sslcc;
     private boolean keepRunning = true;
-    private SSLControler sslControler = null;
+    private SSLController sslControler = null;
     private HashMap messengerFrameList = null;
     String myIp;
 
-    public SSLServer(SSLControler sslControler) {
+    public SSLServer(SSLController sslControler) {
         this.sslControler = sslControler;
         messengerFrameList = new HashMap();
         System.setProperty("javax.net.ssl.keyStore", "testKey");

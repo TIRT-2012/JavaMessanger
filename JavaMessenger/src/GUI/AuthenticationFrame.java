@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import Logic.SSLControler;
+import Logic.SSLController;
 import Others.ApplicationComponents;
 import Others.JavaMessenger;
 import java.awt.event.WindowAdapter;
@@ -28,7 +28,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private String pass = null;
     private ApplicationComponents applicationComponents = null;
     private ApplicationFrame application = null;
-    private SSLControler sslControler = null;
+    private SSLController sslControler = null;
 
     public AuthenticationFrame() {
         initComponents();
@@ -168,7 +168,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             application.changeLoginButtonText("Wyloguj");
             application.setJlist(this.applicationComponents.getLoginController().getContacts());
             application.setVisible(true);
-            sslControler = new SSLControler();
+            sslControler = applicationComponents.getSSLController();
             application.setSslControler(sslControler);
         } else {
             JOptionPane.showMessageDialog(this, "Logowanie nie powiodło się");

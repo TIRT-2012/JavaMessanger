@@ -6,7 +6,7 @@ package GUI;
 
 import Logic.ContactsListController.MyJlistCellRenderer;
 import Logic.ContactsListController.MyTableCellRenderer;
-import Logic.SSLControler;
+import Logic.SSLController;
 import Others.ApplicationComponents;
 import java.awt.*;
 import java.util.List;
@@ -21,7 +21,7 @@ import javax.swing.table.TableColumn;
 public class ApplicationFrame extends javax.swing.JFrame {
 
     private ApplicationComponents applicationComponents = null;
-    private SSLControler sslControler = null;
+    private SSLController sslControler = null;
 
     /**
      * Creates new form ApplicationFrame
@@ -411,11 +411,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         return applicationComponents;
     }
 
-    public void setSslControler(SSLControler sslControler) {
+    public void setSslControler(SSLController sslControler) {
         this.sslControler = sslControler;
     }
 
-    public SSLControler getSslControler() {
+    public SSLController getSslControler() {
         return sslControler;
     }
 }

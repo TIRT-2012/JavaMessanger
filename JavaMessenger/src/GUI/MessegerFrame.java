@@ -4,7 +4,7 @@
  */
 package GUI;
 
-import Logic.SSLControler;
+import Logic.SSLController;
 import Temps.SSLsocket.SSLConnector;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -26,7 +26,7 @@ public class MessegerFrame extends javax.swing.JFrame {
     private ConferenceFrame conference;
     private boolean isServer = false;
     private boolean prepareToCloseThread = false;
-    private SSLControler sslControler = null;
+    private SSLController sslControler = null;
     Thread ts;
     private String profilName = null;
     private String hostIp = null; 
@@ -40,11 +40,11 @@ public class MessegerFrame extends javax.swing.JFrame {
         this.hostIp = ip;
     }
 
-    public SSLControler getSslControler() {
+    public SSLController getSslControler() {
         return sslControler;
     }
 
-    public void setSslControler(SSLControler sslControler) {
+    public void setSslControler(SSLController sslControler) {
         this.sslControler = sslControler;
     }
 
@@ -57,7 +57,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         System.out.println("MessegerFrame()");
     }
 
-    public MessegerFrame(SSLControler sslControler) {
+    public MessegerFrame(SSLController sslControler) {
         initComponents();
         this.addWindowListener(listener);
         this.sslControler = sslControler;
@@ -69,7 +69,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         this.conference = conf;
     }
 
-    public void setSSLControler(SSLControler sslControler) {
+    public void setSSLControler(SSLController sslControler) {
         this.sslControler = sslControler;
     }
 
