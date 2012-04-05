@@ -25,6 +25,7 @@ public class Client {
 
     public void prepare() {
         host=JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
+        //host = "192.168.1.103";
         System.out.println("Establishing connection. Please wait ...");
         try {
             socket = new Socket(host, PORT);

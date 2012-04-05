@@ -5,20 +5,20 @@
 package Others;
 
 import Logic.LoginController;
+import Logic.SSLControler;
 
 /**
  *
  * @author SysOp
  */
 public class ApplicationComponents {
-    
+
     private LoginController loginController;
-    
+
     public ApplicationComponents() {
         loginController = new LoginController();
-        
     }
-    
+
     public LoginController getLoginController() {
         return loginController;
     }

@@ -4,26 +4,114 @@
  */
 package GUI;
 
+import Logic.SSLControler;
+import Temps.SSLsocket.SSLConnector;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 
 /**
  *
  * @author Piotr
  */
 public class MessegerFrame extends javax.swing.JFrame {
+
     private ConferenceFrame conference;
+    private boolean isServer = false;
+    private boolean prepareToCloseThread = false;
+    private SSLControler sslControler = null;
+    Thread ts;
+    private String profilName = null;
+    private String hostIp = null; 
+    
+
+    public String getIp() {
+        return hostIp;
+    }
+
+    public void setIp(String ip) {
+        this.hostIp = ip;
+    }
+
+    public SSLControler getSslControler() {
+        return sslControler;
+    }
+
+    public void setSslControler(SSLControler sslControler) {
+        this.sslControler = sslControler;
+    }
 
     /**
      * Creates new form Messeger
      */
     public MessegerFrame() {
         initComponents();
+        this.addWindowListener(listener);
+        System.out.println("MessegerFrame()");
     }
-    
+
+    public MessegerFrame(SSLControler sslControler) {
+        initComponents();
+        this.addWindowListener(listener);
+        this.sslControler = sslControler;
+    }
+
     public MessegerFrame(ConferenceFrame conf) {
         initComponents();
-        
+
         this.conference = conf;
+    }
+
+    public void setSSLControler(SSLControler sslControler) {
+        this.sslControler = sslControler;
+    }
+
+    public void setMessage(String message) {
+        this.jTextArea1.append(message + "\n");
+        this.jTextArea1.repaint(); // na wszelki wypadek
+    }
+
+    public String getMessage() {
+
+        return this.jTextArea2.getText();
+    }
+
+    public void runServer() {
+        System.out.println("runServer()");
+        sslControler.setSSLConnection(false);
+    }
+
+    public void runClient() {
+        System.out.println("runClient()");
+        sslControler.setSSLConnection(true);
+    }
+
+    public void closeClient() {
+        System.out.println("closeClient()");
+        sslControler.quitClient();
+
+    }
+
+    public void changeJLabel1(String profilName) {
+        this.profilName = profilName;
+        this.jLabel1.setText("Rozmowa z użytkownikiem: " + profilName);
+    }
+
+    public void updateProfilName() {
+        
+        profilName =  this.sslControler.getUserName(hostIp);
+    }
+    
+    public String getProfilName()
+    {
+        return profilName;
     }
 
     /**
@@ -41,6 +129,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         jTextArea2 = new javax.swing.JTextArea();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -52,9 +141,19 @@ public class MessegerFrame extends javax.swing.JFrame {
 
         jTextArea2.setColumns(20);
         jTextArea2.setRows(5);
+        jTextArea2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTextArea2KeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(jTextArea2);
 
         jButton1.setText("Wyśłij");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -67,6 +166,8 @@ public class MessegerFrame extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("Rozmowa z:");
 
         jMenu1.setText("Program");
         jMenuBar1.add(jMenu1);
@@ -98,21 +199,24 @@ public class MessegerFrame extends javax.swing.JFrame {
                         .addGap(0, 256, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addGap(4, 4, 4)
-                        .addComponent(jButton2)))
+                        .addComponent(jButton2))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(6, 6, 6)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(32, 32, 32)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton2))
+                .addContainerGap())
         );
 
         pack();
@@ -127,13 +231,50 @@ public class MessegerFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void manageConferenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageConferenceActionPerformed
-        if(conference == null)
+        if (conference == null) {
             JOptionPane.showMessageDialog(this, "Aby rozpocząc konferencję, musisz się wpierw zalogować");
-        else{
+        } else {
             conference.modifyConference();
         }
-            
+
     }//GEN-LAST:event_manageConferenceActionPerformed
+
+    private void jTextArea2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String message = this.getMessage();
+            try {
+                this.sslControler.getClient(this.hostIp).getStreamOut().writeUTF(message); // zaciągam strumień clienta o 
+                System.out.println(" message sent ");
+                Document doc = jTextArea2.getDocument();
+                try {
+                    doc.remove(0, doc.getLength());
+                } catch (BadLocationException ex) {
+                    Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (IOException ex) {
+                Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_jTextArea2KeyPressed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+        String message = this.getMessage();
+        try {
+            //this.sslControler.getSSLClient().getStreamOut().writeUTF(message);
+            this.sslControler.getClient(this.hostIp).getStreamOut().writeUTF(message);
+            System.out.println(" message sent ");
+            Document doc = jTextArea2.getDocument();
+            try {
+                doc.remove(0, doc.getLength());
+            } catch (BadLocationException ex) {
+                Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -179,6 +320,7 @@ public class MessegerFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -188,4 +330,12 @@ public class MessegerFrame extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea2;
     private javax.swing.JMenuItem manageConference;
     // End of variables declaration//GEN-END:variables
+    WindowListener listener = new WindowAdapter() {
+
+        public void windowClosing(WindowEvent w) {
+
+            closeClient();
+
+        }
+    };
 }

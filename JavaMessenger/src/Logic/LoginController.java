@@ -50,14 +50,30 @@ public class LoginController {
 
     }*/
 
+    public String getUserName(String ip)
+    {
+        System.out.println("getUserName()");
+        UsersDAO userDao = new UsersDAO();
+        Users temp = userDao.findByIp(ip);
+        return temp.getUserName();
+    }
+    
     public List<Contacts> getContacts() {
         Long id = null;
         id = userObject.getId();
         ContactsDAO contactDao = new ContactsDAO();
-        List<Contacts> contactList = contactDao.findByUserId(1L);
+        List<Contacts> contactList = contactDao.findByUserId(id);
         return contactList;
     }
 
+    public String getAnotherUserIp(String name)
+    {
+        System.out.println("getAnotherUserIp()");
+        UsersDAO userDao = new UsersDAO();
+        List<Users> temp = userDao.findByUserName(name);
+        return temp.get(0).getIp();
+    }
+    
     public void setUserIp() {
         System.out.println("setUserIp()");
         UsersDAO userDao = new UsersDAO();

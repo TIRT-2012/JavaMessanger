@@ -6,6 +6,7 @@ package GUI;
 
 import Logic.ContactsListController.MyJlistCellRenderer;
 import Logic.ContactsListController.MyTableCellRenderer;
+import Logic.SSLControler;
 import Others.ApplicationComponents;
 import java.awt.*;
 import java.util.List;
@@ -20,6 +21,7 @@ import javax.swing.table.TableColumn;
 public class ApplicationFrame extends javax.swing.JFrame {
 
     private ApplicationComponents applicationComponents = null;
+    private SSLControler sslControler = null;
 
     /**
      * Creates new form ApplicationFrame
@@ -52,7 +54,12 @@ public class ApplicationFrame extends javax.swing.JFrame {
             userNameTab = new String[userslist.size()][2];
             for (int i = 0; i < userslist.size(); i++) {
                 userNameTab[i][0] = userslist.get(i).getName().toString();
-                userNameTab[i][1] = userslist.get(i).getId().toString();
+                //userNameTab[i][1] = userslist.get(i).getId().toString();
+                if (this.applicationComponents.getLoginController().getAnotherUserIp(userslist.get(i).getName().toString()) != null) {
+                    userNameTab[i][1] = this.applicationComponents.getLoginController().getAnotherUserIp(userslist.get(i).getName().toString());
+                } else {
+                    userNameTab[i][1] = "nieaktywny";
+                }
             }
             jList1.setListData(userNameTab);
             jList1.setCellRenderer(new MyJlistCellRenderer());
@@ -300,9 +307,29 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
-            MessegerFrame msgr = new MessegerFrame();
-            msgr.setLocationRelativeTo(msgr.getRootPane());
-            msgr.setVisible(true);
+
+            Object element = jList1.getModel().getElementAt(jList1.getSelectedIndex());
+            String sup = ((String[]) element)[0];//zwraca name
+            String sup2 = ((String[]) element)[1];//zwraca index
+
+            String ip = sup; // trzeba przepisać ip z sup2 // trzeba to zaimplementować
+
+            // jesli nie ma w server.map ip uzytkownika z którym rozmawiamy to 
+            if (!sslControler.getServer().isFrameInMap(ip)) {
+                // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować i tworzy frame'a za nas
+                this.getSslControler().runClient();
+//                MessegerFrame msgr = new MessegerFrame(sslControler);
+//                msgr.setIp(ip);
+//                msgr.setLocationRelativeTo(msgr.getRootPane());
+//                msgr.changeJLabel1(sup);
+//                msgr.runClient();
+//                //msgr.runServer();
+//                msgr.setVisible(true);
+            }
+            // 
+
+
+
         }
     }//GEN-LAST:event_jList1MouseClicked
 
@@ -381,5 +408,13 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     public ApplicationComponents getApplicationComponents() {
         return applicationComponents;
+    }
+
+    public void setSslControler(SSLControler sslControler) {
+        this.sslControler = sslControler;
+    }
+
+    public SSLControler getSslControler() {
+        return sslControler;
     }
 }
