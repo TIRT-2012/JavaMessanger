@@ -2,8 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Temps.SSLsocket;
+package Others;
 
+import Logic.*;
+import GUI.MessegerFrame;
+import Temps.SSLsocket.*;
 import Others.JMHelper;
 import java.io.*;
 import java.net.Socket;
@@ -24,22 +27,20 @@ public class SSLClient {
     private String host;
 
     public SSLClient() {
+        System.setProperty("javax.net.ssl.keyStore", "testKey");
+        System.setProperty("javax.net.ssl.keyStorePassword", "tester");
         System.setProperty("javax.net.ssl.trustStore", "testKey");
-        System.setProperty("javax.net.ssl.trustStorePassword", "tester");
     }
 
-    public void setIP(String ip)
-    {
-        host = ip;
+    public void setHost(String host) {
+        this.host = host;
     }
-    
+
     public void prepare() {
-        host = "156.17.247.212";//JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
+        host = JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
         //host = "83.5.234.211";
         //host = "83.5.165.184";
         //host = "192.168.1.102";
-        //host = "156.17.247.151";
-        //host ="156.17.140.151";
         System.out.println("Establishing connection. Please wait ...");
         try {
             factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -47,7 +48,6 @@ public class SSLClient {
             System.out.println("Connected: " + socket);
             console = new DataInputStream(System.in);
             streamOut = new DataOutputStream(socket.getOutputStream());
-
         } catch (UnknownHostException uhe) {
             System.out.println("Host unknown: " + uhe.getMessage());
         } catch (IOException ioe) {
@@ -56,17 +56,13 @@ public class SSLClient {
     }
 
     public void run() {
-        String line = "";
-        while (!line.equals(".bye")) {
-            try {
-                line = console.readLine();
-                streamOut.writeUTF(line);
-                streamOut.flush();
-            } catch (IOException ioe) {
-                System.out.println("Sending error: " + ioe.getMessage());
-            }
+        try {
+            //String s = messeger.getMessage(); dodac obsluge z przycisku
+            //streamOut.writeUTF(message);
+            streamOut.flush();
+        } catch (IOException ioe) {
+            System.out.println("Sending error: " + ioe.getMessage());
         }
-        close();
     }
 
     public void close() {
@@ -83,5 +79,14 @@ public class SSLClient {
         } catch (IOException ioe) {
             System.out.println("Error closing ...");
         }
+    }
+
+    public String getHost()
+    {
+        return host;
+    }
+    
+    public DataOutputStream getStreamOut() {
+        return streamOut;
     }
 }

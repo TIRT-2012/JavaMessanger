@@ -11,9 +11,15 @@ package Temps.SSLsocket;
 public class SSLConnector {
 
     private boolean isServer = false;
+    private String ip = null;
 
     public SSLConnector(boolean isClient) {
         isServer = (isClient) ? false : true;
+    }
+    
+    public void setHostIp(String ip)
+    {
+        this.ip = ip;
     }
     
     public void run()
@@ -26,8 +32,10 @@ public class SSLConnector {
         }
         else{
             SSLClient c=new SSLClient();
+            c.setIP(ip);
             c.prepare();
             c.run();
         }
     }
+    
 }

@@ -15,6 +15,7 @@ import Logic.LoginController;
 import Logic.RegistrationController;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
+import Logic.SSLControler;
 
 /**
  *
