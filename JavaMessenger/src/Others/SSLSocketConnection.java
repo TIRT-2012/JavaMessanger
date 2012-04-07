@@ -44,6 +44,18 @@ public class SSLSocketConnection extends Thread {
 //        streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
 //        out.println("New client joined on port: " + id + " IP: " + ipAdress);
 //     }
+    
+    public SSLSocketConnection(SSLSocket socket, SSLServer sslServer) throws IOException {
+        this.socket = socket;
+        id = socket.getPort();
+        ip = socket.getInetAddress(); // '\192.168.0.1'
+        ipAdress = ip.toString().substring(1); // przetestowac
+        this.sslServer = sslServer;
+        keepRunning = true;
+        streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+        out.println("New client joined on port: " + id + " IP: " + ipAdress);
+    }
+    
     public SSLSocketConnection(SSLSocket socket, MessegerFrame messenger, SSLServer sslServer) throws IOException {
         this.socket = socket;
         id = socket.getPort();
@@ -54,8 +66,6 @@ public class SSLSocketConnection extends Thread {
         streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
         out.println("New client joined on port: " + id + " IP: " + ipAdress);
         this.messenger = messenger;
-        this.messenger.setIp(ipAdress); // ustawia ip dla ramki
-        this.sslServer.setFrameToMap(this.messenger);//stawia messengera do server.map
         this.messenger.setMessage("New client joined on port: " + id + " IP: " + ipAdress);
         this.messenger.setLocationRelativeTo(messenger.getRootPane());
         this.messenger.changeJLabel1(messenger.getProfilName());
@@ -68,8 +78,10 @@ public class SSLSocketConnection extends Thread {
             while (keepRunning) {
                 String words = streamIn.readUTF();
                 out.println("Connection " + id + ": " + words);
-                messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
-                messenger.setMessage(words);
+                if(words.equals("Client Approved"))
+                    
+                //messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
+                //messenger.setMessage(words);
             }
             out.println("Client from port " + id + " quits");
             closeConnection();

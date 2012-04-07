@@ -10,6 +10,7 @@ package Others;
  */
 import GUI.MessegerFrame;
 import Logic.SSLController;
+import Temps.Client;
 import Temps.SSLsocket.*;
 import Temps.SocketConnection;
 import java.awt.AWTException;
@@ -86,22 +87,30 @@ public class SSLServer implements Runnable {
             while (keepRunning) {
                 try {
                     socket = (SSLSocket) server.accept();
-
                     InetAddress ipTemp = socket.getInetAddress();
                     String ipAdress = ipTemp.toString().substring(1);
-                    MessegerFrame ms = null;
-                    if (!(ipAdress.equals(myIp))) { // jeśli adres ip z socketa != adresowi mojego ip to uruchom klienta
-                        // jeśli akceptacje servera uzykal klient1(z zewnatrz) to niech uruchomi dodatkowego klienta2(pisanie wiadomości do klienta1)
-                        // jesli ramka z ip klienta zewnetrznego nie jest utworzona to ja utworz tutaj w innym przypadku jest juz utworzona tak jak i socketconneciton
-                        if (!this.isFrameInMap(ipAdress)) {
-                            ms = new MessegerFrame(sslControler);
-                            ms.setVisible(false);
-                            ms.runClient(); // zapytanie do server - zwraca socket z server.accept
-                            //myIp = "192.168.1.102";
-                            sslcc = new SSLSocketConnection(socket, ms, this);
+                    if (!this.isFrameInMap(ipAdress)) {
+                        MessegerFrame mf = new MessegerFrame(sslControler);
+                        mf.setVisible(false);
+                        sslcc = new SSLSocketConnection(socket, mf, this);
+                        addConnection(sslcc);
+                        this.sslControler.runClient(ipAdress);
+                        SSLClient client = this.sslControler.getClientInstance();
+                        client.sendFeedback();
+                        mf.setIp(ipAdress);
+                        this.setFrameToMap(mf);
+
+                    } else {
+                        streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+                        String words = streamIn.readUTF();
+                        if (words.equals("Client Approved")) {
+                            sslcc = new SSLSocketConnection(socket, this);
                             addConnection(sslcc);
+                            //zwiąż clienta, który zapoczątkował wysłanie wiadomości 
+                            sslControler.getClient(ipAdress);
                         }
                     }
+                   
                 } catch (IOException ex) {
                     out.println("Server: IO Exception occured");
                 }

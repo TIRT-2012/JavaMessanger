@@ -34,7 +34,8 @@ public class SSLClient {
     }
     
     public void prepare() {
-        host = "156.17.247.212";//JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
+        host = JMHelper.getMyPublicIP();
+        //host = "156.17.247.212"; //dla polaczen zdalnych wpisz adres ip
         //host = "83.5.234.211";
         //host = "83.5.165.184";
         //host = "192.168.1.102";

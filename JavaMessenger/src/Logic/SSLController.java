@@ -35,6 +35,11 @@ public class SSLController {
         applicationComponents=ac;
     }
     
+    public HashMap getClientsMap()
+    {
+        return clientsMap;
+    }
+    
     public String getUserName(String ip)
     {
         System.out.println("getUserName()");
@@ -56,20 +61,34 @@ public class SSLController {
         } else {
             client = new SSLClient();
             client.prepare();
-            clientsMap.put(client.getHost(), client);
             client.run();
-
+            
         }
     }
 
+    public SSLClient getClientInstance()
+    {
+        return client;
+    }
+    
     public final void runServer() {
         System.out.println("runServer()");
         setSSLConnection(false);
     }
 
-    public void runClient() {
+    public void runClient(String ip) {
         System.out.println("runClient()");
-        setSSLConnection(true);
+        client = new SSLClient();
+        client.setHost(ip);
+        client.prepare();
+        client.run();
+        clientsMap.put(ip, client);
+    }
+    
+    public void runFeedbackClient(String host) {
+        System.out.println("runClient()");
+        client = new SSLClient(host);
+        
     }
 
     public void quitServer() {
@@ -90,10 +109,6 @@ public class SSLController {
         } catch (IOException ex) {
             Logger.getLogger(SSLController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-
-    public HashMap getClientsMap() {
-        return clientsMap;
     }
 
     public SSLClient getClient(String clientIp) {
