@@ -30,7 +30,7 @@ public class SSLController {
     private ApplicationComponents applicationComponents;
 
     public SSLController(ApplicationComponents ac) {
-        runServer();
+        //runServer();
         clientsMap = new HashMap();
         applicationComponents=ac;
     }
