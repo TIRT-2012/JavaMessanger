@@ -168,6 +168,7 @@ public class AuthenticationFrame extends javax.swing.JFrame {
             application.changeLoginButtonText("Wyloguj");
             application.setJlist(this.applicationComponents.getLoginController().getContacts());
             application.setVisible(true);
+            applicationComponents.getSSLController().runServer();
             sslControler = applicationComponents.getSSLController();
             application.setSslControler(sslControler);
         } else {
