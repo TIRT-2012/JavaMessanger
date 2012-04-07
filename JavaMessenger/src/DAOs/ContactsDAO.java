@@ -14,8 +14,8 @@ import javax.persistence.Query;
  */
 public class ContactsDAO extends DataAccessObject{
     
-    public ContactsDAO(DBThreadManager dbTM){
-        super(dbTM);
+    public ContactsDAO(DBThreadManager dbTM, Long id){
+        super(dbTM, id);
     }
     
     public List<Contacts> findByName(String name, boolean... wait) {

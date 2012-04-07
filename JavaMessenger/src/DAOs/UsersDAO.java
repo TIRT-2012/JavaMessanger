@@ -14,8 +14,8 @@ import javax.persistence.Query;
  */
 public class UsersDAO extends DataAccessObject {
     
-    public UsersDAO(DBThreadManager dbTM){
-        super(dbTM);
+    public UsersDAO(DBThreadManager dbTM, Long id){
+        super(dbTM, id);
     }
 
     public List<Users> findByUserName(String userName, boolean... wait) {

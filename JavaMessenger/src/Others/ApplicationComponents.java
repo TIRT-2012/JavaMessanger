@@ -105,13 +105,19 @@ public class ApplicationComponents {
     private void initializeDAO(String name, int i){
         int id=((Integer)identifiers.get(name)).intValue();
         try{
-            Class[] params=new Class[] {DBThreadManager.class};
+            Class[] params=new Class[] {DBThreadManager.class, Long.class};
             Constructor classConstructor=Class.forName("DAOs."+name).getConstructor(params);
-            dataAccessObjects[id][i]= (DataAccessObject) classConstructor.newInstance(dbtm);
+            dataAccessObjects[id][i]= (DataAccessObject) classConstructor.newInstance(dbtm, (long)i);
         }
         catch(Exception e){
             e.printStackTrace();
         }
+    }
+    
+    public synchronized void releseDAO(DataAccessObject dao){
+        int tableId=(int)dao.getId()/maxDAOs;
+        int tableObject=(int)dao.getId()%namesSequence.length;
+        usageArray[tableId][tableObject]=false;
     }
     
     

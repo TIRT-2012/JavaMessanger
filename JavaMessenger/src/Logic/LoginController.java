@@ -57,7 +57,8 @@ public class LoginController {
     {
         System.out.println("getUserName()");
         UsersDAO userDao = applicationComponent.getUsersDAO();
-        Users temp = userDao.findByIp(ip);
+        Users temp = userDao.findByIp(ip, true);
+        applicationComponent.releseDAO(userDao);
         return temp.getUserName();
     }
     
@@ -65,7 +66,8 @@ public class LoginController {
         Long id = null;
         id = userObject.getId();
         ContactsDAO contactDao = applicationComponent.getContactsDAO();
-        List<Contacts> contactList = contactDao.findByUserId(1L);
+        List<Contacts> contactList = contactDao.findByUserId(1L, true);
+        applicationComponent.releseDAO(contactDao);
         return contactList;
     }
 
@@ -73,7 +75,8 @@ public class LoginController {
     {
         System.out.println("getAnotherUserIp()");
         UsersDAO userDao = applicationComponent.getUsersDAO();
-        List<Users> temp = userDao.findByUserName(name);
+        List<Users> temp = userDao.findByUserName(name, true);
+        applicationComponent.releseDAO(userDao);
         return temp.get(0).getIp();
     }
     
@@ -82,6 +85,7 @@ public class LoginController {
         UsersDAO userDao = applicationComponent.getUsersDAO();
         userObject.setIp(JMHelper.getMyPublicIP());
         userDao.update(userObject);
+        applicationComponent.releseDAO(userDao);
         loggedUser = true;
     }
 
@@ -90,6 +94,7 @@ public class LoginController {
         UsersDAO userDao = applicationComponent.getUsersDAO();
         userObject.setIp(null);
         userDao.update(userObject);
+        applicationComponent.releseDAO(userDao);
         loggedUser = false;
     }
 
@@ -98,7 +103,7 @@ public class LoginController {
         boolean islooged = false;
         String s = Hasher.generateHash(password, Hasher.HASH_SHA512);
         UsersDAO userDao = applicationComponent.getUsersDAO();
-        List<Users> userList = userDao.findByUserName(userName);
+        List<Users> userList = userDao.findByUserName(userName, true);
         if (userList.isEmpty()) {
             islooged = false;
         } else {
@@ -110,7 +115,7 @@ public class LoginController {
             }
             System.out.println("Czy jest zalogowany? " + islooged);
         }
-
+        applicationComponent.releseDAO(userDao);
         return islooged;
     }
 }
