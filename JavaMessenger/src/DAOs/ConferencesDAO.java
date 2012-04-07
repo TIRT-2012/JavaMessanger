@@ -14,8 +14,8 @@ import javax.persistence.Query;
  */
 public class ConferencesDAO extends DataAccessObject{
     
-    public ConferencesDAO(DBThreadManager dbTM, Long id){
-        super(dbTM, id);
+    public ConferencesDAO(DBThreadManager dbTM, Long id, Long pos){
+        super(dbTM, id, pos);
     }
 
     public Conferences findByMessageId(Long id, boolean... wait) {

@@ -17,16 +17,18 @@ public class DataAccessObject {
     protected EntityManager entityManager;
     private DBThreadManager dbTM;
     protected long id;
+    protected long pos;
 
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
-    public DataAccessObject(DBThreadManager dbTM, Long id) {
+    public DataAccessObject(DBThreadManager dbTM, Long id, Long pos) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaMessengerPU");
         entityManager = emf.createEntityManager();
         this.dbTM=dbTM;
         this.id=id;
+        this.pos=pos;
     }
 
     public void insert(Object entity, boolean... wait) {
@@ -49,6 +51,10 @@ public class DataAccessObject {
     
     public long getId(){
         return id;
+    }
+    
+    public long getPos(){
+        return pos;
     }
 
 }
