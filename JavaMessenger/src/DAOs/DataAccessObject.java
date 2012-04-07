@@ -4,9 +4,6 @@
  */
 package DAOs;
 
-import java.lang.reflect.Method;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -19,15 +16,19 @@ public class DataAccessObject {
 
     protected EntityManager entityManager;
     private DBThreadManager dbTM;
+    protected long id;
+    protected long pos;
 
     public EntityManager getEntityManager() {
         return entityManager;
     }
 
-    public DataAccessObject(DBThreadManager dbTM) {
+    public DataAccessObject(DBThreadManager dbTM, Long id, Long pos) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("JavaMessengerPU");
         entityManager = emf.createEntityManager();
         this.dbTM=dbTM;
+        this.id=id;
+        this.pos=pos;
     }
 
     public void insert(Object entity, boolean... wait) {
@@ -43,10 +44,17 @@ public class DataAccessObject {
     }
 
     protected Object wrap(Object object, String function, Class[] parametersClass, Object[] parameters, boolean... wait) {
-        Object result = "";
         DBThread t = new DBThread(object, function, parametersClass, parameters);
-        long id=dbTM.add(t);
-        return wait.length>0 && wait[0]? dbTM.getResult(id) : null;
+        long threadId=dbTM.add(t);
+        return wait.length>0 && wait[0]? dbTM.getResult(threadId) : null;
+    }
+    
+    public long getId(){
+        return id;
+    }
+    
+    public long getPos(){
+        return pos;
     }
 
 }

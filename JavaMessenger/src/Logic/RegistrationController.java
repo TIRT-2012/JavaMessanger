@@ -26,7 +26,7 @@ public class RegistrationController {
         System.out.println("createAccount()");
         
         UsersDAO userDao = applicationComponent.getUsersDAO();
-        List<Users> userList = userDao.findByUserName(userName);
+        List<Users> userList = userDao.findByUserName(userName, true);
         boolean isEmpty = userList.isEmpty();
         
         if(isEmpty){
@@ -35,7 +35,7 @@ public class RegistrationController {
             user.setPassword(Hasher.generateHash(password, Hasher.HASH_SHA512));
             userDao.insert(user);
         }
-        
+        applicationComponent.releseDAO(userDao);
         return isEmpty;
     }
     

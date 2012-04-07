@@ -14,8 +14,8 @@ import javax.persistence.Query;
  */
 public class UserToConferenceDAO extends DataAccessObject{
     
-    public UserToConferenceDAO(DBThreadManager dbTM){
-        super(dbTM);
+    public UserToConferenceDAO(DBThreadManager dbTM, Long id, Long pos){
+        super(dbTM, id, pos);
     }
     
     public List<UserToConference> findByUserId(Long id, boolean... wait) {

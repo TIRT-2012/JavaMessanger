@@ -92,7 +92,7 @@ public class ApplicationComponents {
         for (int i = 0; i < usageArray[id].length; i++) {
             if (!usageArray[id][i]) {
                 if (dataAccessObjects[id][i] == null) {
-                    initializeDAO(name, i);
+                    initializeDAO(name, id, i);
                 }
                 result = dataAccessObjects[id][i];
                 usageArray[id][i]=true;
@@ -102,16 +102,19 @@ public class ApplicationComponents {
         return result;
     }
     
-    private void initializeDAO(String name, int i){
-        int id=((Integer)identifiers.get(name)).intValue();
+    private void initializeDAO(String name, int id, int i){
         try{
-            Class[] params=new Class[] {DBThreadManager.class};
+            Class[] params=new Class[] {DBThreadManager.class, Long.class, Long.class};
             Constructor classConstructor=Class.forName("DAOs."+name).getConstructor(params);
-            dataAccessObjects[id][i]= (DataAccessObject) classConstructor.newInstance(dbtm);
+            dataAccessObjects[id][i]= (DataAccessObject) classConstructor.newInstance(dbtm, (long)id, (long)i);
         }
         catch(Exception e){
             e.printStackTrace();
         }
+    }
+    
+    public synchronized void releseDAO(DataAccessObject dao){
+        usageArray[(int)dao.getId()][(int)dao.getPos()]=false;
     }
     
     

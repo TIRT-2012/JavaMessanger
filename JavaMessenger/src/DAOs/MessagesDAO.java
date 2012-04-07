@@ -14,8 +14,8 @@ import javax.persistence.Query;
  */
 public class MessagesDAO extends DataAccessObject{
     
-    public MessagesDAO(DBThreadManager dbTM){
-        super(dbTM);
+    public MessagesDAO(DBThreadManager dbTM, Long id, Long pos){
+        super(dbTM, id, pos);
     }
     
     public List<Messages> findBySenderId(Long id, boolean... wait) {
