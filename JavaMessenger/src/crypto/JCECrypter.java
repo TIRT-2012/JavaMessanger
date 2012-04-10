@@ -10,6 +10,7 @@ import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
@@ -18,7 +19,7 @@ import javax.crypto.spec.IvParameterSpec;
 public class JCECrypter {
    /* 2040 >= RSA_KEYSIZE >= 512 */
    private static final int RSA_KEYSIZE = 1024;
-   private static final int SYMETRIC_KEYSIZE = 128;
+   private static final int SYMETRIC_KEYSIZE = 256;
    private static final String decryptedFile = "out.mp3";
    private static final String encryptedFile = "encrypted.enc";
    private static final String testFile = "test.mp3";
@@ -32,29 +33,35 @@ public class JCECrypter {
    * DES (SYMETRIC_KEYSIZE: 56)
    * DESede (SYMETRIC_KEYSIZE: 112 || 168)
    * RC2 (SYMETRIC_KEYSIZE: 40 <= length <= 1024)
+   * 
+   * i wiele, wiele innych:
+   * http://www.bouncycastle.org/specifications.html
    */
-   private static final String cryptographyAlgorith = "AES";
+   private static final String cryptographyAlgorith = "Serpent";
    
    /*
-    * Tryby pracy szyfratora - działają ze wszystkimi szyframi oprócz RC2 (dla RC2 zostawić pusty)
+    * Tryby pracy szyfratora - działają większością szyfrów blokowych
     * <pusty> - ECB (domyślny)
     * /CBC/PKCS5Padding - CBC
     * /OFB/PKCS5Padding - OFB
     * /CFB/PKCS5Padding - CFB
-    * /PCBC/PKCS5Padding - CBC
+    * /PCBC/PKCS5Padding - PCBC
     */
-   private static final String cryptographyMode = "";
-   //private static final String cryptographyMode = "/PCBC/PKCS5Padding";
+   //private static final String cryptographyMode = "";
+   private static final String cryptographyMode = "/CBC/PKCS5Padding";
    
    public static void main(String[] args) {
-       JCECrypter c = new JCECrypter();
+       JCECrypter cryptor = new JCECrypter();
         try {
-            //Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
             //c.testFileCrypting();
-            c.testStringCrypting();
+            cryptor.testStringCrypting();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+   }
+   
+   public JCECrypter(){
+       Security.addProvider(new BouncyCastleProvider());
    }
    
    public void testStringCrypting() throws Exception{
@@ -104,7 +111,7 @@ public class JCECrypter {
        cipher = Cipher.getInstance(cryptographyAlgorith + cryptographyMode); 
        cipher.init(Cipher.ENCRYPT_MODE, symetricKey);
        
-       if(cryptographyMode.length() > 0){
+       if(!cryptographyMode.equals("")){
             byte[] iv = cipher.getIV();
 
             out.write(iv.length);
@@ -127,7 +134,7 @@ public class JCECrypter {
      
      IvParameterSpec ips = null;
      
-     if(cryptographyMode.length() > 0){
+     if(!cryptographyMode.equals("")){
         int length2 = in.read();
         byte[] my_iv = new byte[length2]; 
         in.read(my_iv, 0, length2);
@@ -136,7 +143,7 @@ public class JCECrypter {
      
      cipher = Cipher.getInstance(cryptographyAlgorith + cryptographyMode); 
      
-     if(cryptographyMode.length() > 0)
+     if(!cryptographyMode.equals(""))
         cipher.init(Cipher.DECRYPT_MODE, key, ips); 
      else
         cipher.init(Cipher.DECRYPT_MODE, key);    
