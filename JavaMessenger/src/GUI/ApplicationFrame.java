@@ -9,6 +9,7 @@ import Logic.ContactsListController.MyTableCellRenderer;
 import Logic.SSLController;
 import Others.ApplicationComponents;
 import Others.SSLClient;
+import Others.SSLSocketConnection;
 import java.awt.*;
 import java.util.List;
 import javax.swing.*;
@@ -314,34 +315,18 @@ public class ApplicationFrame extends javax.swing.JFrame {
             String sup = ((String[]) element)[0];//zwraca name
             String sup2 = ((String[]) element)[1];//zwraca index
 
-            String ip = sup; // trzeba przepisać ip z sup2 // trzeba to zaimplementować
+            String ip = sup2; // trzeba przepisać ip z sup2 // trzeba to zaimplementować
 
             // jesli nie ma w server.map ip uzytkownika z którym rozmawiamy to 
             if (!sslControler.getServer().isFrameInMap(ip)) {
-                // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować i tworzy frame'a za nas
-                this.getSslControler().runClient(sup2);
-                
-                SSLClient client = this.getSslControler().getClientInstance();
-                this.sslControler.getClientsMap().put(sup2 , client);
-                
-                if(sslControler.getServer.
-                this.sslControler.getClientsMap().put(ipAdress , client);
-                        mf.setIp(ipAdress);
-                        this.setFrameToMap(mf);
-                
-                
-//                MessegerFrame msgr = new MessegerFrame(sslControler);
-//                msgr.setIp(ip);
-//                msgr.setLocationRelativeTo(msgr.getRootPane());
-//                msgr.changeJLabel1(sup);
-//                msgr.runClient();
-//                //msgr.runServer();
-//                msgr.setVisible(true);
+                // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować 
+                sslControler.runClient(ip);
+                //jesli server zaakceptowal polaczenie od zwentetrzengo klienta z ip to ustawiamy flage isAccepted na true a nasz server powinnien to zauważyć
+                //if (sslControler.getServer().isAccepted(ip)) {
+                    sslControler.getServer().setIsAccpeted(true);
+                //}
+
             }
-            // 
-
-
-
         }
     }//GEN-LAST:event_jList1MouseClicked
 

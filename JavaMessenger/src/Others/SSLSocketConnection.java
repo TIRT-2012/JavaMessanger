@@ -78,10 +78,8 @@ public class SSLSocketConnection extends Thread {
             while (keepRunning) {
                 String words = streamIn.readUTF();
                 out.println("Connection " + id + ": " + words);
-                if(words.equals("Client Approved"))
-                    
-                //messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
-                //messenger.setMessage(words);
+                messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
+                messenger.setMessage(words);
             }
             out.println("Client from port " + id + " quits");
             closeConnection();
