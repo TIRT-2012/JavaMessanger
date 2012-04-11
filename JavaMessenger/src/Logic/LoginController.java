@@ -66,7 +66,7 @@ public class LoginController {
         Long id = null;
         id = userObject.getId();
         ContactsDAO contactDao = applicationComponent.getContactsDAO();
-        List<Contacts> contactList = contactDao.findByUserId(1L, true);
+        List<Contacts> contactList = contactDao.findByUserId(id, true);
         applicationComponent.releseDAO(contactDao);
         return contactList;
     }
