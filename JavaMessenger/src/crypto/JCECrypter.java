@@ -9,29 +9,59 @@ import java.security.*;
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
  *
  * @author Trebronus
  */
 public class JCECrypter {
-   private static final int KEYSIZE = 512;
-   private static final String decryptedFile = "out.txt";
+   /* 2040 >= RSA_KEYSIZE >= 512 */
+   private static final int RSA_KEYSIZE = 1024;
+   private static final int SYMETRIC_KEYSIZE = 256;
+   private static final String decryptedFile = "out.mp3";
    private static final String encryptedFile = "encrypted.enc";
-   private static final String testFile = "plik.txt";
+   private static final String testFile = "test.mp3";
    
-   private static final String testString = "Hello World!!";
+   private static final String testString = "Hello World!";
+
+   /*
+   * Dopuszczalne wartosci: 
+   * AES (SYMETRIC_KEYSIZE: 128 || 192 || 256)
+   * Blowfish (SYMETRIC_KEYSIZE: 32 <= length <= 448 && lenght % 8 == 0)
+   * DES (SYMETRIC_KEYSIZE: 56)
+   * DESede (SYMETRIC_KEYSIZE: 112 || 168)
+   * RC2 (SYMETRIC_KEYSIZE: 40 <= length <= 1024)
+   * 
+   * i wiele, wiele innych:
+   * http://www.bouncycastle.org/specifications.html
+   */
+   private static final String cryptographyAlgorith = "Serpent";
    
-   private static final String cryptographyAlgorith = "AES";
+   /*
+    * Tryby pracy szyfratora - działają większością szyfrów blokowych
+    * <pusty> - ECB (domyślny)
+    * /CBC/PKCS5Padding - CBC
+    * /OFB/PKCS5Padding - OFB
+    * /CFB/PKCS5Padding - CFB
+    * /PCBC/PKCS5Padding - PCBC
+    */
+   //private static final String cryptographyMode = "";
+   private static final String cryptographyMode = "/CBC/PKCS5Padding";
    
    public static void main(String[] args) {
-       JCECrypter c = new JCECrypter();
+       JCECrypter cryptor = new JCECrypter();
         try {
             //c.testFileCrypting();
-            c.testStringCrypting();
+            cryptor.testStringCrypting();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+   }
+   
+   public JCECrypter(){
+       Security.addProvider(new BouncyCastleProvider());
    }
    
    public void testStringCrypting() throws Exception{
@@ -78,8 +108,16 @@ public class JCECrypter {
        out.write(wrappedKey.length); 
        out.write(wrappedKey); 
        
-       cipher = Cipher.getInstance(cryptographyAlgorith); 
-       cipher.init(Cipher.ENCRYPT_MODE, symetricKey); 
+       cipher = Cipher.getInstance(cryptographyAlgorith + cryptographyMode); 
+       cipher.init(Cipher.ENCRYPT_MODE, symetricKey);
+       
+       if(!cryptographyMode.equals("")){
+            byte[] iv = cipher.getIV();
+
+            out.write(iv.length);
+            out.write(iv);
+       }
+       
        work(in, out, cipher); 
        in.close(); 
        out.close(); 
@@ -93,9 +131,22 @@ public class JCECrypter {
      Cipher cipher = Cipher.getInstance("RSA"); 
      cipher.init(Cipher.UNWRAP_MODE, privateKey); 
      Key key = cipher.unwrap(wrappedKey, cryptographyAlgorith, Cipher.SECRET_KEY);
-       
-     cipher = Cipher.getInstance(cryptographyAlgorith); 
-     cipher.init(Cipher.DECRYPT_MODE, key); 
+     
+     IvParameterSpec ips = null;
+     
+     if(!cryptographyMode.equals("")){
+        int length2 = in.read();
+        byte[] my_iv = new byte[length2]; 
+        in.read(my_iv, 0, length2);
+        ips = new IvParameterSpec(my_iv);
+     }
+     
+     cipher = Cipher.getInstance(cryptographyAlgorith + cryptographyMode); 
+     
+     if(!cryptographyMode.equals(""))
+        cipher.init(Cipher.DECRYPT_MODE, key, ips); 
+     else
+        cipher.init(Cipher.DECRYPT_MODE, key);    
        
      work(in, out, cipher); 
      in.close(); 
@@ -105,7 +156,7 @@ public class JCECrypter {
    public SecretKey generateSymetricKey() throws Exception{
      KeyGenerator keygen = KeyGenerator.getInstance(cryptographyAlgorith); 
      SecureRandom random = new SecureRandom(); 
-     keygen.init(random); 
+     keygen.init(SYMETRIC_KEYSIZE, random); 
      SecretKey key = keygen.generateKey();
      
      return key;
@@ -114,7 +165,7 @@ public class JCECrypter {
    public KeyPair generateRSAKey() throws Exception{
       KeyPairGenerator pairgen = KeyPairGenerator.getInstance("RSA"); 
       SecureRandom random = new SecureRandom(); 
-      pairgen.initialize(KEYSIZE, random); 
+      pairgen.initialize(RSA_KEYSIZE, random); 
       KeyPair keyPair = pairgen.generateKeyPair();
       
       return keyPair;
