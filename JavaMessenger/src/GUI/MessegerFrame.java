@@ -5,6 +5,7 @@
 package GUI;
 
 import Logic.SSLController;
+import Others.SSLClient;
 import Temps.SSLsocket.SSLConnector;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -27,9 +28,9 @@ public class MessegerFrame extends javax.swing.JFrame {
     private boolean isServer = false;
     private boolean prepareToCloseThread = false;
     private SSLController sslControler = null;
-    Thread ts;
     private String profilName = null;
     private String hostIp = null; 
+    private SSLClient client= null;
     
 
     public String getIp() {
@@ -69,6 +70,16 @@ public class MessegerFrame extends javax.swing.JFrame {
         this.conference = conf;
     }
 
+    public void addSSLClient(SSLClient sllClient)
+    {
+        this.client = sllClient;
+    }
+    
+    public SSLClient getSSLClient()
+    {
+        return this.client;
+    }
+    
     public void setSSLControler(SSLController sslControler) {
         this.sslControler = sslControler;
     }
@@ -244,7 +255,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             String message = this.getMessage();
             try {
-                this.sslControler.getClient(this.hostIp).getStreamOut().writeUTF(message); // zaciągam strumień clienta o 
+                this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message); // zaciągam strumień clienta o 
                 System.out.println(" message sent ");
                 Document doc = jTextArea2.getDocument();
                 try {
@@ -263,7 +274,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         String message = this.getMessage();
         try {
             //this.sslControler.getSSLClient().getStreamOut().writeUTF(message);
-            this.sslControler.getClient(this.hostIp).getStreamOut().writeUTF(message);
+            this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message);
             System.out.println(" message sent ");
             Document doc = jTextArea2.getDocument();
             try {

@@ -107,6 +107,7 @@ public class SSLServer implements Runnable {
                         addConnection(sslcc);
                         this.sslControler.runClient(ipAdress);
                         mf.setIp(ipAdress);
+                        mf.addSSLClient(sslControler.getClient(ipAdress));
                         this.setFrameToMap(mf);
 
                     } else if(isAccepted) {
@@ -115,6 +116,7 @@ public class SSLServer implements Runnable {
                         sslcc = new SSLSocketConnection(socket, mf, this);
                         addConnection(sslcc);
                         mf.setIp(ipAdress);
+                        mf.addSSLClient(sslControler.getClient(ipAdress));
                         this.setFrameToMap(mf);
                         setIsAccpeted(false);
                     }
