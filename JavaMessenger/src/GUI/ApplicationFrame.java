@@ -315,17 +315,12 @@ public class ApplicationFrame extends javax.swing.JFrame {
             String sup = ((String[]) element)[0];//zwraca name
             String sup2 = ((String[]) element)[1];//zwraca index
 
-            String ip = sup2; // trzeba przepisać ip z sup2 // trzeba to zaimplementować
+            String ip = sup2; // teba przepisać ip z sup2 // trzeba to zaimplementować
 
             // jesli nie ma w server.map ip uzytkownika z którym rozmawiamy to 
             if (!sslControler.getServer().isFrameInMap(ip)) {
                 // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować 
                 sslControler.runClient(ip);
-                //jesli server zaakceptowal polaczenie od zwentetrzengo klienta z ip to ustawiamy flage isAccepted na true a nasz server powinnien to zauważyć
-                //if (sslControler.getServer().isAccepted(ip)) {
-                    sslControler.getServer().setIsAccpeted(true);
-                //}
-
             }
         }
     }//GEN-LAST:event_jList1MouseClicked

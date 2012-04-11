@@ -33,45 +33,28 @@ public class SSLSocketConnection extends Thread {
     InetAddress ip = null;
     String ipAdress = null;
     SSLServer sslServer = null;
-
-//    public SSLSocketConnection(SSLSocket socket ) throws IOException {
-//        this.socket = socket;
-//        id = socket.getPort();
-//        ip = socket.getInetAddress(); // '\192.168.0.1'
-//        ipAdress = ip.toString().substring(1); // przetestowac
-//        this.sslServer = sslServer;
-//        keepRunning = true;
-//        streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-//        out.println("New client joined on port: " + id + " IP: " + ipAdress);
-//     }
-    
+   
     public SSLSocketConnection(SSLSocket socket, SSLServer sslServer) throws IOException {
         this.socket = socket;
         id = socket.getPort();
         ip = socket.getInetAddress(); // '\192.168.0.1'
-        ipAdress = ip.toString().substring(1); // przetestowac
+        ipAdress = ip.toString().substring(1); 
         this.sslServer = sslServer;
         keepRunning = true;
         streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
         out.println("New client joined on port: " + id + " IP: " + ipAdress);
     }
+
     
-    public SSLSocketConnection(SSLSocket socket, MessegerFrame messenger, SSLServer sslServer) throws IOException {
-        this.socket = socket;
-        id = socket.getPort();
-        ip = socket.getInetAddress(); // '\192.168.0.1'
-        ipAdress = ip.toString().substring(1); // przetestowac
-        this.sslServer = sslServer;
-        keepRunning = true;
-        streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-        out.println("New client joined on port: " + id + " IP: " + ipAdress);
+    public void setFrame(MessegerFrame messenger)
+    {
         this.messenger = messenger;
         this.messenger.setMessage("New client joined on port: " + id + " IP: " + ipAdress);
         this.messenger.setLocationRelativeTo(messenger.getRootPane());
         this.messenger.changeJLabel1(messenger.getProfilName());
         this.messenger.setVisible(true);
     }
-
+            
     @Override
     public void run() {
         try {

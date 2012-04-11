@@ -43,16 +43,6 @@ public class SSLServer implements Runnable {
     private HashMap messengerFrameList = null;
     String myIp;
     private String ipAdress;
-    private boolean isAccepted = false;
-
-    public boolean isIsAccepted() {
-        return isAccepted;
-    }
-    
-    public void setIsAccpeted(boolean flag)
-    {
-        isAccepted = flag;
-    }
 
     public SSLServer(SSLController sslControler) {
         this.sslControler = sslControler;
@@ -100,27 +90,27 @@ public class SSLServer implements Runnable {
                     socket = (SSLSocket) server.accept();
                     InetAddress ipTemp = socket.getInetAddress();
                     ipAdress = ipTemp.toString().substring(1);
-                    if (!this.isFrameInMap(ipAdress) && !isAccepted ) {
-                        MessegerFrame mf = new MessegerFrame(sslControler);
-                        mf.setVisible(false);
-                        sslcc = new SSLSocketConnection(socket, mf, this);
-                        addConnection(sslcc);
+                    
+                    boolean flag = isClientInClientsMap(ipAdress);
+                    
+                    MessegerFrame mf = new MessegerFrame(sslControler);
+                    mf.setVisible(false);
+                    
+                    sslcc = new SSLSocketConnection(socket, this);
+                    sslcc.setFrame(mf);
+                    addConnection(sslcc);
+                    
+                    if (!this.isFrameInMap(ipAdress) && !flag) {
                         this.sslControler.runClient(ipAdress);
-                        mf.setIp(ipAdress);
-                        mf.addSSLClient(sslControler.getClient(ipAdress));
-                        this.setFrameToMap(mf);
-
-                    } else if(isAccepted) {
-                        MessegerFrame mf = new MessegerFrame(sslControler);
-                        mf.setVisible(false);
-                        sslcc = new SSLSocketConnection(socket, mf, this);
-                        addConnection(sslcc);
-                        mf.setIp(ipAdress);
-                        mf.addSSLClient(sslControler.getClient(ipAdress));
-                        this.setFrameToMap(mf);
-                        setIsAccpeted(false);
                     }
-                   
+
+                    mf.setIp(ipAdress);
+                    mf.addSSLClient(sslControler.getClient(ipAdress));
+                    mf.addSSLSocketConnection(sslcc);
+                    this.setFrameToMap(mf);
+                    
+                    //System.out.println("ERROR : Statement unreachable");
+
                 } catch (IOException ex) {
                     out.println("Server: IO Exception occured");
                 }
@@ -205,9 +195,8 @@ public class SSLServer implements Runnable {
     public boolean isFrameInMap(String ip) {
         return (this.messengerFrameList.get(ip) != null) ? true : false;
     }
-    
-    public boolean isAccepted(String ip)
-    {
-       return ipAdress.equals(ip) ? false : true;
+
+    public boolean isClientInClientsMap(String ip) {
+        return (sslControler.getClient(ipAdress) != null) ? true : false;
     }
 }

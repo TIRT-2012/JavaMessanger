@@ -6,6 +6,7 @@ package GUI;
 
 import Logic.SSLController;
 import Others.SSLClient;
+import Others.SSLSocketConnection;
 import Temps.SSLsocket.SSLConnector;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -29,9 +30,9 @@ public class MessegerFrame extends javax.swing.JFrame {
     private boolean prepareToCloseThread = false;
     private SSLController sslControler = null;
     private String profilName = null;
-    private String hostIp = null; 
-    private SSLClient client= null;
-    
+    private String hostIp = null;
+    private SSLClient client = null;
+    private SSLSocketConnection sslSocketConnection = null;
 
     public String getIp() {
         return hostIp;
@@ -70,16 +71,22 @@ public class MessegerFrame extends javax.swing.JFrame {
         this.conference = conf;
     }
 
-    public void addSSLClient(SSLClient sllClient)
-    {
+    public void addSSLSocketConnection(SSLSocketConnection sslSocketConnection) {
+        this.sslSocketConnection = sslSocketConnection;
+    }
+    
+    public SSLSocketConnection getSSLSocketConnection(SSLSocketConnection sslSocketConnection) {
+        return this.sslSocketConnection;
+    }
+
+    public void addSSLClient(SSLClient sllClient) {
         this.client = sllClient;
     }
-    
-    public SSLClient getSSLClient()
-    {
+
+    public SSLClient getSSLClient() {
         return this.client;
     }
-    
+
     public void setSSLControler(SSLController sslControler) {
         this.sslControler = sslControler;
     }
@@ -116,12 +123,11 @@ public class MessegerFrame extends javax.swing.JFrame {
     }
 
     public void updateProfilName() {
-        
-        profilName =  this.sslControler.getUserName(hostIp);
+
+        profilName = this.sslControler.getUserName(hostIp);
     }
-    
-    public String getProfilName()
-    {
+
+    public String getProfilName() {
         return profilName;
     }
 
