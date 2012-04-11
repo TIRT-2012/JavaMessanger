@@ -183,13 +183,7 @@ public class SSLServer implements Runnable {
     }
 
     public MessegerFrame getFrameFromMap(String ip) { // niedokończone
-        if (this.messengerFrameList.get(ip) != null) {
-            System.out.println(" Brak obiektu na ip-tej pozycji");
-            return null;
-        } else {
-            System.out.println(" Obiekt na tej pozycji " + this.messengerFrameList.get(ip));
-            return (MessegerFrame) messengerFrameList.get(ip);
-        }
+        return (this.messengerFrameList.get(ip) != null) ? (MessegerFrame) messengerFrameList.get(ip) : null;
     }
 
     public boolean isFrameInMap(String ip) {
