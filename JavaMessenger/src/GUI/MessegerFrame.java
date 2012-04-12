@@ -7,7 +7,6 @@ package GUI;
 import Logic.SSLController;
 import Others.SSLClient;
 import Others.SSLSocketConnection;
-import Temps.SSLsocket.SSLConnector;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -16,8 +15,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -34,6 +32,14 @@ public class MessegerFrame extends javax.swing.JFrame {
     private SSLClient client = null;
     private SSLSocketConnection sslSocketConnection = null;
     private String myProfilName = null;
+
+    public JTextArea getjTextArea1() {
+        return jTextArea1;
+    }
+
+    public void setjTextArea1(JTextArea jTextArea1) {
+        this.jTextArea1 = jTextArea1;
+    }
 
     public String getIp() {
         return hostIp;
@@ -76,7 +82,7 @@ public class MessegerFrame extends javax.swing.JFrame {
     public void addSSLSocketConnection(SSLSocketConnection sslSocketConnection) {
         this.sslSocketConnection = sslSocketConnection;
     }
-    
+
     public SSLSocketConnection getSSLSocketConnection(SSLSocketConnection sslSocketConnection) {
         return this.sslSocketConnection;
     }
@@ -93,7 +99,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         this.sslControler = sslControler;
     }
 
-   public void setMessage(String message) {
+    public void setMessage(String message) {
         this.jTextArea1.append(message + "\n");
         this.jTextArea1.repaint(); // na wszelki wypadek
     }
@@ -268,6 +274,7 @@ public class MessegerFrame extends javax.swing.JFrame {
                 this.setMessage(message);
                 jTextArea2.setText("");
                 jTextArea2.setCaretPosition(0);
+                jTextArea2.requestFocus();
 //                Document doc = jTextArea2.getDocument();
 //                try {
 //                    doc.remove(0, doc.getLength());
@@ -287,10 +294,12 @@ public class MessegerFrame extends javax.swing.JFrame {
             //this.sslControler.getSSLClient().getStreamOut().writeUTF(message);
             this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message);
             System.out.println(" message sent ");
-            this.setMessage("Connection with " + hostIp + " , (JA) " + myProfilName);
+            String temp = "Connection with " + hostIp + " , (JA) " + myProfilName;
+            this.setMessage(temp);
             this.setMessage(message);
             jTextArea2.setText("");
             jTextArea2.setCaretPosition(0);
+            jTextArea2.requestFocus();
 //            jTextArea2.setCaretPosition(0);
 //            Document doc = jTextArea2.getDocument();
 //            try {

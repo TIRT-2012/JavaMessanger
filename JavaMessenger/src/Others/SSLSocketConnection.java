@@ -62,6 +62,8 @@ public class SSLSocketConnection extends Thread {
                 out.println("Connection " + id + ": " + words);
                 messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
                 messenger.setMessage(words);
+                messenger.getjTextArea1().setCaretPosition(0);
+                messenger.getjTextArea1().requestFocus();
             }
             out.println("Client from port " + id + " quits");
             closeConnection();
