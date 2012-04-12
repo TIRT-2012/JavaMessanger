@@ -266,6 +266,7 @@ public class MessegerFrame extends javax.swing.JFrame {
                 this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message); // zaciągam strumień clienta o 
                 System.out.println(" message sent ");
                 this.setMessage(message);
+                jTextArea2.setCaretPosition(0);
                 Document doc = jTextArea2.getDocument();
                 try {
                     doc.remove(0, doc.getLength());
@@ -287,6 +288,7 @@ public class MessegerFrame extends javax.swing.JFrame {
             System.out.println(" message sent ");
             this.setMessage("Connection with " + hostIp + " , (JA) " + myProfilName);
             this.setMessage(message);
+            jTextArea2.setCaretPosition(0);
             Document doc = jTextArea2.getDocument();
             try {
                 doc.remove(0, doc.getLength());
