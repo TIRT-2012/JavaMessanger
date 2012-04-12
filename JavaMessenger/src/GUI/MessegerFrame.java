@@ -267,14 +267,13 @@ public class MessegerFrame extends javax.swing.JFrame {
     private void jTextArea2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextArea2KeyPressed
         // TODO add your handling code here:
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            evt.setKeyCode(8);
             String message = this.getMessage();
             try {
                 this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message); // zaciągam strumień clienta o 
                 System.out.println(" message sent ");
                 this.setMessage(message);
                 jTextArea2.setText("");
-                jTextArea2.setCaretPosition(0);
-                jTextArea2.requestFocus();
 //                Document doc = jTextArea2.getDocument();
 //                try {
 //                    doc.remove(0, doc.getLength());
