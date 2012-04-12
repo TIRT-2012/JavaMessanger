@@ -46,7 +46,7 @@ public class SSLController {
         UsersDAO userDao = applicationComponents.getUsersDAO();
         Users temp = userDao.findByIp(ip, true);
         applicationComponents.releseDAO(userDao);
-        return temp.getUserName();
+        return (String)temp.getUserName();
     }
     
     

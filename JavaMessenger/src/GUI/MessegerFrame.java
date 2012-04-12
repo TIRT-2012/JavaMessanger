@@ -91,7 +91,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         this.sslControler = sslControler;
     }
 
-    public void setMessage(String message) {
+   public void setMessage(String message) {
         this.jTextArea1.append(message + "\n");
         this.jTextArea1.repaint(); // na wszelki wypadek
     }
@@ -263,6 +263,7 @@ public class MessegerFrame extends javax.swing.JFrame {
             try {
                 this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message); // zaciągam strumień clienta o 
                 System.out.println(" message sent ");
+                this.setMessage(message);
                 Document doc = jTextArea2.getDocument();
                 try {
                     doc.remove(0, doc.getLength());
@@ -282,6 +283,7 @@ public class MessegerFrame extends javax.swing.JFrame {
             //this.sslControler.getSSLClient().getStreamOut().writeUTF(message);
             this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message);
             System.out.println(" message sent ");
+            this.setMessage(message);
             Document doc = jTextArea2.getDocument();
             try {
                 doc.remove(0, doc.getLength());

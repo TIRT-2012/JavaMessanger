@@ -107,6 +107,7 @@ public class SSLServer implements Runnable {
                     mf.setIp(ipAdress);
                     mf.addSSLClient(sslControler.getClient(ipAdress));
                     mf.addSSLSocketConnection(sslcc);
+                    mf.changeJLabel1(sslControler.getUserName(ipAdress));
                     this.setFrameToMap(mf);
                     
                     //System.out.println("ERROR : Statement unreachable");

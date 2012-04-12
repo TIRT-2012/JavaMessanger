@@ -51,7 +51,6 @@ public class SSLSocketConnection extends Thread {
         this.messenger = messenger;
         this.messenger.setMessage("New client joined on port: " + id + " IP: " + ipAdress);
         this.messenger.setLocationRelativeTo(messenger.getRootPane());
-        this.messenger.changeJLabel1(messenger.getProfilName());
         this.messenger.setVisible(true);
     }
             
