@@ -32,24 +32,25 @@ public class SSLController {
     public SSLController(ApplicationComponents ac) {
         //runServer();
         clientsMap = new HashMap();
-        applicationComponents=ac;
+        applicationComponents = ac;
     }
-    
-    public HashMap getClientsMap()
-    {
+
+    public ApplicationComponents getApplicationComponents() {
+        return applicationComponents;
+    }
+
+    public HashMap getClientsMap() {
         return clientsMap;
     }
-    
-    public String getUserName(String ip)
-    {
+
+    public String getUserName(String ip) {
         System.out.println("getUserName()");
         UsersDAO userDao = applicationComponents.getUsersDAO();
         Users temp = userDao.findByIp(ip, true);
         applicationComponents.releseDAO(userDao);
-        return (String)temp.getUserName();
+        return (String) temp.getUserName();
     }
-    
-    
+
     public void setSSLConnection(boolean isClient) {
 
         isServer = (isClient) ? false : true;
@@ -62,15 +63,14 @@ public class SSLController {
             client = new SSLClient();
             client.prepare();
             client.run();
-            
+
         }
     }
 
-    public SSLClient getClientInstance()
-    {
+    public SSLClient getClientInstance() {
         return client;
     }
-    
+
     public final void runServer() {
         System.out.println("runServer()");
         setSSLConnection(false);
@@ -84,11 +84,11 @@ public class SSLController {
         client.run();
         clientsMap.put(ip, client);
     }
-    
+
     public void runFeedbackClient(String host) {
         System.out.println("runClient()");
         client = new SSLClient(host);
-        
+
     }
 
     public void quitServer() {

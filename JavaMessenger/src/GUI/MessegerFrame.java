@@ -33,6 +33,7 @@ public class MessegerFrame extends javax.swing.JFrame {
     private String hostIp = null;
     private SSLClient client = null;
     private SSLSocketConnection sslSocketConnection = null;
+    private String myProfilName = null;
 
     public String getIp() {
         return hostIp;
@@ -63,6 +64,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         initComponents();
         this.addWindowListener(listener);
         this.sslControler = sslControler;
+        myProfilName = (String) sslControler.getApplicationComponents().getLoginController().getUserObject().getUserName();
     }
 
     public MessegerFrame(ConferenceFrame conf) {
@@ -283,6 +285,7 @@ public class MessegerFrame extends javax.swing.JFrame {
             //this.sslControler.getSSLClient().getStreamOut().writeUTF(message);
             this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message);
             System.out.println(" message sent ");
+            this.setMessage("Connection with " + hostIp + " , (JA) " + myProfilName);
             this.setMessage(message);
             Document doc = jTextArea2.getDocument();
             try {
