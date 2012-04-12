@@ -188,7 +188,7 @@ public class JCECrypter {
       out.close(); 
    }
     
-   public static void work(InputStream in, OutputStream out, Cipher cipher) throws IOException, GeneralSecurityException 
+   private static void work(InputStream in, OutputStream out, Cipher cipher) throws IOException, GeneralSecurityException 
    { 
       int blockSize = cipher.getBlockSize(); 
       int outputSize = cipher.getOutputSize(blockSize); 
