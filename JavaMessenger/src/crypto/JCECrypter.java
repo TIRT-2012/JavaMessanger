@@ -18,8 +18,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  */
 public class JCECrypter {
    /* 2040 >= RSA_KEYSIZE >= 512 */
-   private static final int RSA_KEYSIZE = 1024;
-   private static final int SYMETRIC_KEYSIZE = 256;
+   private final int rsaKeySize = 1024;
+   private int symetricKeySize = 256;
    private static final String decryptedFile = "out.mp3";
    private static final String encryptedFile = "encrypted.enc";
    private static final String testFile = "test.mp3";
@@ -37,7 +37,7 @@ public class JCECrypter {
    * i wiele, wiele innych:
    * http://www.bouncycastle.org/specifications.html
    */
-   private static final String cryptographyAlgorith = "Serpent";
+   private String cryptographyAlgorithm = "AES";
    
    /*
     * Tryby pracy szyfratora - działają większością szyfrów blokowych
@@ -48,16 +48,23 @@ public class JCECrypter {
     * /PCBC/PKCS5Padding - PCBC
     */
    //private static final String cryptographyMode = "";
-   private static final String cryptographyMode = "/CBC/PKCS5Padding";
+   private String cryptographyMode = "";
    
    public static void main(String[] args) {
-       JCECrypter cryptor = new JCECrypter();
+       JCECrypter cryptor = new JCECrypter("AES", 256);
         try {
             //c.testFileCrypting();
             cryptor.testStringCrypting();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+   }
+   
+   public JCECrypter(String algorithm, int symetricKeySize){
+       Security.addProvider(new BouncyCastleProvider());
+       
+       this.cryptographyAlgorithm = algorithm;
+       this.symetricKeySize = symetricKeySize;
    }
    
    public JCECrypter(){
@@ -108,7 +115,7 @@ public class JCECrypter {
        out.write(wrappedKey.length); 
        out.write(wrappedKey); 
        
-       cipher = Cipher.getInstance(cryptographyAlgorith + cryptographyMode); 
+       cipher = Cipher.getInstance(cryptographyAlgorithm + cryptographyMode); 
        cipher.init(Cipher.ENCRYPT_MODE, symetricKey);
        
        if(!cryptographyMode.equals("")){
@@ -130,7 +137,7 @@ public class JCECrypter {
        
      Cipher cipher = Cipher.getInstance("RSA"); 
      cipher.init(Cipher.UNWRAP_MODE, privateKey); 
-     Key key = cipher.unwrap(wrappedKey, cryptographyAlgorith, Cipher.SECRET_KEY);
+     Key key = cipher.unwrap(wrappedKey, cryptographyAlgorithm, Cipher.SECRET_KEY);
      
      IvParameterSpec ips = null;
      
@@ -141,7 +148,7 @@ public class JCECrypter {
         ips = new IvParameterSpec(my_iv);
      }
      
-     cipher = Cipher.getInstance(cryptographyAlgorith + cryptographyMode); 
+     cipher = Cipher.getInstance(cryptographyAlgorithm + cryptographyMode); 
      
      if(!cryptographyMode.equals(""))
         cipher.init(Cipher.DECRYPT_MODE, key, ips); 
@@ -154,9 +161,9 @@ public class JCECrypter {
    }
    
    public SecretKey generateSymetricKey() throws Exception{
-     KeyGenerator keygen = KeyGenerator.getInstance(cryptographyAlgorith); 
+     KeyGenerator keygen = KeyGenerator.getInstance(cryptographyAlgorithm); 
      SecureRandom random = new SecureRandom(); 
-     keygen.init(SYMETRIC_KEYSIZE, random); 
+     keygen.init(symetricKeySize, random); 
      SecretKey key = keygen.generateKey();
      
      return key;
@@ -165,7 +172,7 @@ public class JCECrypter {
    public KeyPair generateRSAKey() throws Exception{
       KeyPairGenerator pairgen = KeyPairGenerator.getInstance("RSA"); 
       SecureRandom random = new SecureRandom(); 
-      pairgen.initialize(RSA_KEYSIZE, random); 
+      pairgen.initialize(rsaKeySize, random); 
       KeyPair keyPair = pairgen.generateKeyPair();
       
       return keyPair;
