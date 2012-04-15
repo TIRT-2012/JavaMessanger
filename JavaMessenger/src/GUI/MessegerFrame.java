@@ -284,7 +284,6 @@ public class MessegerFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         String message = this.getMessage();
         try {
-            //this.sslControler.getSSLClient().getStreamOut().writeUTF(message);
             this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message);
             System.out.println(" message sent ");
             String temp = "Connection with " + hostIp + " , (JA) " + myProfilName;

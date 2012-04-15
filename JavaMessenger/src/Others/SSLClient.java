@@ -89,6 +89,7 @@ public class SSLClient {
         try {
             //String s = messeger.getMessage(); dodac obsluge z przycisku
             //streamOut.writeUTF(message);
+            
             streamOut.flush();
         } catch (IOException ioe) {
             System.out.println("Sending error: " + ioe.getMessage());
