@@ -21,12 +21,10 @@ public class LoginController {
 
     private Users userObject = null;
     private ApplicationComponents applicationComponent;
-
-    
     private boolean loggedUser = false;
 
     public LoginController(ApplicationComponents ac) {
-        applicationComponent=ac;
+        applicationComponent = ac;
     }
 
     public Users getUserObject() {
@@ -36,7 +34,7 @@ public class LoginController {
     public void setUserObject(Users userObject) {
         this.userObject = userObject;
     }
-    
+
     public void setLoggedUser(boolean loggedUser) {
         this.loggedUser = loggedUser;
     }
@@ -45,23 +43,21 @@ public class LoginController {
         return loggedUser;
     }
 
-    /*public boolean getAuthenticationData(String login, String pass) {
-        System.out.println("getAuthenticationData()");
-        if (this.selectAuthentication(login, pass))
-            return true;
-        return false;
-
-    }*/
-
-    public String getUserName(String ip)
-    {
+    /*
+     * public boolean getAuthenticationData(String login, String pass) {
+     * System.out.println("getAuthenticationData()"); if
+     * (this.selectAuthentication(login, pass)) return true; return false;
+     *
+     * }
+     */
+    public String getUserName(String ip) {
         System.out.println("getUserName()");
         UsersDAO userDao = applicationComponent.getUsersDAO();
         Users temp = userDao.findByIp(ip, true);
         applicationComponent.releseDAO(userDao);
         return temp.getUserName();
     }
-    
+
     public List<Contacts> getContacts() {
         Long id = null;
         id = userObject.getId();
@@ -71,19 +67,20 @@ public class LoginController {
         return contactList;
     }
 
-    public String getAnotherUserIp(String name)
-    {
+    public String getAnotherUserIp(String name) {
         System.out.println("getAnotherUserIp()");
         UsersDAO userDao = applicationComponent.getUsersDAO();
         List<Users> temp = userDao.findByUserName(name, true);
         applicationComponent.releseDAO(userDao);
         return temp.get(0).getIp();
     }
-    
+
     public void setUserIp() {
         System.out.println("setUserIp()");
         UsersDAO userDao = applicationComponent.getUsersDAO();
-        userObject.setIp(JMHelper.getMyPublicIP());
+        if (!userObject.getUserName().equals("hpiotrek89") || !(userObject.getUserName().equals("htesto")) || !(userObject.getUserName().equals("hwind44"))) {
+            userObject.setIp(JMHelper.getMyPublicIP());
+        }
         userDao.update(userObject);
         applicationComponent.releseDAO(userDao);
         loggedUser = true;
@@ -91,11 +88,13 @@ public class LoginController {
 
     public void removeUserIp() {
         System.out.println("removeUserIp()");
-        UsersDAO userDao = applicationComponent.getUsersDAO();
-        userObject.setIp(null);
-        userDao.update(userObject);
-        applicationComponent.releseDAO(userDao);
-        loggedUser = false;
+        if (!userObject.getUserName().equals("hpiotrek89") || !(userObject.getUserName().equals("htesto")) || !(userObject.getUserName().equals("hwind44"))) {
+            UsersDAO userDao = applicationComponent.getUsersDAO();
+            userObject.setIp(null);
+            userDao.update(userObject);
+            applicationComponent.releseDAO(userDao);
+            loggedUser = false;
+        }
     }
 
     public boolean selectAuthentication(String userName, String password) {
