@@ -7,9 +7,8 @@ package Others;
 import GUI.MessegerFrame;
 import Logic.SSLController;
 import Temps.SSLsocket.*;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+import crypto.JCECrypter;
+import java.io.*;
 import java.net.Socket;
 import static java.lang.System.out;
 import java.net.InetAddress;
@@ -59,6 +58,18 @@ public class SSLSocketConnection extends Thread {
         try {
             while (keepRunning) {
                 String words = streamIn.readUTF();
+                
+                    //decrypting
+
+                    ByteArrayInputStream in2 = new ByteArrayInputStream(words.getBytes());
+                    ByteArrayOutputStream out2 = new ByteArrayOutputStream(); 
+                    JCECrypter jce = new JCECrypter();
+                    jce.decrypt(this.sslServer.getFrameFromMap(ipAdress).getSSLClient().getSerialPrivateKey() , in2, out2);
+                    System.out.println("Zdeszyfrowana wiadomość: " + out2.toString());
+
+
+                    //////////////////
+                
                 out.println("Connection " + id + ": " + words);
                 messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
                 messenger.setMessage(words);

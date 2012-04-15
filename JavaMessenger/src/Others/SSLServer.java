@@ -13,6 +13,8 @@ import Logic.SSLController;
 import Temps.Client;
 import Temps.SSLsocket.*;
 import Temps.SocketConnection;
+import crypto.JCECrypter;
+import crypto.SerialPublicKey;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.io.*;
@@ -20,6 +22,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import static java.lang.System.out;
 import java.net.InetAddress;
+import java.security.KeyPair;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,19 +94,34 @@ public class SSLServer implements Runnable {
                     socket = (SSLSocket) server.accept();
                     InetAddress ipTemp = socket.getInetAddress();
                     ipAdress = ipTemp.toString().substring(1);
-                    
+
                     boolean flag = isClientInClientsMap(ipAdress);
-                    
+
                     MessegerFrame mf = new MessegerFrame(sslControler);
                     mf.setVisible(false);
-                    
+
+                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                     sslcc = new SSLSocketConnection(socket, this);
                     sslcc.setFrame(mf);
                     addConnection(sslcc);
-                    
+
                     if (!this.isFrameInMap(ipAdress) && !flag) {
                         this.sslControler.runClient(ipAdress);
                         //odbierz wiadomośc od klienta, który zapoczątkował
+                            JCECrypter cryptograph = new JCECrypter();
+                            KeyPair RSAKey = null;
+                            try {
+                                RSAKey = cryptograph.generateRSAKey();
+                            } catch (Exception ex) {
+                                Logger.getLogger(SSLServer.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
+                            sslControler.getClient(ipAdress).setSerialPublicKey(publicKey.getPublicKey());
+                            sslControler.getClient(ipAdress).sendKey();
+
+                    } else {
+                        SerialPublicKey spk = (SerialPublicKey) ois.readObject();
+                        this.sslControler.getClient(ipAdress).setSerialPrivateKey(spk.getPublicKey());
                     }
 
                     mf.setIp(ipAdress);
@@ -110,9 +129,12 @@ public class SSLServer implements Runnable {
                     mf.addSSLSocketConnection(sslcc);
                     mf.changeJLabel1(sslControler.getUserName(ipAdress));
                     this.setFrameToMap(mf);
-                    
+
+
                     //System.out.println("ERROR : Statement unreachable");
 
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(SSLServer.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
                     out.println("Server: IO Exception occured");
                 }

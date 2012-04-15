@@ -10,8 +10,13 @@ import Logic.SSLController;
 import Others.ApplicationComponents;
 import Others.SSLClient;
 import Others.SSLSocketConnection;
+import crypto.JCECrypter;
+import crypto.SerialPublicKey;
 import java.awt.*;
+import java.security.KeyPair;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -319,9 +324,18 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
             // jesli nie ma w server.map ip uzytkownika z którym rozmawiamy to 
             if (!sslControler.getServer().isFrameInMap(ip)) {
-                // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować 
-                sslControler.runClient(ip);
-                // zapoczatkuj klucz
+                try {
+                    // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować 
+                    sslControler.runClient(ip);
+                    // zapoczatkuj klucz
+                    JCECrypter cryptograph = new JCECrypter();
+                    KeyPair RSAKey = cryptograph.generateRSAKey();
+                    SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
+                    sslControler.getClient(ip).setSerialPublicKey(publicKey.getPublicKey());
+                    sslControler.getClient(ip).sendKey();
+                } catch (Exception ex) {
+                    Logger.getLogger(ApplicationFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }//GEN-LAST:event_jList1MouseClicked
