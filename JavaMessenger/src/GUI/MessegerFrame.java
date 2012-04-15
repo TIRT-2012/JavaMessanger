@@ -279,7 +279,7 @@ public class MessegerFrame extends javax.swing.JFrame {
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     JCECrypter jce = new JCECrypter();
                     try {
-                        jce.crypt(client.getSerialPublicKey(), in, out);
+                        jce.crypt(client.getSerialPublicKey().getPublicKey(), in, out);
                     } catch (Exception ex) {
                         Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }

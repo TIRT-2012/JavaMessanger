@@ -12,6 +12,8 @@ import crypto.SerialPublicKey;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.security.KeyPair;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,9 +32,9 @@ public class SSLClient {
     private DataOutputStream streamOut = null;
     private String host;
     private ObjectOutputStream oos;
-    private PublicKey serialPublicKey = null;
-    private PrivateKey serialPrivateKey = null;
-
+    private KeyPair keyPair = null;
+    private SerialPublicKey serialPublicKey = null;
+    
     public SSLClient() {
         System.setProperty("javax.net.ssl.keyStore", "testKey");
         System.setProperty("javax.net.ssl.keyStorePassword", "tester");
@@ -138,12 +140,20 @@ public class SSLClient {
         return streamOut;
     }
 
-    public PublicKey getSerialPublicKey() {
+    public SerialPublicKey getSerialPublicKey() {
         return serialPublicKey;
     }
 
-    public void setSerialPublicKey(PublicKey serialPublicKey) {
+    public void setSerialPublicKey(SerialPublicKey serialPublicKey) {
         this.serialPublicKey = serialPublicKey;
+    }
+
+    public KeyPair getKeyPair() {
+        return keyPair;
+    }
+
+    public void setKeyPair(KeyPair keyPair) {
+        this.keyPair = keyPair;
     }
     
     public void sendKey()
@@ -157,14 +167,4 @@ public class SSLClient {
         }
     }
 
-    public PublicKey getSerialPrivateKey() {
-        return serialPrivateKey;
-    }
-
-    public void setSerialPrivateKey(PublicKey serialPrivateKey) {
-        this.serialPrivateKey = serialPrivateKey;
-    }
-    
-    
-    
 }

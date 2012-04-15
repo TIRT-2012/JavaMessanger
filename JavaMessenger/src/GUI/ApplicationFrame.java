@@ -330,9 +330,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
                     // zapoczatkuj klucz
                     JCECrypter cryptograph = new JCECrypter();
                     KeyPair RSAKey = cryptograph.generateRSAKey();
+                    sslControler.getClient(ip).setKeyPair(RSAKey);
                     SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
-                    sslControler.getClient(ip).setSerialPublicKey(publicKey.getPublicKey());
+                    sslControler.getClient(ip).setSerialPublicKey(publicKey);
                     sslControler.getClient(ip).sendKey();
+                    
                 } catch (Exception ex) {
                     Logger.getLogger(ApplicationFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }

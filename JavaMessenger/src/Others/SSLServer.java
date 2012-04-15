@@ -115,13 +115,14 @@ public class SSLServer implements Runnable {
                             } catch (Exception ex) {
                                 Logger.getLogger(SSLServer.class.getName()).log(Level.SEVERE, null, ex);
                             }
+                            sslControler.getClient(ipAdress).setKeyPair(RSAKey);
                             SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
-                            sslControler.getClient(ipAdress).setSerialPublicKey(publicKey.getPublicKey());
+                            sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
                             sslControler.getClient(ipAdress).sendKey();
 
                     } else {
                         SerialPublicKey spk = (SerialPublicKey) ois.readObject();
-                        this.sslControler.getClient(ipAdress).setSerialPrivateKey(spk.getPublicKey());
+                        this.sslControler.getClient(ipAdress).setSerialPublicKey(spk);
                     }
 
                     mf.setIp(ipAdress);
