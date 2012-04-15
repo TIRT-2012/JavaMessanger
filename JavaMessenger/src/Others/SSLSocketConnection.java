@@ -36,6 +36,7 @@ public class SSLSocketConnection extends Thread {
     SSLServer sslServer = null;
     private ObjectInputStream ois;
     private SerialPublicKey spk;
+    boolean MYFLAG = false;
 
     public SSLSocketConnection(SSLSocket socket, SSLServer sslServer) throws IOException {
         this.socket = socket;
@@ -60,7 +61,7 @@ public class SSLSocketConnection extends Thread {
         try {
             while (keepRunning) {
 
-                if (checkKeys()) {
+                if (MYFLAG) {
 
                     String words = streamIn.readUTF();
 
@@ -116,7 +117,7 @@ public class SSLSocketConnection extends Thread {
         return id;
     }
 
-    public synchronized boolean checkKeys() {
+    public synchronized void checkKeys() {
         try {
             ois = new ObjectInputStream(socket.getInputStream());
         } catch (IOException ex) {
@@ -130,6 +131,7 @@ public class SSLSocketConnection extends Thread {
             Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.sslServer.getFrameFromMap(ipAdress).getSSLClient().setSerialPublicKey(spk);
-        return true;
+        
+        MYFLAG = true;
     }
 }

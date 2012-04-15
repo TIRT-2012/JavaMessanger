@@ -126,6 +126,7 @@ public class SSLServer implements Runnable {
                     mf.changeJLabel1(sslControler.getUserName(ipAdress));
                     this.setFrameToMap(mf);
 
+                    sslcc.checkKeys();
                     
                     //System.out.println("ERROR : Statement unreachable");
                 } catch (IOException ex) {
