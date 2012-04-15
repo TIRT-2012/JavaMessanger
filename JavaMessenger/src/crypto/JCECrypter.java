@@ -75,6 +75,7 @@ public class JCECrypter {
        System.out.println("Szyfrowana wiadomość: " + testString);
        
        KeyPair RSAKey = this.generateRSAKey();
+       SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
        
        ByteArrayInputStream in = new ByteArrayInputStream(testString.getBytes());
        ByteArrayOutputStream out = new ByteArrayOutputStream();
