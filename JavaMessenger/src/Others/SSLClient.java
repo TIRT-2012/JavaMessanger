@@ -165,6 +165,7 @@ public class SSLClient {
         } catch (IOException ex) {
             Logger.getLogger(SSLClient.class.getName()).log(Level.SEVERE, null, ex);
         }
+        serialPublicKey = null;
     }
 
 }

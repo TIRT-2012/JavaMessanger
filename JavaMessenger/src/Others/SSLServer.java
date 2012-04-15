@@ -119,11 +119,10 @@ public class SSLServer implements Runnable {
                             SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
                             sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
                             sslControler.getClient(ipAdress).sendKey();
-
-                    } else {
-                        SerialPublicKey spk = (SerialPublicKey) ois.readObject();
-                        this.sslControler.getClient(ipAdress).setSerialPublicKey(spk);
                     }
+                    SerialPublicKey spk = (SerialPublicKey) ois.readObject();
+                    this.sslControler.getClient(ipAdress).setSerialPublicKey(spk);
+                    
 
                     mf.setIp(ipAdress);
                     mf.addSSLClient(sslControler.getClient(ipAdress));
