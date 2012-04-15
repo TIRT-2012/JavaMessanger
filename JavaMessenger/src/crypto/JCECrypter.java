@@ -74,12 +74,12 @@ public class JCECrypter {
    public void test() throws Exception{
        //Klucze generowane na Kliencie A
        KeyPair RSAKeyA = this.generateRSAKey();
-       //Ten klucz musi trafić do klienta A!!!!!!!
+       //Ten klucz musi trafić do klienta B!!!!!!!
        PublicKey publicA = RSAKeyA.getPublic();
        
        //Klucze generowane na kliencie B
        KeyPair RSAKeyB = this.generateRSAKey();
-       //Ten klucz musi trafić do klienta B!!!!!!!
+       //Ten klucz musi trafić do klienta A!!!!!!!
        PublicKey publicB = RSAKeyB.getPublic();
        
        
