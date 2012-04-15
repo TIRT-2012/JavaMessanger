@@ -102,6 +102,7 @@ public class SSLServer implements Runnable {
                     
                     if (!this.isFrameInMap(ipAdress) && !flag) {
                         this.sslControler.runClient(ipAdress);
+                        //odbierz wiadomośc od klienta, który zapoczątkował
                     }
 
                     mf.setIp(ipAdress);

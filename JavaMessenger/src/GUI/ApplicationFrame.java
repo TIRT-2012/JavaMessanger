@@ -321,6 +321,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
             if (!sslControler.getServer().isFrameInMap(ip)) {
                 // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować 
                 sslControler.runClient(ip);
+                // zapoczatkuj klucz
             }
         }
     }//GEN-LAST:event_jList1MouseClicked
