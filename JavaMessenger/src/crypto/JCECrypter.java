@@ -19,7 +19,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 public class JCECrypter {
    /* 2040 >= RSA_KEYSIZE >= 512 */
    private final int rsaKeySize = 1024;
-   private int symetricKeySize = 128;
+   private int symetricKeySize = 256;
    private static final String decryptedFile = "out.mp3";
    private static final String encryptedFile = "encrypted.enc";
    private static final String testFile = "test.mp3";
@@ -69,40 +69,6 @@ public class JCECrypter {
    
    public JCECrypter(){
        Security.addProvider(new BouncyCastleProvider());
-   }
-   
-   public void test() throws Exception{
-       //Klucze generowane na Kliencie A
-       KeyPair RSAKeyA = this.generateRSAKey();
-       //Ten klucz musi trafić do klienta B!!!!!!!
-       PublicKey publicA = RSAKeyA.getPublic();
-       
-       //Klucze generowane na kliencie B
-       KeyPair RSAKeyB = this.generateRSAKey();
-       //Ten klucz musi trafić do klienta A!!!!!!!
-       PublicKey publicB = RSAKeyB.getPublic();
-       
-       
-       //Szyfrowanie na Kliencie A
-       ByteArrayInputStream in = new ByteArrayInputStream(testString.getBytes());
-       ByteArrayOutputStream out = new ByteArrayOutputStream();
-       this.crypt(publicB, in, out);
-       
-       //Deszyfrowanie na kliencie A
-       ByteArrayInputStream in2 = new ByteArrayInputStream(out.toByteArray());
-       ByteArrayOutputStream out2 = new ByteArrayOutputStream(); 
-       this.decrypt(RSAKeyA.getPrivate(), in2, out2);
-       
-       
-       //Szyfrowanie na Kliencie B
-       ByteArrayInputStream in3 = new ByteArrayInputStream(testString.getBytes());
-       ByteArrayOutputStream out3 = new ByteArrayOutputStream();
-       this.crypt(publicA, in3, out3);
-       
-       //Deszyfrowanie na Kliencie B
-       ByteArrayInputStream in4 = new ByteArrayInputStream(out.toByteArray());
-       ByteArrayOutputStream out4 = new ByteArrayOutputStream(); 
-       this.decrypt(RSAKeyB.getPrivate(), in4, out4);
    }
    
    public void testStringCrypting() throws Exception{

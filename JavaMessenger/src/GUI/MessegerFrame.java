@@ -7,13 +7,10 @@ package GUI;
 import Logic.SSLController;
 import Others.SSLClient;
 import Others.SSLSocketConnection;
-import crypto.JCECrypter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -273,20 +270,6 @@ public class MessegerFrame extends javax.swing.JFrame {
             evt.setKeyCode(8);
             String message = this.getMessage();
             try {
-                
-                    //////crypting
-//                    ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
-//                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-//                    JCECrypter jce = new JCECrypter();
-//                    try {
-//                        jce.crypt(client.getSerialPublicKey().getPublicKey(), in, out);
-//                    } catch (Exception ex) {
-//                        Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                    System.out.println("Zaszyfrowana wiadomość: " + out.toString());
-//                    String cryptedMessage = out.toString();
-                    /////////////
-                
                 this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message); // zaciągam strumień clienta o 
                 System.out.println(" message sent ");
                 String temp = "Connection with " + hostIp + " , (JA) " + myProfilName;
