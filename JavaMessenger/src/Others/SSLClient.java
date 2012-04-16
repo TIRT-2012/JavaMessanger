@@ -134,8 +134,6 @@ public class SSLClient {
     {
         try {
             oos.writeObject(serialPublicKey);
-            oos.flush();
-            oos.close();
         } catch (IOException ex) {
             Logger.getLogger(SSLClient.class.getName()).log(Level.SEVERE, null, ex);
         }
