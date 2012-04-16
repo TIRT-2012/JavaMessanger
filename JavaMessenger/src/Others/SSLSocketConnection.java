@@ -5,11 +5,9 @@
 package Others;
 
 import GUI.MessegerFrame;
+import crypto.JCECrypter;
 import crypto.SerialPublicKey;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import static java.lang.System.out;
 import java.net.InetAddress;
 import java.util.logging.Level;
@@ -74,7 +72,23 @@ public class SSLSocketConnection extends Thread {
                     System.out.println("Klucz publiczny to : "+spk.getPublicKey().toString());
                     firstTime = false;
                 }
+                
+                
+                 //decrypting
                 String words = streamIn.readUTF();
+                ByteArrayInputStream in2 = new ByteArrayInputStream(words.getBytes());
+                ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+                JCECrypter jce = new JCECrypter();
+                try {
+                    jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate(), in2, out2);
+                } catch (Exception ex) {
+                    Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("Zdeszyfrowana wiadomość: " + out2.toString());
+                //////////////////
+                
+                
+                //String words = streamIn.readUTF();
                 out.println("Connection " + id + ": " + words);
                 messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
                 messenger.setMessage(words);
