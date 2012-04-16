@@ -83,7 +83,7 @@ public class SSLSocketConnection extends Thread {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     words = new String(sCm.getByteArray());
-                }
+                //}
 //                ByteArrayInputStream in2 = new ByteArrayInputStream(words.getBytes());
 //                ByteArrayOutputStream out2 = new ByteArrayOutputStream();
 //                JCECrypter jce = new JCECrypter();
@@ -102,6 +102,7 @@ public class SSLSocketConnection extends Thread {
                 messenger.setMessage(words);
                 messenger.getjTextArea1().setCaretPosition(0);
                 messenger.getjTextArea1().requestFocus();
+                }
             }
             out.println("Client from port " + id + " quits");
             closeConnection();
