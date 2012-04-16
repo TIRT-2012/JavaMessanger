@@ -8,6 +8,7 @@ import Logic.SSLController;
 import Others.SSLClient;
 import Others.SSLSocketConnection;
 import crypto.JCECrypter;
+import crypto.SerialCryptedMessage;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -277,8 +278,9 @@ public class MessegerFrame extends javax.swing.JFrame {
                     ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
                     ByteArrayOutputStream out = new ByteArrayOutputStream();
                     JCECrypter jce = new JCECrypter();
+                    SerialCryptedMessage sCm = null;
                     try {
-                        jce.crypt(client.getSerialPublicKey().getPublicKey(), in, out);
+                        sCm = jce.cryptOut(client.getSerialPublicKey().getPublicKey(), in, out);
                     } catch (Exception ex) {
                         Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -286,7 +288,7 @@ public class MessegerFrame extends javax.swing.JFrame {
                     String cryptedMessage = out.toString();
                     System.out.println("CryptedMessage: " + cryptedMessage);
                     
-                    this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(out); 
+                    this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm); 
                     
                     /////////////
                 //this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(cryptedMessage); // zaciągam strumień clienta o 

@@ -6,6 +6,7 @@ package Others;
 
 import GUI.MessegerFrame;
 import crypto.JCECrypter;
+import crypto.SerialCryptedMessage;
 import crypto.SerialPublicKey;
 import java.io.*;
 import static java.lang.System.out;
@@ -72,10 +73,14 @@ public class SSLSocketConnection extends Thread {
                     System.out.println("Klucz publiczny to : "+spk.getPublicKey().toString());
                     firstTime = false;
                 }
-                
-                
-                 //decrypting
-                String words = streamIn.readUTF();
+                SerialCryptedMessage sCm = null;
+                try {
+                    //decrypting
+                   sCm = (SerialCryptedMessage)ois.readObject();
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                String words = new String(sCm.getByteArray());
 //                ByteArrayInputStream in2 = new ByteArrayInputStream(words.getBytes());
 //                ByteArrayOutputStream out2 = new ByteArrayOutputStream();
 //                JCECrypter jce = new JCECrypter();
