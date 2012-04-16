@@ -97,6 +97,7 @@ public class SSLServer implements Runnable {
                     
                     if (!this.isFrameInMap(ipAdress) && !flag) {
                         this.sslControler.runClient(ipAdress);
+                        System.out.println("klient zewnetrzny uruchomiony ");
                         //odbierz wiadomośc od klienta, który zapoczątkował
                     }
 
@@ -118,6 +119,7 @@ public class SSLServer implements Runnable {
                     SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
                     sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
                     sslControler.getClient(ipAdress).sendKey();
+                    System.out.println("Adres hosta: "+sslControler.getClient(ipAdress).getHost());
                     // END sending public key
                 
                 } catch (IOException ex) {

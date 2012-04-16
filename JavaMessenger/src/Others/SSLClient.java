@@ -152,8 +152,11 @@ public class SSLClient {
     
     public void sendKey()
     {
+        System.out.println("sendKey()");
         try {
+            System.out.println("serialPublicKey: " + serialPublicKey.getPublicKey());
             oos.writeObject(serialPublicKey);
+            oos.close();
         } catch (IOException ex) {
             Logger.getLogger(SSLClient.class.getName()).log(Level.SEVERE, null, ex);
         }

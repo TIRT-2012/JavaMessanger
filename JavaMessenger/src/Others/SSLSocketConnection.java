@@ -56,6 +56,7 @@ public class SSLSocketConnection extends Thread {
     public void run() {
         try {
             while (keepRunning) {
+                System.out.println("FIRSTTIME" + firstTime);
                 if (firstTime) {
                     try {
                         ois = new ObjectInputStream(socket.getInputStream());
@@ -72,6 +73,7 @@ public class SSLSocketConnection extends Thread {
                     this.messenger.getSSLClient().setSerialPublicKey(spk);
                     System.out.println("Klucz publiczny to : "+spk.getPublicKey().toString());
                     firstTime = false;
+                    ois.close();
                 }
                 String words = streamIn.readUTF();
                 out.println("Connection " + id + ": " + words);
