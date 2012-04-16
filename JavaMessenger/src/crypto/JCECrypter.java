@@ -106,6 +106,11 @@ public class JCECrypter {
        this.decrypt(RSAKey.getPrivate(), in2, out2);
    }
    
+    public SerialCryptedMessage cryptOut(PublicKey publicKey, ByteArrayInputStream in, ByteArrayOutputStream out) throws Exception{
+        crypt(publicKey, in, out);
+        return new SerialCryptedMessage(out.toByteArray());
+    }
+    
    public void crypt(PublicKey publicKey, InputStream in, OutputStream out) throws Exception{
        SecretKey symetricKey = this.generateSymetricKey();
        
