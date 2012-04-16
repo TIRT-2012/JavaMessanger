@@ -41,6 +41,7 @@ public class SSLSocketConnection extends Thread {
         this.sslServer = sslServer;
         keepRunning = true;
         streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+        ois = new ObjectInputStream(socket.getInputStream());
         out.println("New client joined on port: " + id + " IP: " + ipAdress);
     }
 
@@ -57,11 +58,11 @@ public class SSLSocketConnection extends Thread {
             while (keepRunning) {
                 System.out.println("FIRSTTIME" + firstTime);
                 if (firstTime) {
-                    try {
-                        ois = new ObjectInputStream(socket.getInputStream());
-                    } catch (IOException ex) {
-                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+//                    try {
+//                        ois = new ObjectInputStream(socket.getInputStream());
+//                    } catch (IOException ex) {
+//                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
                     try {
                         spk = (SerialPublicKey) ois.readObject();
                     } catch (IOException ex) {
