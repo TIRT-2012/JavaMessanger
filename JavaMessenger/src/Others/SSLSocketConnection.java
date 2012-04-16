@@ -57,6 +57,7 @@ public class SSLSocketConnection extends Thread {
         try {
             while (keepRunning) {
                 System.out.println("FIRSTTIME" + firstTime);
+                String words = null;
                 if (firstTime) {
 //                    try {
 //                        ois = new ObjectInputStream(socket.getInputStream());
@@ -71,17 +72,18 @@ public class SSLSocketConnection extends Thread {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     this.messenger.getSSLClient().setSerialPublicKey(spk);
-                    System.out.println("Klucz publiczny to : "+spk.getPublicKey().toString());
+                    System.out.println("Klucz publiczny to : " + spk.getPublicKey().toString());
                     firstTime = false;
+                } else {
+                    SerialCryptedMessage sCm = null;
+                    try {
+                        //decrypting
+                        sCm = (SerialCryptedMessage) ois.readObject();
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    words = new String(sCm.getByteArray());
                 }
-                SerialCryptedMessage sCm = null;
-                try {
-                    //decrypting
-                   sCm = (SerialCryptedMessage)ois.readObject();
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                String words = new String(sCm.getByteArray());
 //                ByteArrayInputStream in2 = new ByteArrayInputStream(words.getBytes());
 //                ByteArrayOutputStream out2 = new ByteArrayOutputStream();
 //                JCECrypter jce = new JCECrypter();
@@ -92,8 +94,8 @@ public class SSLSocketConnection extends Thread {
 //                }
 //                System.out.println("Zdeszyfrowana wiadomość: " + out2.toString());
                 //////////////////
-                
-                
+
+
                 //String words = streamIn.readUTF();
                 out.println("Connection " + id + ": " + words);
                 messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
