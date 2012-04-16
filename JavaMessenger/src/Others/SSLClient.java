@@ -80,6 +80,7 @@ public class SSLClient {
             System.out.println("Connected: " + socket);
             console = new DataInputStream(System.in);
             streamOut = new DataOutputStream(socket.getOutputStream());
+            oos = new ObjectOutputStream(socket.getOutputStream());
         } catch (UnknownHostException uhe) {
             System.out.println("Host unknown: " + uhe.getMessage());
         } catch (IOException ioe) {
