@@ -106,18 +106,6 @@ public class SSLServer implements Runnable {
 
                     if (!this.isFrameInMap(ipAdress) && !flag) {
                         this.sslControler.runClient(ipAdress);
-                        //odbierz wiadomośc od klienta, który zapoczątkował
-                        JCECrypter cryptograph = new JCECrypter();
-                        KeyPair RSAKey = null;
-                        try {
-                            RSAKey = cryptograph.generateRSAKey();
-                        } catch (Exception ex) {
-                            Logger.getLogger(SSLServer.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        sslControler.getClient(ipAdress).setKeyPair(RSAKey);
-                        SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
-                        sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
-                        sslControler.getClient(ipAdress).sendKey();
                     }
 
                     mf.setIp(ipAdress);
@@ -126,7 +114,20 @@ public class SSLServer implements Runnable {
                     mf.changeJLabel1(sslControler.getUserName(ipAdress));
                     this.setFrameToMap(mf);
 
-                    sslcc.checkKeys();
+                    // START sending public key
+                    JCECrypter cryptograph = new JCECrypter();
+                    KeyPair RSAKey = null;
+                    try {
+                        RSAKey = cryptograph.generateRSAKey();
+                    } catch (Exception ex) {
+                        Logger.getLogger(SSLServer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    sslControler.getClient(ipAdress).setKeyPair(RSAKey);
+                    SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
+                    sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
+                    sslControler.getClient(ipAdress).sendKey();
+                    // END sending public key
+                    
                     
                     //System.out.println("ERROR : Statement unreachable");
                 } catch (IOException ex) {

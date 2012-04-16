@@ -324,20 +324,9 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
             // jesli nie ma w server.map ip uzytkownika z którym rozmawiamy to 
             if (!sslControler.getServer().isFrameInMap(ip)) {
-                try {
-                    // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować 
-                    sslControler.runClient(ip);
-                    // zapoczatkuj klucz
-                    JCECrypter cryptograph = new JCECrypter();
-                    KeyPair RSAKey = cryptograph.generateRSAKey();
-                    sslControler.getClient(ip).setKeyPair(RSAKey);
-                    SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
-                    sslControler.getClient(ip).setSerialPublicKey(publicKey);
-                    sslControler.getClient(ip).sendKey();
-                    
-                } catch (Exception ex) {
-                    Logger.getLogger(ApplicationFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować 
+                sslControler.runClient(ip);
+                // zapoczatkuj klucz
             }
         }
     }//GEN-LAST:event_jList1MouseClicked

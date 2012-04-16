@@ -37,6 +37,7 @@ public class SSLSocketConnection extends Thread {
     private ObjectInputStream ois;
     private SerialPublicKey spk;
     boolean MYFLAG = false;
+    private boolean firstTime = true;
 
     public SSLSocketConnection(SSLSocket socket, SSLServer sslServer) throws IOException {
         this.socket = socket;
@@ -60,32 +61,42 @@ public class SSLSocketConnection extends Thread {
     public void run() {
         try {
             while (keepRunning) {
-
-                if (MYFLAG) {
-
-                    String words = streamIn.readUTF();
-
-                    //decrypting
-
-                    ByteArrayInputStream in2 = new ByteArrayInputStream(words.getBytes());
-                    ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-                    JCECrypter jce = new JCECrypter();
+                if (firstTime) {
                     try {
-                        jce.decrypt(this.sslServer.getFrameFromMap(ipAdress).getSSLClient().getKeyPair().getPrivate(), in2, out2);
-                    } catch (Exception ex) {
+                        ois = new ObjectInputStream(socket.getInputStream());
+                    } catch (IOException ex) {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    System.out.println("Zdeszyfrowana wiadomość: " + out2.toString());
-
-
-                    //////////////////
-
-                    out.println("Connection " + id + ": " + words);
-                    messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
-                    messenger.setMessage(words);
-                    messenger.getjTextArea1().setCaretPosition(0);
-                    messenger.getjTextArea1().requestFocus();
+                    try {
+                        spk = (SerialPublicKey) ois.readObject();
+                    } catch (IOException ex) {
+                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    this.messenger.getSSLClient().setSerialPublicKey(spk);
+                    firstTime = false;
                 }
+                //decrypting
+                String words = streamIn.readUTF();
+                ByteArrayInputStream in2 = new ByteArrayInputStream(words.getBytes());
+                ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+                JCECrypter jce = new JCECrypter();
+                try {
+                    jce.decrypt(this.sslServer.getFrameFromMap(ipAdress).getSSLClient().getKeyPair().getPrivate(), in2, out2);
+                } catch (Exception ex) {
+                    Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("Zdeszyfrowana wiadomość: " + out2.toString());
+
+
+                //////////////////
+
+                out.println("Connection " + id + ": " + words);
+                messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
+                messenger.setMessage(words);
+                messenger.getjTextArea1().setCaretPosition(0);
+                messenger.getjTextArea1().requestFocus();
             }
             out.println("Client from port " + id + " quits");
             closeConnection();
@@ -115,23 +126,5 @@ public class SSLSocketConnection extends Thread {
     @Override
     public long getId() {
         return id;
-    }
-
-    public synchronized void checkKeys() {
-        try {
-            ois = new ObjectInputStream(socket.getInputStream());
-        } catch (IOException ex) {
-            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            spk = (SerialPublicKey) ois.readObject();
-        } catch (IOException ex) {
-            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.sslServer.getFrameFromMap(ipAdress).getSSLClient().setSerialPublicKey(spk);
-        
-        MYFLAG = true;
     }
 }

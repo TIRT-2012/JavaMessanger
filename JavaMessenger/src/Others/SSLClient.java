@@ -46,8 +46,6 @@ public class SSLClient {
         System.setProperty("javax.net.ssl.keyStore", "testKey");
         System.setProperty("javax.net.ssl.keyStorePassword", "tester");
         System.setProperty("javax.net.ssl.trustStore", "testKey");
-        //host = JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
-        String feedbackFromServer = "Approved connection";
         System.out.println("Establishing connection. Please wait ...");
         try {
             factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -61,13 +59,6 @@ public class SSLClient {
         } catch (IOException ioe) {
             System.out.println("Unexpected exception: " + ioe.getMessage());
         }
-        try {
-            streamOut.writeUTF(feedbackFromServer);
-            streamOut.flush();
-        } catch (IOException ioe) {
-            System.out.println("Sending error: " + ioe.getMessage());
-        }
-        
     }
             
     public void setHost(String host) {
@@ -75,10 +66,6 @@ public class SSLClient {
     }
 
     public void prepare() {
-        //host = JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
-        //host = "83.5.234.211";
-        //host = "83.5.165.184";
-        //host = "192.168.1.102";
         System.out.println("Establishing connection. Please wait ...");
         try {
             factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -96,25 +83,12 @@ public class SSLClient {
 
     public void run() {
         try {
-            //String s = messeger.getMessage(); dodac obsluge z przycisku
-            //streamOut.writeUTF(message);
-            
             streamOut.flush();
         } catch (IOException ioe) {
             System.out.println("Sending error: " + ioe.getMessage());
         }
     }
 
-    public void sendFeedback()
-    {
-        try {
-            streamOut.writeUTF("Client Approved");
-        } catch (IOException ex) {
-            Logger.getLogger(SSLClient.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    
     public void close() {
         try {
             if (console != null) {
