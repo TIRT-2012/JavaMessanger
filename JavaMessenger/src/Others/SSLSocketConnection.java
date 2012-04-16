@@ -30,7 +30,7 @@ public class SSLSocketConnection extends Thread {
     InetAddress ip = null;
     String ipAdress = null;
     SSLServer sslServer = null;
-    private boolean firstTime;
+    private boolean firstTime = true;
     private ObjectInputStream ois;
     private SerialPublicKey spk;
 
