@@ -8,9 +8,11 @@ import Logic.*;
 import GUI.MessegerFrame;
 import Temps.SSLsocket.*;
 import Others.JMHelper;
+import crypto.SerialPublicKey;
 import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.security.KeyPair;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.*;
@@ -27,6 +29,9 @@ public class SSLClient {
     private DataInputStream console = null;
     private DataOutputStream streamOut = null;
     private String host;
+    private ObjectOutputStream oos;
+    private KeyPair keyPair = null;
+    private SerialPublicKey serialPublicKey = null;
 
     public SSLClient() {
         System.setProperty("javax.net.ssl.keyStore", "testKey");
@@ -48,6 +53,7 @@ public class SSLClient {
             System.out.println("Connected: " + socket);
             console = new DataInputStream(System.in);
             streamOut = new DataOutputStream(socket.getOutputStream());
+            oos = new ObjectOutputStream(socket.getOutputStream());
         } catch (UnknownHostException uhe) {
             System.out.println("Host unknown: " + uhe.getMessage());
         } catch (IOException ioe) {
@@ -67,10 +73,6 @@ public class SSLClient {
     }
 
     public void prepare() {
-        //host = JMHelper.getMyPublicIP(); //dla polaczen zdalnych wpisz adres ip
-        //host = "83.5.234.211";
-        //host = "83.5.165.184";
-        //host = "192.168.1.102";
         System.out.println("Establishing connection. Please wait ...");
         try {
             factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -129,5 +131,31 @@ public class SSLClient {
     
     public DataOutputStream getStreamOut() {
         return streamOut;
+    }
+    
+    public SerialPublicKey getSerialPublicKey() {
+        return serialPublicKey;
+    }
+
+    public void setSerialPublicKey(SerialPublicKey serialPublicKey) {
+        this.serialPublicKey = serialPublicKey;
+    }
+
+    public KeyPair getKeyPair() {
+        return keyPair;
+    }
+
+    public void setKeyPair(KeyPair keyPair) {
+        this.keyPair = keyPair;
+    }
+    
+    public void sendKey()
+    {
+        try {
+            oos.writeObject(serialPublicKey);
+        } catch (IOException ex) {
+            Logger.getLogger(SSLClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        serialPublicKey = null;
     }
 }

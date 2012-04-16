@@ -10,23 +10,18 @@ package Others;
  */
 import GUI.MessegerFrame;
 import Logic.SSLController;
-import Temps.Client;
-import Temps.SSLsocket.*;
-import Temps.SocketConnection;
+import crypto.JCECrypter;
+import crypto.SerialPublicKey;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
 import static java.lang.System.out;
 import java.net.InetAddress;
-import java.util.ArrayList;
+import java.security.KeyPair;
 import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.*;
-import javax.swing.JFrame;
 
 public class SSLServer implements Runnable {
 
@@ -111,8 +106,20 @@ public class SSLServer implements Runnable {
                     mf.changeJLabel1(sslControler.getUserName(ipAdress));
                     this.setFrameToMap(mf);
                     
-                    //System.out.println("ERROR : Statement unreachable");
-
+                // START sending public key
+                    JCECrypter cryptograph = new JCECrypter();
+                    KeyPair RSAKey = null;
+                    try {
+                        RSAKey = cryptograph.generateRSAKey();
+                    } catch (Exception ex) {
+                        Logger.getLogger(SSLServer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    sslControler.getClient(ipAdress).setKeyPair(RSAKey);
+                    SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
+                    sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
+                    sslControler.getClient(ipAdress).sendKey();
+                    // END sending public key
+                
                 } catch (IOException ex) {
                     out.println("Server: IO Exception occured");
                 }
