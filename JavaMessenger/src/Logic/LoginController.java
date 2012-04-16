@@ -78,7 +78,8 @@ public class LoginController {
     public void setUserIp() {
         System.out.println("setUserIp()");
         UsersDAO userDao = applicationComponent.getUsersDAO();
-        if (!userObject.getUserName().equals("hpiotrek89") || !(userObject.getUserName().equals("htesto")) || !(userObject.getUserName().equals("hwind44"))) {
+        String name = userObject.getUserName();
+        if (!((name.equals("hpiotrek89")) || (name.equals("htesto")) || (name.equals("hwind44")))) {
             userObject.setIp(JMHelper.getMyPublicIP());
         }
         userDao.update(userObject);
@@ -88,7 +89,8 @@ public class LoginController {
 
     public void removeUserIp() {
         System.out.println("removeUserIp()");
-        if (!userObject.getUserName().equals("hpiotrek89") || !(userObject.getUserName().equals("htesto")) || !(userObject.getUserName().equals("hwind44"))) {
+        String name = userObject.getUserName();
+        if (!((name.equals("hpiotrek89")) || (name.equals("htesto")) || (name.equals("hwind44")))) {
             UsersDAO userDao = applicationComponent.getUsersDAO();
             userObject.setIp(null);
             userDao.update(userObject);
