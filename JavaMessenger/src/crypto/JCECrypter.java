@@ -19,7 +19,7 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 public class JCECrypter {
    /* 2040 >= RSA_KEYSIZE >= 512 */
    private final int rsaKeySize = 1024;
-   private int symetricKeySize = 256;
+   private int symetricKeySize = 128;
    private static final String decryptedFile = "out.mp3";
    private static final String encryptedFile = "encrypted.enc";
    private static final String testFile = "test.mp3";
@@ -102,7 +102,7 @@ public class JCECrypter {
        //Deszyfrowanie na Kliencie B
        ByteArrayInputStream in4 = new ByteArrayInputStream(out.toByteArray());
        ByteArrayOutputStream out4 = new ByteArrayOutputStream(); 
-       this.decrypt(RSAKeyB.getPrivate(), in2, out2);
+       this.decrypt(RSAKeyB.getPrivate(), in4, out4);
    }
    
    public void testStringCrypting() throws Exception{
