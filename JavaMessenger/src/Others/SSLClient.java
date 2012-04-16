@@ -70,7 +70,7 @@ public class SSLClient {
         try {
             factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
             socket = (SSLSocket) factory.createSocket(host, PORT);
-            System.out.println("Connected: " + socket);
+            System.out.println("ConnectedDD: " + socket);
             console = new DataInputStream(System.in);
             streamOut = new DataOutputStream(socket.getOutputStream());
             oos = new ObjectOutputStream(socket.getOutputStream());

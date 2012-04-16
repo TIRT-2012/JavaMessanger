@@ -275,19 +275,19 @@ public class MessegerFrame extends javax.swing.JFrame {
             try {
                 
                     //////crypting
-                    ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    JCECrypter jce = new JCECrypter();
-                    try {
-                        jce.crypt(client.getSerialPublicKey().getPublicKey(), in, out);
-                    } catch (Exception ex) {
-                        Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    System.out.println("Zaszyfrowana wiadomość: " + out.toString());
-                    String cryptedMessage = out.toString();
+//                    ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
+//                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+//                    JCECrypter jce = new JCECrypter();
+//                    try {
+//                        jce.crypt(client.getSerialPublicKey().getPublicKey(), in, out);
+//                    } catch (Exception ex) {
+//                        Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                    System.out.println("Zaszyfrowana wiadomość: " + out.toString());
+//                    String cryptedMessage = out.toString();
                     /////////////
                 
-                this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(cryptedMessage); // zaciągam strumień clienta o 
+                this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message); // zaciągam strumień clienta o 
                 System.out.println(" message sent ");
                 String temp = "Connection with " + hostIp + " , (JA) " + myProfilName;
                 this.setMessage(temp);

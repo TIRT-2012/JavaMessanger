@@ -45,7 +45,6 @@ public class SSLServer implements Runnable {
     private boolean keepRunning = true;
     private SSLController sslControler = null;
     private HashMap messengerFrameList = null;
-    String myIp;
     private String ipAdress;
 
     public SSLServer(SSLController sslControler) {
@@ -63,12 +62,6 @@ public class SSLServer implements Runnable {
             server = (SSLServerSocket) factory.createServerSocket(PORT, MAX, null);
             System.out.println("SocketAddr: " + server.getLocalSocketAddress());
             System.out.println("Server running: " + server);
-
-            myIp = JMHelper.getMyPublicIP();
-
-            //messenger.setMessage("Binding to port " + PORT + ", please wait  ...");
-            //messenger.setMessage("SocketAddr: " + server.getLocalSocketAddress());
-            //messenger.setMessage("Server running: " + server);
         } catch (IOException ioe) {
             out.println(ioe);
         }
@@ -115,17 +108,17 @@ public class SSLServer implements Runnable {
                     this.setFrameToMap(mf);
 
                     // START sending public key
-                    JCECrypter cryptograph = new JCECrypter();
-                    KeyPair RSAKey = null;
-                    try {
-                        RSAKey = cryptograph.generateRSAKey();
-                    } catch (Exception ex) {
-                        Logger.getLogger(SSLServer.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    sslControler.getClient(ipAdress).setKeyPair(RSAKey);
-                    SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
-                    sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
-                    sslControler.getClient(ipAdress).sendKey();
+//                    JCECrypter cryptograph = new JCECrypter();
+//                    KeyPair RSAKey = null;
+//                    try {
+//                        RSAKey = cryptograph.generateRSAKey();
+//                    } catch (Exception ex) {
+//                        Logger.getLogger(SSLServer.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                    sslControler.getClient(ipAdress).setKeyPair(RSAKey);
+//                    SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
+//                    sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
+//                    sslControler.getClient(ipAdress).sendKey();
                     // END sending public key
                     
                     
