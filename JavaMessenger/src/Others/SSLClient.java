@@ -162,4 +162,8 @@ public class SSLClient {
         }
         serialPublicKey = null;
     }
+    public ObjectOutputStream getObjectOutputStream()
+    {
+        return oos;
+    }
 }

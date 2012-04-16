@@ -285,8 +285,11 @@ public class MessegerFrame extends javax.swing.JFrame {
                     System.out.println("Zaszyfrowana wiadomość: " + out.toString());
                     String cryptedMessage = out.toString();
                     System.out.println("CryptedMessage: " + cryptedMessage);
+                    
+                    this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(out); 
+                    
                     /////////////
-                this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(cryptedMessage); // zaciągam strumień clienta o 
+                //this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(cryptedMessage); // zaciągam strumień clienta o 
                 System.out.println(" message sent ");
                 String temp = "Connection with " + hostIp + " , (JA) " + myProfilName;
                 this.setMessage(temp);
