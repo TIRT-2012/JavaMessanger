@@ -76,15 +76,15 @@ public class SSLSocketConnection extends Thread {
                 
                  //decrypting
                 String words = streamIn.readUTF();
-                ByteArrayInputStream in2 = new ByteArrayInputStream(words.getBytes());
-                ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-                JCECrypter jce = new JCECrypter();
-                try {
-                    jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate(), in2, out2);
-                } catch (Exception ex) {
-                    Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                System.out.println("Zdeszyfrowana wiadomość: " + out2.toString());
+//                ByteArrayInputStream in2 = new ByteArrayInputStream(words.getBytes());
+//                ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+//                JCECrypter jce = new JCECrypter();
+//                try {
+//                    jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate(), in2, out2);
+//                } catch (Exception ex) {
+//                    Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                System.out.println("Zdeszyfrowana wiadomość: " + out2.toString());
                 //////////////////
                 
                 
