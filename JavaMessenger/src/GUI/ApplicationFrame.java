@@ -335,6 +335,10 @@ public class ApplicationFrame extends javax.swing.JFrame {
             if (!sslControler.getServer().isFrameInMap(ip)) {
                 // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować 
                 sslControler.runClient(ip);
+                String algorithm = sslControler.getAlgorithm();
+                System.out.println("SSLSEVER: Algorithm - " + algorithm);
+                int keySize = sslControler.getKeySize();
+                System.out.println("SSLSEVER: Keysize - " + keySize);
                 // zapoczatkuj klucz
             }
         }
