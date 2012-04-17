@@ -9,6 +9,7 @@ import Others.SSLClient;
 import Others.SSLSocketConnection;
 import crypto.JCECrypter;
 import crypto.SerialCryptedMessage;
+import crypto.SerialPublicKey;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -16,6 +17,7 @@ import java.awt.event.WindowListener;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.security.PublicKey;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -36,7 +38,18 @@ public class MessegerFrame extends javax.swing.JFrame {
     private SSLClient client = null;
     private SSLSocketConnection sslSocketConnection = null;
     private String myProfilName = null;
-
+    private PublicKey publicKey = null;
+    
+    public PublicKey getPublicKey()
+    {
+        return publicKey;
+    }
+    
+    public void setPublicKey(PublicKey publicKey)
+    {
+        this.publicKey = publicKey;
+    }
+            
     public JTextArea getjTextArea1() {
         return jTextArea1;
     }
@@ -298,8 +311,8 @@ public class MessegerFrame extends javax.swing.JFrame {
                 JCECrypter jce = new JCECrypter();
                 SerialCryptedMessage sCm = null;
                 try {
-                    System.out.println("Moj klucz publiczny do szyfrowania wiadomosci"+client.getSerialPublicKey().getPublicKey().toString());
-                    sCm = jce.cryptOut(client.getSerialPublicKey().getPublicKey(), in, out);
+                    System.out.println("Moj klucz publiczny do szyfrowania wiadomosci"+publicKey);
+                    sCm = jce.cryptOut(publicKey, in, out);
                 } catch (Exception ex) {
                     Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }

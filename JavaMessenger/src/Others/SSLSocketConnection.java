@@ -33,6 +33,7 @@ public class SSLSocketConnection extends Thread {
     private ObjectInputStream ois;
     private SerialPublicKey spk;
     private boolean isFile = false;
+    private boolean isClose = false;
 
     public SSLSocketConnection(SSLSocket socket, SSLServer sslServer) throws IOException {
         this.socket = socket;
@@ -66,8 +67,10 @@ public class SSLSocketConnection extends Thread {
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    this.messenger.getSSLClient().setSerialPublicKey(spk);
+                    this.messenger.setPublicKey(spk.getPublicKey());
+                    //this.messenger.getSSLClient().setSerialPublicKey(spk);
                     System.out.println("Klucz publiczny to : " + spk.getPublicKey().toString());
+                    System.out.println("Klucz publiczny wedlug messengera to : " + this.messenger.getPublicKey());
                     isPublicKeyTransfer = false;
                 } else {
                     if (isFile) {
@@ -102,7 +105,7 @@ public class SSLSocketConnection extends Thread {
 //                    }
 //                    String words = new String(sCm.getByteArray());
                         JCECrypter jce = new JCECrypter();
-                        System.out.println("Socket connection public key: "+this.messenger.getSSLClient().getSerialPublicKey().getPublicKey().toString());
+                        System.out.println("Socket connection public key: "+this.messenger.getPublicKey().toString());
                         try {
                             sCm = (SerialCryptedMessage) ois.readObject();
                         } catch (ClassNotFoundException ex) {
