@@ -29,9 +29,10 @@ public class SSLSocketConnection extends Thread {
     InetAddress ip = null;
     String ipAdress = null;
     SSLServer sslServer = null;
-    private boolean firstTime = true;
+    private boolean isPublicKeyTransfer = true;
     private ObjectInputStream ois;
     private SerialPublicKey spk;
+    private boolean isFile = false;
 
     public SSLSocketConnection(SSLSocket socket, SSLServer sslServer) throws IOException {
         this.socket = socket;
@@ -56,8 +57,8 @@ public class SSLSocketConnection extends Thread {
     public void run() {
         try {
             while (keepRunning) {
-                System.out.println("FIRSTTIME" + firstTime);
-                if (firstTime) {
+                System.out.println("FIRSTTIME" + isPublicKeyTransfer);
+                if (isPublicKeyTransfer) {
                     try {
                         spk = (SerialPublicKey) ois.readObject();
                     } catch (IOException ex) {
@@ -67,9 +68,32 @@ public class SSLSocketConnection extends Thread {
                     }
                     this.messenger.getSSLClient().setSerialPublicKey(spk);
                     System.out.println("Klucz publiczny to : " + spk.getPublicKey().toString());
-                    firstTime = false;
+                    isPublicKeyTransfer = false;
                 } else {
-                    SerialCryptedMessage sCm = null;
+                    if (isFile) {
+                        int filesize = 6022386;
+                        long start = System.currentTimeMillis();
+                        int bytesRead;
+                        int current = 0;
+                        byte[] mybytearray = new byte[filesize];
+                        InputStream is = socket.getInputStream();
+                        FileOutputStream fos = new FileOutputStream("mojakopia.mp3");
+                        BufferedOutputStream bos = new BufferedOutputStream(fos);
+                        bytesRead = is.read(mybytearray, 0, mybytearray.length);
+                        current = bytesRead;
+                        do {
+                            bytesRead =
+                                    is.read(mybytearray, current, (mybytearray.length - current));
+                            if (bytesRead >= 0) {
+                                current += bytesRead;
+                            }
+                        } while (bytesRead > -1);
+                        bos.write(mybytearray, 0, mybytearray.length);
+                        bos.flush();
+                        long end = System.currentTimeMillis();
+                        System.out.println(end - start);
+                    } else {
+                        SerialCryptedMessage sCm = null;
 //                    try {
 //                        //decrypting
 //                        sCm = (SerialCryptedMessage) ois.readObject();
@@ -77,25 +101,27 @@ public class SSLSocketConnection extends Thread {
 //                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
 //                    }
 //                    String words = new String(sCm.getByteArray());
-                    JCECrypter jce = new JCECrypter();
-                    try {
-                        sCm = (SerialCryptedMessage) ois.readObject();
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                        JCECrypter jce = new JCECrypter();
+                        try {
+                            sCm = (SerialCryptedMessage) ois.readObject();
+                        } catch (ClassNotFoundException ex) {
+                            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        ByteArrayInputStream in2 = new ByteArrayInputStream(sCm.getByteArray());
+                        ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+                        try {
+                            jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate(), in2, out2);
+                        } catch (Exception ex) {
+                            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        String words = out2.toString();
+                        out.println("Connection " + id + ": " + words);
+                        messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
+                        messenger.setMessage(words);
+                        messenger.getjTextArea1().setCaretPosition(0);
+                        messenger.getjTextArea1().requestFocus();
                     }
-                    ByteArrayInputStream in2 = new ByteArrayInputStream(sCm.getByteArray());
-                    ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-                    try {
-                        jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate() , in2, out2);
-                    } catch (Exception ex) {
-                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    String words = out2.toString();
-                    out.println("Connection " + id + ": " + words);
-                    messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
-                    messenger.setMessage(words);
-                    messenger.getjTextArea1().setCaretPosition(0);
-                    messenger.getjTextArea1().requestFocus();
+
                 }
             }
             out.println("Client from port " + id + " quits");

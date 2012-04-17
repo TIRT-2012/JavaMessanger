@@ -159,6 +159,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -198,6 +199,18 @@ public class MessegerFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Rozmowa z:");
 
+        jButton3.setText("Wyślij plik");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Program");
         jMenuBar1.add(jMenu1);
 
@@ -222,6 +235,9 @@ public class MessegerFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -239,7 +255,9 @@ public class MessegerFrame extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -275,22 +293,22 @@ public class MessegerFrame extends javax.swing.JFrame {
             String message = this.getMessage();
             try {
                 //////crypting
-                    ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
-                    ByteArrayOutputStream out = new ByteArrayOutputStream();
-                    JCECrypter jce = new JCECrypter();
-                    SerialCryptedMessage sCm = null;
-                    try {
-                        sCm = jce.cryptOut(client.getSerialPublicKey().getPublicKey(), in, out);
-                    } catch (Exception ex) {
-                        Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    System.out.println("Zaszyfrowana wiadomość: " + out.toString());
-                    String cryptedMessage = out.toString();
-                    System.out.println("CryptedMessage: " + cryptedMessage);
-                    
-                    this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm); 
-                    
-                    /////////////
+                ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                JCECrypter jce = new JCECrypter();
+                SerialCryptedMessage sCm = null;
+                try {
+                    sCm = jce.cryptOut(client.getSerialPublicKey().getPublicKey(), in, out);
+                } catch (Exception ex) {
+                    Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("Zaszyfrowana wiadomość: " + out.toString());
+                String cryptedMessage = out.toString();
+                System.out.println("CryptedMessage: " + cryptedMessage);
+
+                this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
+
+                /////////////
                 //this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(cryptedMessage); // zaciągam strumień clienta o 
                 System.out.println(" message sent ");
                 String temp = "Connection with " + hostIp + " , (JA) " + myProfilName;
@@ -309,7 +327,24 @@ public class MessegerFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         String message = this.getMessage();
         try {
-            this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message);
+            //////crypting
+            ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            JCECrypter jce = new JCECrypter();
+            SerialCryptedMessage sCm = null;
+            try {
+                sCm = jce.cryptOut(client.getSerialPublicKey().getPublicKey(), in, out);
+            } catch (Exception ex) {
+                Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Zaszyfrowana wiadomość: " + out.toString());
+            String cryptedMessage = out.toString();
+            System.out.println("CryptedMessage: " + cryptedMessage);
+
+            this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
+
+            /////////////
+            //this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message);
             System.out.println(" message sent ");
             String temp = "Connection with " + hostIp + " , (JA) " + myProfilName;
             this.setMessage(temp);
@@ -321,6 +356,18 @@ public class MessegerFrame extends javax.swing.JFrame {
             Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // TODO add your handling code here:
+        FileSender fs = new FileSender();
+        fs.setMessengerFrame(this);
+        fs.setLocationRelativeTo(fs.getRootPane());
+        fs.setVisible(true);
+    }//GEN-LAST:event_jButton3MouseClicked
 
     /**
      * @param args the command line arguments
@@ -366,6 +413,7 @@ public class MessegerFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;

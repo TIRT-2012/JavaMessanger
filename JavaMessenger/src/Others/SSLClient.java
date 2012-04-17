@@ -32,7 +32,9 @@ public class SSLClient {
     private ObjectOutputStream oos;
     private KeyPair keyPair = null;
     private SerialPublicKey serialPublicKey = null;
-
+    private OutputStream output = null;
+    private byte byteArray[] = null;
+    
     public SSLClient() {
         System.setProperty("javax.net.ssl.keyStore", "testKey");
         System.setProperty("javax.net.ssl.keyStorePassword", "tester");
@@ -165,5 +167,23 @@ public class SSLClient {
     public ObjectOutputStream getObjectOutputStream()
     {
         return oos;
+    }
+    
+    public void sendFile()
+    {
+        try {
+                File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
+                byteArray = new byte[(int) myFile.length()];
+                FileInputStream fis = new FileInputStream(myFile);
+                BufferedInputStream bis = new BufferedInputStream(fis);
+                bis.read(byteArray, 0, byteArray.length);
+                System.out.println("test " + socket.getOutputStream());
+                output = socket.getOutputStream();
+                System.out.println("Sending...");
+                output.write(byteArray, 0, byteArray.length);
+                output.flush();
+            } catch (IOException ioe) {
+                System.out.println("Sending error: " + ioe.getMessage());
+            }
     }
 }
