@@ -18,8 +18,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
  */
 public class JCECrypter {
    /* 2040 >= RSA_KEYSIZE >= 512 */
-   private final int rsaKeySize = 512;
-   private int symetricKeySize = 128;
+   private final int rsaKeySize = 1024;
+   private int symetricKeySize = 256;
    private static final String decryptedFile = "out.mp3";
    private static final String encryptedFile = "encrypted.enc";
    private static final String testFile = "test.mp3";
@@ -51,7 +51,7 @@ public class JCECrypter {
    private String cryptographyMode = "";
    
    public static void main(String[] args) {
-       JCECrypter cryptor = new JCECrypter("AES", 128);
+       JCECrypter cryptor = new JCECrypter("AES", 256);
         try {
             //c.testFileCrypting();
             cryptor.testStringCrypting();
