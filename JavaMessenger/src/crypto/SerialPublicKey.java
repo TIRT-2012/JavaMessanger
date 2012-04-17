@@ -13,6 +13,8 @@ import java.security.PublicKey;
  */
 public class SerialPublicKey implements Serializable{
     private PublicKey key;
+    private String algorithm;
+    private int symetricKeySize;
     
     public SerialPublicKey(PublicKey key){
         this.key = key;
@@ -20,5 +22,21 @@ public class SerialPublicKey implements Serializable{
     
     public PublicKey getPublicKey(){
         return key;
+    }
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public int getSymetricKeySize() {
+        return symetricKeySize;
+    }
+
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public void setSymetricKeySize(int symetricKeySize) {
+        this.symetricKeySize = symetricKeySize;
     }
 }
