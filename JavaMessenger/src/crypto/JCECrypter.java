@@ -70,6 +70,14 @@ public class JCECrypter {
    public JCECrypter(){
        Security.addProvider(new BouncyCastleProvider());
    }
+
+   public void setCryptographyAlgorithm(String cryptographyAlgorithm) {
+        this.cryptographyAlgorithm = cryptographyAlgorithm;
+   }
+
+   public void setSymetricKeySize(int symetricKeySize) {
+        this.symetricKeySize = symetricKeySize;
+   }
    
    public void testStringCrypting() throws Exception{
        System.out.println("Szyfrowana wiadomość: " + testString);
