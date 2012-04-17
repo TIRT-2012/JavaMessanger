@@ -342,22 +342,23 @@ public class MessegerFrame extends javax.swing.JFrame {
         String message = this.getMessage();
         try {
             //////crypting
-            ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            JCECrypter jce = new JCECrypter();
-            SerialCryptedMessage sCm = null;
-            try {
-                sCm = jce.cryptOut(client.getSerialPublicKey().getPublicKey(), in, out);
-            } catch (Exception ex) {
-                Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.out.println("Zaszyfrowana wiadomość: " + out.toString());
-            String cryptedMessage = out.toString();
-            System.out.println("CryptedMessage: " + cryptedMessage);
+                ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                JCECrypter jce = new JCECrypter();
+                SerialCryptedMessage sCm = null;
+                try {
+                    System.out.println("Moj klucz publiczny do szyfrowania wiadomosci"+publicKey);
+                    sCm = jce.cryptOut(publicKey, in, out);
+                } catch (Exception ex) {
+                    Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                System.out.println("Zaszyfrowana wiadomość: " + out.toString());
+                String cryptedMessage = out.toString();
+                System.out.println("CryptedMessage: " + cryptedMessage);
 
-            this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
+                this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
 
-            /////////////
+                /////////////
             //this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message);
             System.out.println(" message sent ");
             String temp = "Connection with " + hostIp + " , (JA) " + myProfilName;
