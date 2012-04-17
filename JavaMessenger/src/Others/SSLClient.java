@@ -177,7 +177,6 @@ public class SSLClient {
                 FileInputStream fis = new FileInputStream(myFile);
                 BufferedInputStream bis = new BufferedInputStream(fis);
                 bis.read(byteArray, 0, byteArray.length);
-                System.out.println("test " + socket.getOutputStream());
                 output = socket.getOutputStream();
                 System.out.println("Sending...");
                 output.write(byteArray, 0, byteArray.length);
