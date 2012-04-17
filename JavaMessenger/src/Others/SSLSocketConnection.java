@@ -57,13 +57,7 @@ public class SSLSocketConnection extends Thread {
         try {
             while (keepRunning) {
                 System.out.println("FIRSTTIME" + firstTime);
-                String words = null;
                 if (firstTime) {
-//                    try {
-//                        ois = new ObjectInputStream(socket.getInputStream());
-//                    } catch (IOException ex) {
-//                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
                     try {
                         spk = (SerialPublicKey) ois.readObject();
                     } catch (IOException ex) {
@@ -76,32 +70,32 @@ public class SSLSocketConnection extends Thread {
                     firstTime = false;
                 } else {
                     SerialCryptedMessage sCm = null;
+//                    try {
+//                        //decrypting
+//                        sCm = (SerialCryptedMessage) ois.readObject();
+//                    } catch (ClassNotFoundException ex) {
+//                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+//                    }
+//                    String words = new String(sCm.getByteArray());
+                    JCECrypter jce = new JCECrypter();
                     try {
-                        //decrypting
                         sCm = (SerialCryptedMessage) ois.readObject();
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    words = new String(sCm.getByteArray());
-                //}
-//                ByteArrayInputStream in2 = new ByteArrayInputStream(words.getBytes());
-//                ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-//                JCECrypter jce = new JCECrypter();
-//                try {
-//                    jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate(), in2, out2);
-//                } catch (Exception ex) {
-//                    Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//                System.out.println("Zdeszyfrowana wiadomość: " + out2.toString());
-                //////////////////
-
-
-                //String words = streamIn.readUTF();
-                out.println("Connection " + id + ": " + words);
-                messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
-                messenger.setMessage(words);
-                messenger.getjTextArea1().setCaretPosition(0);
-                messenger.getjTextArea1().requestFocus();
+                    ByteArrayInputStream in2 = new ByteArrayInputStream(sCm.getByteArray());
+                    ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+                    try {
+                        jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate() , in2, out2);
+                    } catch (Exception ex) {
+                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    String words = out2.toString();
+                    out.println("Connection " + id + ": " + words);
+                    messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
+                    messenger.setMessage(words);
+                    messenger.getjTextArea1().setCaretPosition(0);
+                    messenger.getjTextArea1().requestFocus();
                 }
             }
             out.println("Client from port " + id + " quits");
