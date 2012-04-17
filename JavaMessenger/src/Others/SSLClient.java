@@ -156,7 +156,9 @@ public class SSLClient {
     {
         System.out.println("sendKey()");
         try {
-            System.out.println("serialPublicKey: " + serialPublicKey.getPublicKey());
+            System.out.println("serialPublicKey PUBLICKEY: " + serialPublicKey.getPublicKey());
+            System.out.println("serialPublicKey ALGORITHM: " + serialPublicKey.getAlgorithm());
+            System.out.println("serialPublicKey KEYSIZE" + serialPublicKey.getSymetricKeySize());
             oos.writeObject(serialPublicKey);
             //oos.close();
         } catch (IOException ex) {

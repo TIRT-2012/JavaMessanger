@@ -28,6 +28,8 @@ public class SSLController {
     private Thread ts;
     private MessegerFrame msgr = null;
     private ApplicationComponents applicationComponents;
+    private String algorithm = null;
+    private int keySize;
 
     public SSLController(ApplicationComponents ac) {
         //runServer();
@@ -41,6 +43,22 @@ public class SSLController {
 
     public HashMap getClientsMap() {
         return clientsMap;
+    }
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public int getKeySize() {
+        return keySize;
+    }
+
+    public void setKeySize(int keySize) {
+        this.keySize = keySize;
     }
 
     public String getUserName(String ip) {

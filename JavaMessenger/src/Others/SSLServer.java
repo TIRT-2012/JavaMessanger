@@ -108,7 +108,9 @@ public class SSLServer implements Runnable {
                     this.setFrameToMap(mf);
                     
                 // START sending public key
-                    JCECrypter cryptograph = new JCECrypter();
+                    String algorithm = sslControler.getAlgorithm();
+                    int keySize = sslControler.getKeySize();
+                    JCECrypter cryptograph = new JCECrypter(algorithm, keySize);
                     KeyPair RSAKey = null;
                     try {
                         RSAKey = cryptograph.generateRSAKey();
@@ -117,7 +119,10 @@ public class SSLServer implements Runnable {
                     }
                     sslControler.getClient(ipAdress).setKeyPair(RSAKey);
                     SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
+                    publicKey.setAlgorithm(algorithm);
+                    publicKey.setSymetricKeySize(keySize);
                     sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
+                    
                     sslControler.getClient(ipAdress).sendKey();
                     System.out.println("Adres hosta: "+sslControler.getClient(ipAdress).getHost());
                     // END sending public key

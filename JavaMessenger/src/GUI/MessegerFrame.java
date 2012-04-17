@@ -39,6 +39,8 @@ public class MessegerFrame extends javax.swing.JFrame {
     private SSLSocketConnection sslSocketConnection = null;
     private String myProfilName = null;
     private PublicKey publicKey = null;
+    private String algorithm = null;
+    private int symetricKeySize;
     
     public PublicKey getPublicKey()
     {
@@ -48,6 +50,22 @@ public class MessegerFrame extends javax.swing.JFrame {
     public void setPublicKey(PublicKey publicKey)
     {
         this.publicKey = publicKey;
+    }
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(String algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public int getSymetricKeySize() {
+        return symetricKeySize;
+    }
+
+    public void setSymetricKeySize(int symetricKeySize) {
+        this.symetricKeySize = symetricKeySize;
     }
             
     public JTextArea getjTextArea1() {
@@ -308,7 +326,7 @@ public class MessegerFrame extends javax.swing.JFrame {
                 //////crypting
                 ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                JCECrypter jce = new JCECrypter();
+                JCECrypter jce = new JCECrypter(getSslControler().getAlgorithm(),getSslControler().getKeySize());
                 SerialCryptedMessage sCm = null;
                 try {
                     System.out.println("Moj klucz publiczny do szyfrowania wiadomosci"+publicKey);

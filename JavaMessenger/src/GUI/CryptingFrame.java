@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import Others.ApplicationComponents;
+
 /**
  *
  * @author Trebronus
@@ -13,8 +15,16 @@ public class CryptingFrame extends javax.swing.JFrame {
     /**
      * Creates new form CryptingFrame
      */
+    private ApplicationFrame applicationFrame = null;
+    private ApplicationComponents applicationComponents = null;
+    
     public CryptingFrame() {
         initComponents();
+    }
+
+    public CryptingFrame(ApplicationFrame applicationFrame) {
+        initComponents();
+        this.applicationFrame = applicationFrame;
     }
 
     /**
@@ -102,6 +112,8 @@ public class CryptingFrame extends javax.swing.JFrame {
     private void cryptSettingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cryptSettingsBtnActionPerformed
         String algorithm = (String)algorithNameComboBox.getSelectedItem();
         int keySize = Integer.parseInt(keySizeTextField.getText());
+        this.applicationComponents.getSSLController().setAlgorithm(algorithm);
+        this.applicationComponents.getSSLController().setKeySize(keySize);    
     }//GEN-LAST:event_cryptSettingsBtnActionPerformed
 
     private void algorithNameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algorithNameComboBoxActionPerformed
@@ -157,4 +169,8 @@ public class CryptingFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField keySizeTextField;
     // End of variables declaration//GEN-END:variables
+
+    public void setApplicationComponents(ApplicationComponents applicationComponents) {
+        this.applicationComponents = applicationComponents;
+    }
 }
