@@ -43,8 +43,6 @@ public class CryptingFrame extends javax.swing.JFrame {
         keySizeTextField = new javax.swing.JTextField();
         cryptSettingsBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Wybierz algorytm szyfrowania");
 
@@ -113,7 +111,8 @@ public class CryptingFrame extends javax.swing.JFrame {
         String algorithm = (String)algorithNameComboBox.getSelectedItem();
         int keySize = Integer.parseInt(keySizeTextField.getText());
         this.applicationComponents.getSSLController().setAlgorithm(algorithm);
-        this.applicationComponents.getSSLController().setKeySize(keySize);    
+        this.applicationComponents.getSSLController().setKeySize(keySize);
+        this.setVisible(false);
     }//GEN-LAST:event_cryptSettingsBtnActionPerformed
 
     private void algorithNameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algorithNameComboBoxActionPerformed
