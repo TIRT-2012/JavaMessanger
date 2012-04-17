@@ -109,7 +109,9 @@ public class SSLServer implements Runnable {
                     
                 // START sending public key
                     String algorithm = sslControler.getAlgorithm();
+                    System.out.println("SSLSEVER: Algorithm - " + algorithm);
                     int keySize = sslControler.getKeySize();
+                    System.out.println("SSLSEVER: Keysize - " + keySize);
                     JCECrypter cryptograph = new JCECrypter(algorithm, keySize);
                     KeyPair RSAKey = null;
                     try {
@@ -122,7 +124,8 @@ public class SSLServer implements Runnable {
                     publicKey.setAlgorithm(algorithm);
                     publicKey.setSymetricKeySize(keySize);
                     sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
-                    
+                    System.out.println("SSLSEVER: Algorithm - " + sslControler.getClient(ipAdress).getSerialPublicKey().getAlgorithm());
+                    System.out.println("SSLSEVER: Keysize - " + sslControler.getClient(ipAdress).getSerialPublicKey().getSymetricKeySize());
                     sslControler.getClient(ipAdress).sendKey();
                     System.out.println("Adres hosta: "+sslControler.getClient(ipAdress).getHost());
                     // END sending public key
