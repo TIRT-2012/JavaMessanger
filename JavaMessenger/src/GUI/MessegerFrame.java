@@ -298,6 +298,7 @@ public class MessegerFrame extends javax.swing.JFrame {
                 JCECrypter jce = new JCECrypter();
                 SerialCryptedMessage sCm = null;
                 try {
+                    System.out.println("Moj klucz publiczny do szyfrowania wiadomosci"+client.getSerialPublicKey().getPublicKey().toString());
                     sCm = jce.cryptOut(client.getSerialPublicKey().getPublicKey(), in, out);
                 } catch (Exception ex) {
                     Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);

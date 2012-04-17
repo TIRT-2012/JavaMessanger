@@ -102,6 +102,7 @@ public class SSLSocketConnection extends Thread {
 //                    }
 //                    String words = new String(sCm.getByteArray());
                         JCECrypter jce = new JCECrypter();
+                        System.out.println("Socket connection public key: "+this.messenger.getSSLClient().getSerialPublicKey().getPublicKey().toString());
                         try {
                             sCm = (SerialCryptedMessage) ois.readObject();
                         } catch (ClassNotFoundException ex) {
