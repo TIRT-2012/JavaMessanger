@@ -35,6 +35,7 @@ public class SSLSocketConnection extends Thread {
     private boolean isFile = false;
     private boolean isClose = false;
     private boolean notBegginer = false;
+    private boolean isFileSender = false;
 
     public SSLSocketConnection(SSLSocket socket, SSLServer sslServer) throws IOException {
         this.socket = socket;
@@ -129,7 +130,7 @@ public class SSLSocketConnection extends Thread {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     String words = out2.toString();
-                    boolean isFileSender = words.equals("<<%file%>>");
+                    isFileSender = words.equals("<<%file%>>");
                     decideIsFile(isFileSender, words);
                 }
             }
@@ -164,11 +165,9 @@ public class SSLSocketConnection extends Thread {
     }
 
     public void decideIsFile(boolean isFileSender, String words) {
-        if (isFileSender == true);
-        {
+        if (isFileSender) {
             this.isFile = true;
-        }
-        if (!isFileSender) {
+        } else {
             out.println("Connection " + id + ": " + words);
             messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
             messenger.setMessage(words);
