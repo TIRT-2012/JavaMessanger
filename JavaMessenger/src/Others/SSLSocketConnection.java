@@ -29,7 +29,7 @@ public class SSLSocketConnection extends Thread {
     InetAddress ip = null;
     String ipAdress = null;
     SSLServer sslServer = null;
-    private boolean isPublicKeyTransfer = true;
+    private boolean isPublicKeyTransfer = false;
     private ObjectInputStream ois;
     private SerialPublicKey spk;
     private boolean isFile = false;
@@ -46,6 +46,14 @@ public class SSLSocketConnection extends Thread {
         streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
         ois = new ObjectInputStream(socket.getInputStream());
         out.println("New client joined on port: " + id + " IP: " + ipAdress);
+    }
+
+    public boolean isIsPublicKeyTransfer() {
+        return isPublicKeyTransfer;
+    }
+
+    public void setIsPublicKeyTransfer(boolean isPublicKeyTransfer) {
+        this.isPublicKeyTransfer = isPublicKeyTransfer;
     }
 
     public boolean isNotBegginer() {
@@ -81,15 +89,15 @@ public class SSLSocketConnection extends Thread {
                         this.messenger.getSslControler().setKeySize(spk.getSymetricKeySize());
                         this.messenger.setAlgorithm(spk.getAlgorithm());
                         this.messenger.setSymetricKeySize(spk.getSymetricKeySize());
+                        
+                        System.out.println("Algorytm wedlug messengera to : " + this.messenger.getAlgorithm());
+                        System.out.println("DlugoscKlucza wedlug messengera to : " + this.messenger.getSymetricKeySize());
                     }
 
                     this.messenger.setPublicKey(spk.getPublicKey());
-
+                    System.out.println("Klucz ODEBRANY : " + this.messenger.getPublicKey());
                     //this.messenger.getSSLClient().setSerialPublicKey(spk);
-                    System.out.println("Klucz publiczny to : " + spk.getPublicKey().toString());
-                    System.out.println("Klucz publiczny wedlug messengera to : " + this.messenger.getPublicKey());
-                    System.out.println("Algorytm wedlug messengera to : " + this.messenger.getAlgorithm());
-                    System.out.println("DlugoscKlucza wedlug messengera to : " + this.messenger.getSymetricKeySize());
+                    
                     isPublicKeyTransfer = false;
                 } else {
                     if (isFile) {

@@ -96,14 +96,11 @@ public class SSLServer implements Runnable {
 
                     sslcc = new SSLSocketConnection(socket, this);
                     sslcc.setFrame(mf);
-                    ////
-                    if (isClientReceiver) {
-                        this.sslcc.setNotBegginer(true);
-                    }
-                    ////
                     addConnection(sslcc);
 
                     if (isClientReceiver) {
+                        this.sslcc.setNotBegginer(true);
+                        this.sslcc.setIsPublicKeyTransfer(true);
                         this.sslControler.runClient(ipAdress);
                         System.out.println("klient zewnetrzny uruchomiony ");
                         //odbierz wiadomośc od klienta, który zapoczątkował
@@ -136,8 +133,7 @@ public class SSLServer implements Runnable {
                     }
                     ////
                     sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
-                    System.out.println("SSLSEVER: Algorithm - " + sslControler.getClient(ipAdress).getSerialPublicKey().getAlgorithm());
-                    System.out.println("SSLSEVER: Keysize - " + sslControler.getClient(ipAdress).getSerialPublicKey().getSymetricKeySize());
+                    System.out.println("Moj klucz to"+publicKey.getPublicKey());
                     sslControler.getClient(ipAdress).sendKey();
                     System.out.println("Adres hosta: " + sslControler.getClient(ipAdress).getHost());
                     // END sending public key
