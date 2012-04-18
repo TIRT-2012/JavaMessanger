@@ -85,17 +85,25 @@ public class SSLServer implements Runnable {
                     socket = (SSLSocket) server.accept();
                     InetAddress ipTemp = socket.getInetAddress();
                     ipAdress = ipTemp.toString().substring(1);
-                    
+
                     boolean flag = isClientInClientsMap(ipAdress);
-                    
+                    ////
+                    boolean isClientReceiver = (!this.isFrameInMap(ipAdress) && !flag);
+                    System.out.println("KLient zewnętrzny uruchomiony" + isClientReceiver);
+                    ////
                     MessegerFrame mf = new MessegerFrame(sslControler);
                     mf.setVisible(false);
-                    
+
                     sslcc = new SSLSocketConnection(socket, this);
                     sslcc.setFrame(mf);
+                    ////
+                    if (isClientReceiver) {
+                        this.sslcc.setNotBegginer(true);
+                    }
+                    ////
                     addConnection(sslcc);
-                    
-                    if (!this.isFrameInMap(ipAdress) && !flag) {
+
+                    if (isClientReceiver) {
                         this.sslControler.runClient(ipAdress);
                         System.out.println("klient zewnetrzny uruchomiony ");
                         //odbierz wiadomośc od klienta, który zapoczątkował
@@ -106,8 +114,8 @@ public class SSLServer implements Runnable {
                     mf.addSSLSocketConnection(sslcc);
                     mf.changeJLabel1(sslControler.getUserName(ipAdress));
                     this.setFrameToMap(mf);
-                    
-                // START sending public key
+
+                    // START sending public key
                     String algorithm = sslControler.getAlgorithm();
                     System.out.println("SSLSEVER: Algorithm - " + algorithm);
                     int keySize = sslControler.getKeySize();
@@ -121,15 +129,19 @@ public class SSLServer implements Runnable {
                     }
                     sslControler.getClient(ipAdress).setKeyPair(RSAKey);
                     SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
-                    publicKey.setAlgorithm(algorithm);
-                    publicKey.setSymetricKeySize(keySize);
+                    /////
+                    if (!isClientReceiver) {
+                        publicKey.setAlgorithm(algorithm);
+                        publicKey.setSymetricKeySize(keySize);
+                    }
+                    ////
                     sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
                     System.out.println("SSLSEVER: Algorithm - " + sslControler.getClient(ipAdress).getSerialPublicKey().getAlgorithm());
                     System.out.println("SSLSEVER: Keysize - " + sslControler.getClient(ipAdress).getSerialPublicKey().getSymetricKeySize());
                     sslControler.getClient(ipAdress).sendKey();
-                    System.out.println("Adres hosta: "+sslControler.getClient(ipAdress).getHost());
+                    System.out.println("Adres hosta: " + sslControler.getClient(ipAdress).getHost());
                     // END sending public key
-                
+
                 } catch (IOException ex) {
                     out.println("Server: IO Exception occured");
                 }

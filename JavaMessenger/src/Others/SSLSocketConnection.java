@@ -34,6 +34,7 @@ public class SSLSocketConnection extends Thread {
     private SerialPublicKey spk;
     private boolean isFile = false;
     private boolean isClose = false;
+    private boolean notBegginer = false;
 
     public SSLSocketConnection(SSLSocket socket, SSLServer sslServer) throws IOException {
         this.socket = socket;
@@ -45,6 +46,14 @@ public class SSLSocketConnection extends Thread {
         streamIn = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
         ois = new ObjectInputStream(socket.getInputStream());
         out.println("New client joined on port: " + id + " IP: " + ipAdress);
+    }
+
+    public boolean isNotBegginer() {
+        return notBegginer;
+    }
+
+    public void setNotBegginer(boolean notBegginer) {
+        this.notBegginer = notBegginer;
     }
 
     public void setFrame(MessegerFrame messenger) {
@@ -67,11 +76,15 @@ public class SSLSocketConnection extends Thread {
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    this.messenger.getSslControler().setAlgorithm(spk.getAlgorithm());
-                    this.messenger.getSslControler().setKeySize(spk.getSymetricKeySize());
+                    if (notBegginer) {
+                        this.messenger.getSslControler().setAlgorithm(spk.getAlgorithm());
+                        this.messenger.getSslControler().setKeySize(spk.getSymetricKeySize());
+                        this.messenger.setAlgorithm(spk.getAlgorithm());
+                        this.messenger.setSymetricKeySize(spk.getSymetricKeySize());
+                    }
+
                     this.messenger.setPublicKey(spk.getPublicKey());
-                    this.messenger.setAlgorithm(spk.getAlgorithm());
-                    this.messenger.setSymetricKeySize(spk.getSymetricKeySize());
+
                     //this.messenger.getSSLClient().setSerialPublicKey(spk);
                     System.out.println("Klucz publiczny to : " + spk.getPublicKey().toString());
                     System.out.println("Klucz publiczny wedlug messengera to : " + this.messenger.getPublicKey());
@@ -103,15 +116,8 @@ public class SSLSocketConnection extends Thread {
                         System.out.println(end - start);
                     } else {
                         SerialCryptedMessage sCm = null;
-//                    try {
-//                        //decrypting
-//                        sCm = (SerialCryptedMessage) ois.readObject();
-//                    } catch (ClassNotFoundException ex) {
-//                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-//                    }
-//                    String words = new String(sCm.getByteArray());
                         JCECrypter jce = new JCECrypter(this.messenger.getAlgorithm(), this.messenger.getSymetricKeySize());
-                        System.out.println("Socket connection public key: "+this.messenger.getPublicKey().toString());
+                        System.out.println("Socket connection public key: " + this.messenger.getPublicKey().toString());
                         try {
                             sCm = (SerialCryptedMessage) ois.readObject();
                         } catch (ClassNotFoundException ex) {
