@@ -30,9 +30,11 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="cryptSettingsBtn" min="-2" max="-2" attributes="0"/>
-                          <Component id="keySizeTextField" alignment="0" min="-2" pref="48" max="-2" attributes="0"/>
                           <Component id="algorithNameComboBox" alignment="0" min="-2" pref="145" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="keySizeComboBox" alignment="0" max="32767" attributes="0"/>
+                              <Component id="cryptSettingsBtn" alignment="0" max="32767" attributes="0"/>
+                          </Group>
                       </Group>
                   </Group>
               </Group>
@@ -53,7 +55,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="keySizeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="keySizeComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="66" max="32767" attributes="0"/>
               <Component id="cryptSettingsBtn" min="-2" max="-2" attributes="0"/>
@@ -79,15 +81,8 @@
     <Component class="javax.swing.JComboBox" name="algorithNameComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="5">
-            <StringItem index="0" value="&lt;Brak&gt;"/>
-            <StringItem index="1" value="AES"/>
-            <StringItem index="2" value="Blowfish"/>
-            <StringItem index="3" value="DES"/>
-            <StringItem index="4" value="DESede"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
-        <Property name="selectedIndex" type="int" value="1"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="algorithNameComboBoxActionPerformed"/>
@@ -98,17 +93,24 @@
         <Property name="text" type="java.lang.String" value="D&#x142;ugo&#x15b;&#x107; klucza:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="keySizeTextField">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="128"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JButton" name="cryptSettingsBtn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Zastosuj"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cryptSettingsBtnActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="keySizeComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="1">
+            <StringItem index="0" value="56"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="keySizeComboBoxActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
