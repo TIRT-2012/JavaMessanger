@@ -84,8 +84,14 @@ public class SSLSocketConnection extends Thread {
                             System.out.println("Algorytm wedlug messengera to : " + this.messenger.getAlgorithm());
                             System.out.println("DlugoscKlucza wedlug messengera to : " + this.messenger.getSymetricKeySize());
                         }
+                        else
+                        {
+                            this.messenger.setAlgorithm(this.sslServer.getSslControler().getAlgorithm());
+                            this.messenger.setSymetricKeySize(this.sslServer.getSslControler().getKeySize());
+                        }
                         System.out.println("test4");
                         this.messenger.setPublicKey(spk.getPublicKey());
+                        
                         System.out.println("Klucz ODEBRANY : " + this.messenger.getPublicKey());
                         //this.messenger.getSSLClient().setSerialPublicKey(spk);
 
@@ -121,7 +127,9 @@ public class SSLSocketConnection extends Thread {
                         System.out.println(end - start);
                     } else {
                         SerialCryptedMessage sCm = null;
-                        JCECrypter jce = new JCECrypter(this.messenger.getAlgorithm(), this.messenger.getSymetricKeySize());
+                        String algorithm = this.messenger.getAlgorithm();
+                        int keysize = this.messenger.getSymetricKeySize();
+                        JCECrypter jce = new JCECrypter(algorithm, keysize);
                         try {
                             sCm = (SerialCryptedMessage) ois.readObject();
                         } catch (ClassNotFoundException ex) {

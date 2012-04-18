@@ -219,4 +219,9 @@ public class SSLServer implements Runnable {
     public boolean isClientInClientsMap(String ip) {
         return (sslControler.getClient(ipAdress) != null) ? true : false;
     }
+
+    public SSLController getSslControler() {
+        return sslControler;
+    }
+    
 }
