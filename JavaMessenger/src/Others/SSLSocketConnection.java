@@ -98,9 +98,10 @@ public class SSLSocketConnection extends Thread {
                     int current = 0;
                     byte[] mybytearray = new byte[filesize];
                     is = socket.getInputStream();
-                    FileOutputStream fos = new FileOutputStream("mojakopia.mp3");
+                    FileOutputStream fos = new FileOutputStream("pliczek.txt");
                     BufferedOutputStream bos = new BufferedOutputStream(fos);
                     bytesRead = is.read(mybytearray, 0, mybytearray.length);
+                    System.out.println("Bytes was read.");
                     current = bytesRead;
                     do {
                         bytesRead =
@@ -109,7 +110,9 @@ public class SSLSocketConnection extends Thread {
                             current += bytesRead;
                         }
                     } while (bytesRead > -1);
+                    System.out.println("Bytes was read to copy.");
                     bos.write(mybytearray, 0, mybytearray.length);
+                    System.out.println("Bytes was written.");
                     bos.flush();
                     bos.close();
                     long end = System.currentTimeMillis();
