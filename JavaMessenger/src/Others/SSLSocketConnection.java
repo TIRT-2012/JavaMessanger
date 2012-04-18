@@ -91,6 +91,7 @@ public class SSLSocketConnection extends Thread {
 
                 } else if (isFile) {
 
+                    System.out.println("File transmission in process");
                     int filesize = 6022386;
                     long start = System.currentTimeMillis();
                     int bytesRead;
