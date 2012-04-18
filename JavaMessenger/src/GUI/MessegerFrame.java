@@ -362,7 +362,7 @@ public class MessegerFrame extends javax.swing.JFrame {
             //////crypting
                 ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                JCECrypter jce = new JCECrypter();
+                JCECrypter jce = new JCECrypter(getSslControler().getAlgorithm(),getSslControler().getKeySize());
                 SerialCryptedMessage sCm = null;
                 try {
                     System.out.println("Moj klucz publiczny do szyfrowania wiadomosci"+publicKey);
