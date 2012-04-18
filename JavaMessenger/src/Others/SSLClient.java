@@ -177,6 +177,7 @@ public class SSLClient {
     {
         this.fileSender = fileSender;
         try {
+            streamOut.writeUTF("<<%file%>>");
                 String url = fileSender.getjTextField1().getText();
                 //File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
                 System.out.println(url);
