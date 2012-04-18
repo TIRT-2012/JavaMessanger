@@ -14,9 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.security.PublicKey;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,14 +39,14 @@ public class MessegerFrame extends javax.swing.JFrame {
     private PublicKey publicKey = null;
     private String algorithm = null;
     private int symetricKeySize;
-    
-    public PublicKey getPublicKey()
-    {
+    private FileSender fileSender = null;
+    private OutputStream output = null;
+
+    public PublicKey getPublicKey() {
         return publicKey;
     }
-    
-    public void setPublicKey(PublicKey publicKey)
-    {
+
+    public void setPublicKey(PublicKey publicKey) {
         this.publicKey = publicKey;
     }
 
@@ -67,7 +65,7 @@ public class MessegerFrame extends javax.swing.JFrame {
     public void setSymetricKeySize(int symetricKeySize) {
         this.symetricKeySize = symetricKeySize;
     }
-            
+
     public JTextArea getjTextArea1() {
         return jTextArea1;
     }
@@ -112,6 +110,44 @@ public class MessegerFrame extends javax.swing.JFrame {
         initComponents();
 
         this.conference = conf;
+    }
+
+    public void sendFile(FileSender fileSender) {
+        this.fileSender = fileSender;
+        try {
+            //////crypting
+            String message = "<<%file%>>";
+            ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            JCECrypter jce = new JCECrypter(this.getSslControler().getAlgorithm(), this.getSslControler().getKeySize());
+            SerialCryptedMessage sCm = null;
+            try {
+                sCm = jce.cryptOut(publicKey, in, out);
+            } catch (Exception ex) {
+                Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Zaszyfrowana wiadomość: " + out.toString());
+            String cryptedMessage = out.toString();
+            System.out.println("CryptedMessage: " + cryptedMessage);
+
+            this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
+
+            /////////////
+            String url = fileSender.getjTextField1().getText();
+            //File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
+            System.out.println(url);
+            File myFile = new File(url);
+            byte[] byteArray = new byte[(int) myFile.length()];
+            FileInputStream fis = new FileInputStream(myFile);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            bis.read(byteArray, 0, byteArray.length);
+            output = this.getSSLClient().getSocket().getOutputStream();
+            System.out.println("Sending...");
+            output.write(byteArray, 0, byteArray.length);
+            output.flush();
+        } catch (IOException ioe) {
+            System.out.println("Sending error: " + ioe.getMessage());
+        }
     }
 
     public void addSSLSocketConnection(SSLSocketConnection sslSocketConnection) {
@@ -326,10 +362,10 @@ public class MessegerFrame extends javax.swing.JFrame {
                 //////crypting
                 ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
-                JCECrypter jce = new JCECrypter(getSslControler().getAlgorithm(),getSslControler().getKeySize());
+                JCECrypter jce = new JCECrypter(getSslControler().getAlgorithm(), getSslControler().getKeySize());
                 SerialCryptedMessage sCm = null;
                 try {
-                    System.out.println("Moj klucz publiczny do szyfrowania wiadomosci"+publicKey);
+                    System.out.println("Moj klucz publiczny do szyfrowania wiadomosci" + publicKey);
                     sCm = jce.cryptOut(publicKey, in, out);
                 } catch (Exception ex) {
                     Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
@@ -360,23 +396,23 @@ public class MessegerFrame extends javax.swing.JFrame {
         String message = this.getMessage();
         try {
             //////crypting
-                ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
-                ByteArrayOutputStream out = new ByteArrayOutputStream();
-                JCECrypter jce = new JCECrypter(getSslControler().getAlgorithm(),getSslControler().getKeySize());
-                SerialCryptedMessage sCm = null;
-                try {
-                    System.out.println("Moj klucz publiczny do szyfrowania wiadomosci"+publicKey);
-                    sCm = jce.cryptOut(publicKey, in, out);
-                } catch (Exception ex) {
-                    Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                System.out.println("Zaszyfrowana wiadomość: " + out.toString());
-                String cryptedMessage = out.toString();
-                System.out.println("CryptedMessage: " + cryptedMessage);
+            ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            JCECrypter jce = new JCECrypter(getSslControler().getAlgorithm(), getSslControler().getKeySize());
+            SerialCryptedMessage sCm = null;
+            try {
+                System.out.println("Moj klucz publiczny do szyfrowania wiadomosci" + publicKey);
+                sCm = jce.cryptOut(publicKey, in, out);
+            } catch (Exception ex) {
+                Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            System.out.println("Zaszyfrowana wiadomość: " + out.toString());
+            String cryptedMessage = out.toString();
+            System.out.println("CryptedMessage: " + cryptedMessage);
 
-                this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
+            this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
 
-                /////////////
+            /////////////
             //this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getStreamOut().writeUTF(message);
             System.out.println(" message sent ");
             String temp = "Connection with " + hostIp + " , (JA) " + myProfilName;

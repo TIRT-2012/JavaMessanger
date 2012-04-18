@@ -9,6 +9,8 @@ import Logic.*;
 import GUI.MessegerFrame;
 import Temps.SSLsocket.*;
 import Others.JMHelper;
+import crypto.JCECrypter;
+import crypto.SerialCryptedMessage;
 import crypto.SerialPublicKey;
 import java.io.*;
 import java.net.Socket;
@@ -41,7 +43,7 @@ public class SSLClient {
         System.setProperty("javax.net.ssl.keyStore", "testKey");
         System.setProperty("javax.net.ssl.keyStorePassword", "tester");
         System.setProperty("javax.net.ssl.trustStore", "testKey");
-    }
+     }
     
     public SSLClient(String serverhost)
     {
@@ -133,6 +135,10 @@ public class SSLClient {
     {
         return host;
     }
+
+    public SSLSocket getSocket() {
+        return socket;
+    }
     
     public DataOutputStream getStreamOut() {
         return streamOut;
@@ -171,27 +177,5 @@ public class SSLClient {
     public ObjectOutputStream getObjectOutputStream()
     {
         return oos;
-    }
-    
-    public void sendFile(FileSender fileSender)
-    {
-        this.fileSender = fileSender;
-        try {
-            streamOut.writeUTF("<<%file%>>");
-                String url = fileSender.getjTextField1().getText();
-                //File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
-                System.out.println(url);
-                File myFile = new File(url);
-                byteArray = new byte[(int) myFile.length()];
-                FileInputStream fis = new FileInputStream(myFile);
-                BufferedInputStream bis = new BufferedInputStream(fis);
-                bis.read(byteArray, 0, byteArray.length);
-                output = socket.getOutputStream();
-                System.out.println("Sending...");
-                output.write(byteArray, 0, byteArray.length);
-                output.flush();
-            } catch (IOException ioe) {
-                System.out.println("Sending error: " + ioe.getMessage());
-            }
     }
 }

@@ -132,7 +132,7 @@ public class FileSender extends javax.swing.JFrame {
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-        this.messenger.getSSLClient().sendFile(this);
+        this.messenger.sendFile(this);
         JOptionPane.showMessageDialog(this, "Plik został wysłany");
     }//GEN-LAST:event_jButton1MouseClicked
 
