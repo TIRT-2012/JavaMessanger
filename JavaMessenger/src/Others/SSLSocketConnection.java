@@ -130,17 +130,7 @@ public class SSLSocketConnection extends Thread {
                     }
                     String words = out2.toString();
                     boolean isFileSender = words.equals("<<%file%>>");
-                    if (isFileSender);
-                    {
-                        this.isFile = true;
-                    }
-                    if (!isFileSender) {
-                        out.println("Connection " + id + ": " + words);
-                        messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
-                        messenger.setMessage(words);
-                        messenger.getjTextArea1().setCaretPosition(0);
-                        messenger.getjTextArea1().requestFocus();
-                    }
+                    decideIsFile(isFileSender, words);
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -171,5 +161,19 @@ public class SSLSocketConnection extends Thread {
     @Override
     public long getId() {
         return id;
+    }
+
+    public void decideIsFile(boolean isFileSender, String words) {
+        if (isFileSender == true);
+        {
+            this.isFile = true;
+        }
+        if (!isFileSender) {
+            out.println("Connection " + id + ": " + words);
+            messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
+            messenger.setMessage(words);
+            messenger.getjTextArea1().setCaretPosition(0);
+            messenger.getjTextArea1().requestFocus();
+        }
     }
 }

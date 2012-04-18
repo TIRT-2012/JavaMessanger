@@ -179,9 +179,9 @@ public class SSLClient {
         try {
             streamOut.writeUTF("<<%file%>>");
                 String url = fileSender.getjTextField1().getText();
-                //File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
+                File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
                 System.out.println(url);
-                File myFile = new File(url);
+                //File myFile = new File(url);
                 byteArray = new byte[(int) myFile.length()];
                 FileInputStream fis = new FileInputStream(myFile);
                 BufferedInputStream bis = new BufferedInputStream(fis);
