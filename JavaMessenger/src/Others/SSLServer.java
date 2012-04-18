@@ -96,10 +96,10 @@ public class SSLServer implements Runnable {
 
                     sslcc = new SSLSocketConnection(socket, this);
                     sslcc.setFrame(mf);
-                    this.sslcc.setNotBegginer(true);
                     addConnection(sslcc);
 
                     if (isClientReceiver) {
+                        this.sslcc.setNotBegginer(true);
                         this.sslControler.runClient(ipAdress);
                         System.out.println("klient zewnetrzny uruchomiony ");
                         //odbierz wiadomośc od klienta, który zapoczątkował

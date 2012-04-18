@@ -78,6 +78,7 @@ public class SSLSocketConnection extends Thread {
                     } catch (ClassNotFoundException ex) {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                    System.out.println("test3");
                     if (notBegginer) {
                         this.messenger.getSslControler().setAlgorithm(spk.getAlgorithm());
                         this.messenger.getSslControler().setKeySize(spk.getSymetricKeySize());
@@ -87,6 +88,7 @@ public class SSLSocketConnection extends Thread {
                         System.out.println("Algorytm wedlug messengera to : " + this.messenger.getAlgorithm());
                         System.out.println("DlugoscKlucza wedlug messengera to : " + this.messenger.getSymetricKeySize());
                     }
+                    System.out.println("test4");
                     this.messenger.setPublicKey(spk.getPublicKey());
                     System.out.println("Klucz ODEBRANY : " + this.messenger.getPublicKey());
                     //this.messenger.getSSLClient().setSerialPublicKey(spk);
