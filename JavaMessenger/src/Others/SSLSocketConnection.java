@@ -65,104 +65,90 @@ public class SSLSocketConnection extends Thread {
 
     @Override
     public void run() {
+        InputStream is = null;
         try {
             while (keepRunning) {
                 System.out.println("FIRSTTIME" + isPublicKeyTransfer);
                 if (isPublicKeyTransfer) {
-                    try {
-                        System.out.println("test1");
-                        spk = (SerialPublicKey) ois.readObject();
-                        System.out.println("test2");
-                        
-                        if (notBegginer) {
-                            System.out.println("test3");
-                            this.messenger.getSslControler().setAlgorithm(spk.getAlgorithm());
-                            this.messenger.getSslControler().setKeySize(spk.getSymetricKeySize());
-                            this.messenger.setAlgorithm(spk.getAlgorithm());
-                            this.messenger.setSymetricKeySize(spk.getSymetricKeySize());
+                    spk = (SerialPublicKey) ois.readObject();
+                    if (notBegginer) {
+                        this.messenger.getSslControler().setAlgorithm(spk.getAlgorithm());
+                        this.messenger.getSslControler().setKeySize(spk.getSymetricKeySize());
+                        this.messenger.setAlgorithm(spk.getAlgorithm());
+                        this.messenger.setSymetricKeySize(spk.getSymetricKeySize());
 
-                            System.out.println("Algorytm wedlug messengera to : " + this.messenger.getAlgorithm());
-                            System.out.println("DlugoscKlucza wedlug messengera to : " + this.messenger.getSymetricKeySize());
-                        }
-                        else
-                        {
-                            this.messenger.setAlgorithm(this.sslServer.getSslControler().getAlgorithm());
-                            this.messenger.setSymetricKeySize(this.sslServer.getSslControler().getKeySize());
-                        }
-                        System.out.println("test4");
-                        this.messenger.setPublicKey(spk.getPublicKey());
-                        
-                        System.out.println("Klucz ODEBRANY : " + this.messenger.getPublicKey());
-                        //this.messenger.getSSLClient().setSerialPublicKey(spk);
-
-                        isPublicKeyTransfer = false;
-                    } catch (IOException ex) {
-                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                        System.out.println("Algorytm wedlug messengera to : " + this.messenger.getAlgorithm());
+                        System.out.println("DlugoscKlucza wedlug messengera to : " + this.messenger.getSymetricKeySize());
+                    } else {
+                        this.messenger.setAlgorithm(this.sslServer.getSslControler().getAlgorithm());
+                        this.messenger.setSymetricKeySize(this.sslServer.getSslControler().getKeySize());
                     }
+                    //this.messenger.getSSLClient().setSerialPublicKey(spk);
+                    this.messenger.setPublicKey(spk.getPublicKey());
+                    System.out.println("Klucz ODEBRANY : " + this.messenger.getPublicKey());
+                    isPublicKeyTransfer = false;
+
+                } else if (isFile) {
+
+                    int filesize = 6022386;
+                    long start = System.currentTimeMillis();
+                    int bytesRead;
+                    int current = 0;
+                    byte[] mybytearray = new byte[filesize];
+                    is = socket.getInputStream();
+                    FileOutputStream fos = new FileOutputStream("mojakopia.mp3");
+                    BufferedOutputStream bos = new BufferedOutputStream(fos);
+                    bytesRead = is.read(mybytearray, 0, mybytearray.length);
+                    current = bytesRead;
+                    do {
+                        bytesRead =
+                                is.read(mybytearray, current, (mybytearray.length - current));
+                        if (bytesRead >= 0) {
+                            current += bytesRead;
+                        }
+                    } while (bytesRead > -1);
+                    bos.write(mybytearray, 0, mybytearray.length);
+                    bos.flush();
+                    long end = System.currentTimeMillis();
+                    System.out.println(end - start);
+                    this.isFile = false;
 
                 } else {
-                    if (isFile) {
-                        int filesize = 6022386;
-                        long start = System.currentTimeMillis();
-                        int bytesRead;
-                        int current = 0;
-                        byte[] mybytearray = new byte[filesize];
-                        InputStream is = socket.getInputStream();
-                        FileOutputStream fos = new FileOutputStream("mojakopia.mp3");
-                        BufferedOutputStream bos = new BufferedOutputStream(fos);
-                        bytesRead = is.read(mybytearray, 0, mybytearray.length);
-                        current = bytesRead;
-                        do {
-                            bytesRead =
-                                    is.read(mybytearray, current, (mybytearray.length - current));
-                            if (bytesRead >= 0) {
-                                current += bytesRead;
-                            }
-                        } while (bytesRead > -1);
-                        bos.write(mybytearray, 0, mybytearray.length);
-                        bos.flush();
-                        long end = System.currentTimeMillis();
-                        System.out.println(end - start);
-                    } else {
-                        SerialCryptedMessage sCm = null;
-                        String algorithm = this.messenger.getAlgorithm();
-                        int keysize = this.messenger.getSymetricKeySize();
-                        JCECrypter jce = new JCECrypter(algorithm, keysize);
-                        try {
-                            sCm = (SerialCryptedMessage) ois.readObject();
-                        } catch (ClassNotFoundException ex) {
-                            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        ByteArrayInputStream in2 = new ByteArrayInputStream(sCm.getByteArray());
-                        ByteArrayOutputStream out2 = new ByteArrayOutputStream();
-                        try {
-                            jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate(), in2, out2);
-                        } catch (Exception ex) {
-                            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        String words = out2.toString();
-                        if(words.equals("file"));
-                        {
-                            this.isFile = true;
-                        }
+
+                    SerialCryptedMessage sCm = null;
+                    String algorithm = this.messenger.getAlgorithm();
+                    int keysize = this.messenger.getSymetricKeySize();
+                    JCECrypter jce = new JCECrypter(algorithm, keysize);
+                    sCm = (SerialCryptedMessage) ois.readObject();
+                    ByteArrayInputStream in2 = new ByteArrayInputStream(sCm.getByteArray());
+                    ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+                    try {
+                        jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate(), in2, out2);
+                    } catch (Exception ex) {
+                        Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    String words = out2.toString();
+                    boolean isFile = words.equals("<<%file%>>");
+                    if (isFile);
+                    {
+                        this.isFile = true;
+                    }
+                    if (!isFile) {
                         out.println("Connection " + id + ": " + words);
                         messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
                         messenger.setMessage(words);
                         messenger.getjTextArea1().setCaretPosition(0);
                         messenger.getjTextArea1().requestFocus();
                     }
-
                 }
             }
-            out.println("Client from port " + id + " quits");
-            closeConnection();
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            out.println("Connection " + id + ": " + "IO Exception occured");
-            messenger.setMessage("Connection with " + ipAdress + " is occured. " + "IO Exception occured");
+            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        closeConnection();
     }
 
     public synchronized void quit() {
