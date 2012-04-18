@@ -143,6 +143,10 @@ public class SSLSocketConnection extends Thread {
                             Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         String words = out2.toString();
+                        if(words.equals("file"));
+                        {
+                            this.isFile = true;
+                        }
                         out.println("Connection " + id + ": " + words);
                         messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
                         messenger.setMessage(words);

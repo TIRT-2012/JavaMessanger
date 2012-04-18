@@ -4,6 +4,7 @@
  */
 package Others;
 
+import GUI.FileSender;
 import Logic.*;
 import GUI.MessegerFrame;
 import Temps.SSLsocket.*;
@@ -34,6 +35,7 @@ public class SSLClient {
     private SerialPublicKey serialPublicKey = null;
     private OutputStream output = null;
     private byte byteArray[] = null;
+    private FileSender fileSender = null;
     
     public SSLClient() {
         System.setProperty("javax.net.ssl.keyStore", "testKey");
@@ -171,10 +173,14 @@ public class SSLClient {
         return oos;
     }
     
-    public void sendFile()
+    public void sendFile(FileSender fileSender)
     {
+        this.fileSender = fileSender;
         try {
-                File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
+                String url = fileSender.getjTextField1().getText();
+                //File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
+                System.out.println(url);
+                File myFile = new File(url);
                 byteArray = new byte[(int) myFile.length()];
                 FileInputStream fis = new FileInputStream(myFile);
                 BufferedInputStream bis = new BufferedInputStream(fis);
