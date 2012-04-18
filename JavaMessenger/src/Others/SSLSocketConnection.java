@@ -109,6 +109,7 @@ public class SSLSocketConnection extends Thread {
                     } while (bytesRead > -1);
                     bos.write(mybytearray, 0, mybytearray.length);
                     bos.flush();
+                    bos.close();
                     long end = System.currentTimeMillis();
                     System.out.println(end - start);
                     this.isFile = false;
@@ -128,12 +129,12 @@ public class SSLSocketConnection extends Thread {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     String words = out2.toString();
-                    boolean isFile = words.equals("<<%file%>>");
-                    if (isFile);
+                    boolean isFileSender = words.equals("<<%file%>>");
+                    if (isFileSender);
                     {
                         this.isFile = true;
                     }
-                    if (!isFile) {
+                    if (!isFileSender) {
                         out.println("Connection " + id + ": " + words);
                         messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
                         messenger.setMessage(words);
