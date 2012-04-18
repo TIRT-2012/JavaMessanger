@@ -134,6 +134,9 @@ public class SSLServer implements Runnable {
                     ////
                     sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
                     System.out.println("Moj klucz to"+publicKey.getPublicKey());
+                    if (!isClientReceiver) {
+                        this.sslcc.setIsPublicKeyTransfer(true);
+                    }
                     sslControler.getClient(ipAdress).sendKey();
                     System.out.println("Adres hosta: " + sslControler.getClient(ipAdress).getHost());
                     // END sending public key
