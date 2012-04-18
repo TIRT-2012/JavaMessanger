@@ -145,6 +145,7 @@ public class MessegerFrame extends javax.swing.JFrame {
             System.out.println("Sending...");
             output.write(byteArray, 0, byteArray.length);
             output.flush();
+            output.close();
             System.out.println("File sent.");
         } catch (IOException ioe) {
             System.out.println("Sending error: " + ioe.getMessage());

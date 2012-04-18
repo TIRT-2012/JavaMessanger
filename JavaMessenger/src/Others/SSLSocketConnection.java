@@ -92,7 +92,7 @@ public class SSLSocketConnection extends Thread {
                 } else if (isFile) {
 
                     System.out.println("File transmission in process");
-                    int filesize = 6022386;
+                    int filesize = 11;
                     long start = System.currentTimeMillis();
                     int bytesRead;
                     int current = 0;
@@ -102,10 +102,12 @@ public class SSLSocketConnection extends Thread {
                     BufferedOutputStream bos = new BufferedOutputStream(fos);
                     bytesRead = is.read(mybytearray, 0, mybytearray.length);
                     System.out.println("Bytes was read.");
+                     System.out.println(bytesRead);
                     current = bytesRead;
+                    System.out.println("bytesRead"+bytesRead);
                     do {
-                        bytesRead =
-                                is.read(mybytearray, current, (mybytearray.length - current));
+                        bytesRead = is.read(mybytearray, current, (mybytearray.length - current));
+                        System.out.println("Bytes was copied to bytesRead");
                         if (bytesRead >= 0) {
                             current += bytesRead;
                         }
