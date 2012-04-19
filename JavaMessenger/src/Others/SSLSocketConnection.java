@@ -198,6 +198,8 @@ public class SSLSocketConnection extends Thread {
     
     public void convertToFile(ByteArrayOutputStream out, String fileName, String fileExtension) throws FileNotFoundException, IOException
     {
+        System.out.println(fileName);
+        System.out.println(fileExtension);
         byte[] temp = out.toByteArray();
         FileOutputStream fos = new FileOutputStream(fileName+"."+fileExtension);
         fos.write(temp);
