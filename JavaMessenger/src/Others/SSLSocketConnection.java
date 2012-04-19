@@ -136,6 +136,7 @@ public class SSLSocketConnection extends Thread {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     String words = out2.toString();
+                    System.out.println("WORDS "+words);
                     isFileSender = words.contains("<<%file%>>");
                     //decideIsFile(isFileSender, words);
                     if (isFileSender) {
