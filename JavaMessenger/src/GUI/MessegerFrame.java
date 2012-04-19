@@ -215,11 +215,11 @@ public class MessegerFrame extends javax.swing.JFrame {
         sslControler.setSSLConnection(true);
     }
 
-    public void closeClient() {
-        System.out.println("closeClient()");
-        sslControler.quitClient();
-
-    }
+//    public void closeClient() {
+//        System.out.println("closeClient()");
+//        sslControler.quitClient();
+//
+//    }
 
     public void changeJLabel1(String profilName) {
         this.profilName = profilName;
@@ -521,9 +521,10 @@ public class MessegerFrame extends javax.swing.JFrame {
     WindowListener listener = new WindowAdapter() {
 
         public void windowClosing(WindowEvent w) {
-
-            closeClient();
-
+            System.out.println("123 zamykamy");
+////            wtf?
+////            closeClient();
+//
         }
     };
 }

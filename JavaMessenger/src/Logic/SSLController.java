@@ -109,26 +109,6 @@ public class SSLController {
 
     }
 
-    public void quitServer() {
-        System.out.println("SSLControler quitServer()");
-        try {
-            server.quit();
-            server.close();
-        } catch (IOException ex) {
-            Logger.getLogger(SSLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void quitClient() {
-        System.out.println("SSLControler quitClient()");
-        try {
-            server.quit();
-            server.close();
-        } catch (IOException ex) {
-            Logger.getLogger(SSLController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
     public SSLClient getClient(String clientIp) {
         SSLClient temp = (SSLClient) this.clientsMap.get(clientIp);
         return temp;
@@ -136,5 +116,9 @@ public class SSLController {
 
     public SSLServer getServer() {
         return server;
+    }
+    
+    public void stopServer(){
+        server.stopRunning();
     }
 }
