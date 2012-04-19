@@ -12,6 +12,7 @@ import java.io.Serializable;
  */
 public class SerialCryptedMessage implements Serializable{
     private byte[] message;
+    private byte[] file;
     
     public SerialCryptedMessage(byte[] message){
         this.message = message;
@@ -21,4 +22,13 @@ public class SerialCryptedMessage implements Serializable{
         return this.message;
     }
     
+//    public void setFileByteArray(byte[] file)
+//    {
+//        this.file = file;
+//    }
+//    
+//    public byte[] getFileByteArray()
+//    {
+//        return this.file;
+//    }
 }

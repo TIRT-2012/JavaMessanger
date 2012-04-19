@@ -102,9 +102,9 @@ public class SSLSocketConnection extends Thread {
                     BufferedOutputStream bos = new BufferedOutputStream(fos);
                     bytesRead = is.read(mybytearray, 0, mybytearray.length);
                     System.out.println("Bytes was read.");
-                     System.out.println(bytesRead);
+                    System.out.println(bytesRead);
                     current = bytesRead;
-                    System.out.println("bytesRead"+bytesRead);
+                    System.out.println("bytesRead" + bytesRead);
                     do {
                         bytesRead = is.read(mybytearray, current, (mybytearray.length - current));
                         System.out.println("Bytes was copied to bytesRead");
@@ -137,7 +137,19 @@ public class SSLSocketConnection extends Thread {
                     }
                     String words = out2.toString();
                     isFileSender = words.equals("<<%file%>>");
-                    decideIsFile(isFileSender, words);
+                    //decideIsFile(isFileSender, words);
+                    if (isFileSender) {
+                        System.out.println("Jestem tutaj");
+                        sCm = (SerialCryptedMessage) ois.readObject();
+                        ByteArrayInputStream in3 = new ByteArrayInputStream(sCm.getByteArray());
+                        ByteArrayOutputStream out3 = new ByteArrayOutputStream();
+                        try {
+                            jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate(), in3, out3);
+                        } catch (Exception ex) {
+                            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        convertToFile(out3);
+                    }
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -180,5 +192,13 @@ public class SSLSocketConnection extends Thread {
             messenger.getjTextArea1().setCaretPosition(0);
             messenger.getjTextArea1().requestFocus();
         }
+    }
+    
+    public void convertToFile(ByteArrayOutputStream out) throws FileNotFoundException, IOException
+    {
+        byte[] temp = out.toByteArray();
+        FileOutputStream fos = new FileOutputStream("pliczek.txt");
+        fos.write(temp);
+        fos.close();
     }
 }
