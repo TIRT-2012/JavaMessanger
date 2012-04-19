@@ -136,9 +136,11 @@ public class SSLSocketConnection extends Thread {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     String words = out2.toString();
-                    isFileSender = words.equals("<<%file%>>");
+                    isFileSender = words.contains("<<%file%>>");
                     //decideIsFile(isFileSender, words);
                     if (isFileSender) {
+                        String fileName = words.substring(9,words.lastIndexOf("."));
+                        String fileExtension = words.substring(words.lastIndexOf("."));
                         System.out.println("Jestem tutaj");
                         sCm = (SerialCryptedMessage) ois.readObject();
                         ByteArrayInputStream in3 = new ByteArrayInputStream(sCm.getByteArray());
@@ -148,7 +150,7 @@ public class SSLSocketConnection extends Thread {
                         } catch (Exception ex) {
                             Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                         }
-                        convertToFile(out3);
+                        convertToFile(out3, fileName, fileExtension);
                     }
                 }
             }
@@ -194,10 +196,10 @@ public class SSLSocketConnection extends Thread {
         }
     }
     
-    public void convertToFile(ByteArrayOutputStream out) throws FileNotFoundException, IOException
+    public void convertToFile(ByteArrayOutputStream out, String fileName, String fileExtension) throws FileNotFoundException, IOException
     {
         byte[] temp = out.toByteArray();
-        FileOutputStream fos = new FileOutputStream("pliczek.txt");
+        FileOutputStream fos = new FileOutputStream(fileName+"."+fileExtension);
         fos.write(temp);
         fos.close();
     }
