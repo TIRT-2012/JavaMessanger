@@ -119,7 +119,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         System.out.println(url);
         File myFile = new File(url);
         
-        String message = "<<%file%>>"+myFile.getName()+"."+myFile.getAbsolutePath().substring(myFile.getAbsolutePath().lastIndexOf("."));
+        String message = "<<%file%>>"+myFile.getName();
         System.out.println(message);
         ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
