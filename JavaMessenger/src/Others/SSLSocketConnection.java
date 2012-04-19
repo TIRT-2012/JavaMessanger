@@ -136,7 +136,7 @@ public class SSLSocketConnection extends Thread {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     String words = out2.toString();
-                    System.out.println("WORDS "+words);
+                    System.out.println("WORDS " + words);
                     isFileSender = words.contains("<<%file%>>");
                     //decideIsFile(isFileSender, words);
                     if (isFileSender) {
@@ -151,6 +151,12 @@ public class SSLSocketConnection extends Thread {
                             Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         convertToFile(out3, fileName);
+                    } else {
+                        out.println("Connection " + id + ": " + words);
+                        messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
+                        messenger.setMessage(words);
+                        messenger.getjTextArea1().setCaretPosition(0);
+                        messenger.getjTextArea1().requestFocus();
                     }
                 }
             }
@@ -195,9 +201,8 @@ public class SSLSocketConnection extends Thread {
             messenger.getjTextArea1().requestFocus();
         }
     }
-    
-    public void convertToFile(ByteArrayOutputStream out, String fileName) throws FileNotFoundException, IOException
-    {
+
+    public void convertToFile(ByteArrayOutputStream out, String fileName) throws FileNotFoundException, IOException {
         System.out.println(fileName);
         byte[] temp = out.toByteArray();
         FileOutputStream fos = new FileOutputStream(fileName);
