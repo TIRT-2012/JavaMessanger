@@ -4,10 +4,13 @@
  */
 package Others;
 
+import GUI.FileSender;
 import Logic.*;
 import GUI.MessegerFrame;
 import Temps.SSLsocket.*;
 import Others.JMHelper;
+import crypto.JCECrypter;
+import crypto.SerialCryptedMessage;
 import crypto.SerialPublicKey;
 import java.io.*;
 import java.net.Socket;
@@ -34,12 +37,13 @@ public class SSLClient {
     private SerialPublicKey serialPublicKey = null;
     private OutputStream output = null;
     private byte byteArray[] = null;
+    private FileSender fileSender = null;
     
     public SSLClient() {
         System.setProperty("javax.net.ssl.keyStore", "testKey");
         System.setProperty("javax.net.ssl.keyStorePassword", "tester");
         System.setProperty("javax.net.ssl.trustStore", "testKey");
-    }
+     }
     
     public SSLClient(String serverhost)
     {
@@ -131,6 +135,10 @@ public class SSLClient {
     {
         return host;
     }
+
+    public SSLSocket getSocket() {
+        return socket;
+    }
     
     public DataOutputStream getStreamOut() {
         return streamOut;
@@ -156,7 +164,9 @@ public class SSLClient {
     {
         System.out.println("sendKey()");
         try {
-            System.out.println("serialPublicKey: " + serialPublicKey.getPublicKey());
+            System.out.println("serialPublicKey PUBLICKEY: " + serialPublicKey.getPublicKey());
+            System.out.println("serialPublicKey ALGORITHM: " + serialPublicKey.getAlgorithm());
+            System.out.println("serialPublicKey KEYSIZE" + serialPublicKey.getSymetricKeySize());
             oos.writeObject(serialPublicKey);
             //oos.close();
         } catch (IOException ex) {
@@ -167,23 +177,5 @@ public class SSLClient {
     public ObjectOutputStream getObjectOutputStream()
     {
         return oos;
-    }
-    
-    public void sendFile()
-    {
-        try {
-                File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
-                byteArray = new byte[(int) myFile.length()];
-                FileInputStream fis = new FileInputStream(myFile);
-                BufferedInputStream bis = new BufferedInputStream(fis);
-                bis.read(byteArray, 0, byteArray.length);
-                System.out.println("test " + socket.getOutputStream());
-                output = socket.getOutputStream();
-                System.out.println("Sending...");
-                output.write(byteArray, 0, byteArray.length);
-                output.flush();
-            } catch (IOException ioe) {
-                System.out.println("Sending error: " + ioe.getMessage());
-            }
     }
 }

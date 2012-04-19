@@ -8,9 +8,13 @@
     <class>Entities.UserToConference</class>
     <class>Entities.Contacts</class>
     <properties>
-      <property name="toplink.jdbc.user" value="peross89"/>
+     <!-- <property name="toplink.jdbc.user" value="peross89"/>
       <property name="toplink.jdbc.password" value="pwrpiotr89"/>
-      <property name="toplink.jdbc.url" value="jdbc:mysql://208.11.220.249:3306"/>
+      <property name="toplink.jdbc.url" value="jdbc:mysql://208.11.220.249:3306"/> -->
+      
+      <property name="toplink.jdbc.user" value="tirt2012"/>
+      <property name="toplink.jdbc.password" value="tirt2012"/>
+      <property name="toplink.jdbc.url" value="jdbc:mysql://5.126.123.85:3306"/>
       <property name="toplink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
       <!--      <property name="toplink.ddl-generation" value="create-tables"/>-->
     </properties>

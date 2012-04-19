@@ -85,17 +85,21 @@ public class SSLServer implements Runnable {
                     socket = (SSLSocket) server.accept();
                     InetAddress ipTemp = socket.getInetAddress();
                     ipAdress = ipTemp.toString().substring(1);
-                    
+
                     boolean flag = isClientInClientsMap(ipAdress);
-                    
+                    ////
+                    boolean isClientReceiver = (!this.isFrameInMap(ipAdress) && !flag);
+                    System.out.println("KLient zewnętrzny uruchomiony" + isClientReceiver);
+                    ////
                     MessegerFrame mf = new MessegerFrame(sslControler);
                     mf.setVisible(false);
-                    
+
                     sslcc = new SSLSocketConnection(socket, this);
                     sslcc.setFrame(mf);
                     addConnection(sslcc);
-                    
-                    if (!this.isFrameInMap(ipAdress) && !flag) {
+
+                    if (isClientReceiver) {
+                        this.sslcc.setNotBegginer(true);
                         this.sslControler.runClient(ipAdress);
                         System.out.println("klient zewnetrzny uruchomiony ");
                         //odbierz wiadomośc od klienta, który zapoczątkował
@@ -106,9 +110,13 @@ public class SSLServer implements Runnable {
                     mf.addSSLSocketConnection(sslcc);
                     mf.changeJLabel1(sslControler.getUserName(ipAdress));
                     this.setFrameToMap(mf);
-                    
-                // START sending public key
-                    JCECrypter cryptograph = new JCECrypter();
+
+                    // START sending public key
+                    String algorithm = sslControler.getAlgorithm();
+                    System.out.println("SSLSEVER: Algorithm - " + algorithm);
+                    int keySize = sslControler.getKeySize();
+                    System.out.println("SSLSEVER: Keysize - " + keySize);
+                    JCECrypter cryptograph = new JCECrypter(algorithm, keySize);
                     KeyPair RSAKey = null;
                     try {
                         RSAKey = cryptograph.generateRSAKey();
@@ -117,11 +125,18 @@ public class SSLServer implements Runnable {
                     }
                     sslControler.getClient(ipAdress).setKeyPair(RSAKey);
                     SerialPublicKey publicKey = new SerialPublicKey(RSAKey.getPublic());
+                    /////
+                    if (!isClientReceiver) {
+                        publicKey.setAlgorithm(algorithm);
+                        publicKey.setSymetricKeySize(keySize);
+                    }
+                    ////
                     sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
+                    System.out.println("Moj klucz to"+publicKey.getPublicKey());
                     sslControler.getClient(ipAdress).sendKey();
-                    System.out.println("Adres hosta: "+sslControler.getClient(ipAdress).getHost());
+                    System.out.println("Adres hosta: " + sslControler.getClient(ipAdress).getHost());
                     // END sending public key
-                
+
                 } catch (IOException ex) {
                     out.println("Server: IO Exception occured");
                 }
@@ -204,4 +219,9 @@ public class SSLServer implements Runnable {
     public boolean isClientInClientsMap(String ip) {
         return (sslControler.getClient(ipAdress) != null) ? true : false;
     }
+
+    public SSLController getSslControler() {
+        return sslControler;
+    }
+    
 }

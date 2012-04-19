@@ -99,6 +99,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu3 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
@@ -124,7 +125,6 @@ public class ApplicationFrame extends javax.swing.JFrame {
         setTitle("Konekt TM");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setForeground(new java.awt.Color(255, 255, 255));
-        setMaximumSize(new java.awt.Dimension(242, 312));
         setMinimumSize(new java.awt.Dimension(242, 312));
         setResizable(false);
 
@@ -193,6 +193,20 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jList1);
 
         jMenu3.setText("Program");
+
+        jMenuItem3.setText("Szyfrowanie");
+        jMenuItem3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jMenuItem3MousePressed(evt);
+            }
+        });
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
+
         jMenuBar2.add(jMenu3);
 
         jMenu4.setText("Profil");
@@ -321,10 +335,26 @@ public class ApplicationFrame extends javax.swing.JFrame {
             if (!sslControler.getServer().isFrameInMap(ip)) {
                 // uruchamiamy klienta1(swojego) i wysylamy zapytanie serwerowi klienta2(zewnetrznego). ten z kolei powinien nas zaakceptować 
                 sslControler.runClient(ip);
+                String algorithm = sslControler.getAlgorithm();
+                System.out.println("SSLSEVER: Algorithm - " + algorithm);
+                int keySize = sslControler.getKeySize();
+                System.out.println("SSLSEVER: Keysize - " + keySize);
                 // zapoczatkuj klucz
             }
         }
     }//GEN-LAST:event_jList1MouseClicked
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem3MousePressed
+        // TODO add your handling code here:
+        CryptingFrame cryptingFrame = new CryptingFrame(this);
+        cryptingFrame.setApplicationComponents(applicationComponents);
+        cryptingFrame.setLocationRelativeTo(cryptingFrame.getRootPane());
+        cryptingFrame.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3MousePressed
 
     /**
      * @param args the command line arguments
@@ -388,6 +418,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
