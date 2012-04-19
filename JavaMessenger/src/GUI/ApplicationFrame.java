@@ -279,7 +279,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         if (this.getApplicationComponents().getLoginController().isLoggedUser()) {
-            this.getApplicationComponents().getLoginController().removeUserIp();
+            this.getApplicationComponents().getLoginController().logout();
             this.changeProfilName("ProfilName");
             this.changeLoginButtonText("Logowanie");
             this.setJlist(null);

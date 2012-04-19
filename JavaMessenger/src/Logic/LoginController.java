@@ -86,8 +86,13 @@ public class LoginController {
         applicationComponent.releseDAO(userDao);
         loggedUser = true;
     }
+    
+    public void logout(){
+        removeUserIp();
+        applicationComponent.getSSLController().stopServer();
+    }
 
-    public void removeUserIp() {
+    private void removeUserIp() {
         System.out.println("removeUserIp()");
         String name = userObject.getUserName();
         if (!((name.equals("hpiotrek89")) || (name.equals("htesto")) || (name.equals("hwind44")))) {

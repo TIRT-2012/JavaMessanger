@@ -145,7 +145,6 @@ public class SSLSocketConnection extends Thread {
         } catch (IOException ex) {
             Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         closeConnection();
     }
 

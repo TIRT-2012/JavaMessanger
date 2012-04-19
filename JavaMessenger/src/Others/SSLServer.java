@@ -17,6 +17,7 @@ import java.awt.Robot;
 import java.io.*;
 import static java.lang.System.out;
 import java.net.InetAddress;
+import java.net.SocketTimeoutException;
 import java.security.KeyPair;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -27,6 +28,7 @@ public class SSLServer implements Runnable {
 
     private static int MAX = 50;
     private static int PORT = 5050;
+    private static int TIMEOUT = 100;
     private SSLServerSocketFactory factory = null;
     private SSLServerSocket server = null;
     private SSLSocket socket = null;
@@ -52,6 +54,7 @@ public class SSLServer implements Runnable {
             System.out.println("Binding to port " + PORT + ", please wait  ...");
             factory = (SSLServerSocketFactory) SSLServerSocketFactory.getDefault();
             server = (SSLServerSocket) factory.createServerSocket(PORT, MAX, null);
+            server.setSoTimeout(TIMEOUT);
             System.out.println("SocketAddr: " + server.getLocalSocketAddress());
             System.out.println("Server running: " + server);
 
@@ -79,10 +82,14 @@ public class SSLServer implements Runnable {
 
     @Override
     public void run() {
-        try {
-            while (keepRunning) {
+        while (keepRunning()) {
+            try {
                 try {
                     socket = (SSLSocket) server.accept();
+                } catch (SocketTimeoutException ste) {
+                    //ignore timeout
+                }
+                if (socket != null) {
                     InetAddress ipTemp = socket.getInetAddress();
                     ipAdress = ipTemp.toString().substring(1);
 
@@ -97,6 +104,8 @@ public class SSLServer implements Runnable {
                     sslcc = new SSLSocketConnection(socket, this);
                     sslcc.setFrame(mf);
                     addConnection(sslcc);
+                    
+                    socket=null;
 
                     if (isClientReceiver) {
                         this.sslcc.setNotBegginer(true);
@@ -132,34 +141,17 @@ public class SSLServer implements Runnable {
                     }
                     ////
                     sslControler.getClient(ipAdress).setSerialPublicKey(publicKey);
-                    System.out.println("Moj klucz to"+publicKey.getPublicKey());
+                    System.out.println("Moj klucz to" + publicKey.getPublicKey());
                     sslControler.getClient(ipAdress).sendKey();
                     System.out.println("Adres hosta: " + sslControler.getClient(ipAdress).getHost());
                     // END sending public key
-
-                } catch (IOException ex) {
-                    out.println("Server: IO Exception occured");
                 }
-
-            }
-            try {
-                Robot r = new Robot();
-                r.delay(5000);
-                closeAll();
-                socket.close();
-                server.close();
-                socket = null;
-                server = null;
-            } catch (AWTException ex) {
-                Logger.getLogger(SSLServer.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                out.println("Server: IO Exception occured");
             }
 
-
-            //close(); // zamyka socket servera i DataInputStream
-            //closeConnection(sslcc);
-        } catch (IOException ex) {
-            Logger.getLogger(SSLServer.class.getName()).log(Level.SEVERE, null, ex);
         }
+        closeServer();
     }
 
     private void addConnection(SSLSocketConnection sc) {
@@ -174,28 +166,6 @@ public class SSLServer implements Runnable {
                 i++;
             }
         }
-    }
-
-    private void closeAll() {
-        for (int i = 0; i < connections.length; i++) {
-            closeConnection(connections[i]);
-        }
-    }
-
-    public void closeConnection(SSLSocketConnection sc) {
-        System.out.println("closeConnection() ");
-        sc.quit(); // zamyka socket sslcocketconnection czyli wątek pobierania danych od clienta
-        for (int i = 0; i < connections.length; i++) {
-            if (connections[i].getId() == sc.getId()) {
-                connections[i] = null;
-            }
-        }
-    }
-
-    public synchronized void quit() throws IOException {
-        keepRunning = false;
-        //server.close();
-        System.out.println("quit: sslserver");
     }
 
     public SSLSocketConnection getSSLSocketConnectionController() {
@@ -223,5 +193,40 @@ public class SSLServer implements Runnable {
     public SSLController getSslControler() {
         return sslControler;
     }
+    
+    private void closeServer(){
+        closeAll();
+        try {
+            server.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void closeAll() {
+        for (int i = 0; i < connections.length; i++) {
+            if(connections[i]!=null)
+                closeConnection(connections[i]);
+        }
+    }
+
+    private void closeConnection(SSLSocketConnection sc) {
+        System.out.println("closeConnection() ");
+        sc.quit(); // zamyka socket sslcocketconnection czyli wątek pobierania danych od clienta
+        for (int i = 0; i < connections.length; i++) {
+            if (connections[i].getId() == sc.getId()) {
+                connections[i] = null;
+            }
+        }
+    }
+
+    public synchronized void stopRunning(){
+        keepRunning = false;
+    }
+    
+    private synchronized boolean keepRunning(){
+        return keepRunning;
+    }
+    
     
 }
