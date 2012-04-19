@@ -102,9 +102,9 @@ public class SSLSocketConnection extends Thread {
                     BufferedOutputStream bos = new BufferedOutputStream(fos);
                     bytesRead = is.read(mybytearray, 0, mybytearray.length);
                     System.out.println("Bytes was read.");
-                     System.out.println(bytesRead);
+                    System.out.println(bytesRead);
                     current = bytesRead;
-                    System.out.println("bytesRead"+bytesRead);
+                    System.out.println("bytesRead" + bytesRead);
                     do {
                         bytesRead = is.read(mybytearray, current, (mybytearray.length - current));
                         System.out.println("Bytes was copied to bytesRead");
@@ -136,8 +136,28 @@ public class SSLSocketConnection extends Thread {
                         Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
                     }
                     String words = out2.toString();
-                    isFileSender = words.equals("<<%file%>>");
-                    decideIsFile(isFileSender, words);
+                    System.out.println("WORDS " + words);
+                    isFileSender = words.contains("<<%file%>>");
+                    //decideIsFile(isFileSender, words);
+                    if (isFileSender) {
+                        String fileName = words.substring(10);
+                        System.out.println("Jestem tutaj");
+                        sCm = (SerialCryptedMessage) ois.readObject();
+                        ByteArrayInputStream in3 = new ByteArrayInputStream(sCm.getByteArray());
+                        ByteArrayOutputStream out3 = new ByteArrayOutputStream();
+                        try {
+                            jce.decrypt(this.messenger.getSSLClient().getKeyPair().getPrivate(), in3, out3);
+                        } catch (Exception ex) {
+                            Logger.getLogger(SSLSocketConnection.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        convertToFile(out3, fileName);
+                    } else {
+                        out.println("Connection " + id + ": " + words);
+                        messenger.setMessage("Connection with " + ipAdress + " ," + messenger.getProfilName());
+                        messenger.setMessage(words);
+                        messenger.getjTextArea1().setCaretPosition(0);
+                        messenger.getjTextArea1().requestFocus();
+                    }
                 }
             }
         } catch (ClassNotFoundException ex) {
@@ -179,5 +199,13 @@ public class SSLSocketConnection extends Thread {
             messenger.getjTextArea1().setCaretPosition(0);
             messenger.getjTextArea1().requestFocus();
         }
+    }
+
+    public void convertToFile(ByteArrayOutputStream out, String fileName) throws FileNotFoundException, IOException {
+        System.out.println(fileName);
+        byte[] temp = out.toByteArray();
+        FileOutputStream fos = new FileOutputStream(fileName);
+        fos.write(temp);
+        fos.close();
     }
 }

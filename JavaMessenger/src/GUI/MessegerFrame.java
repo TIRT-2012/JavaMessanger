@@ -112,44 +112,67 @@ public class MessegerFrame extends javax.swing.JFrame {
         this.conference = conf;
     }
 
-    public void sendFile(FileSender fileSender) {
+    public void sendFile(FileSender fileSender) throws IOException {
         this.fileSender = fileSender;
+
+        String url = fileSender.getjTextField1().getText();
+        System.out.println(url);
+        File myFile = new File(url);
+        
+        String message = "<<%file%>>"+myFile.getName();
+        System.out.println(message);
+        ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        JCECrypter jce = new JCECrypter(this.getSslControler().getAlgorithm(), this.getSslControler().getKeySize());
+        SerialCryptedMessage sCm = null;
         try {
-            //////crypting
-            String message = "<<%file%>>";
-            ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            JCECrypter jce = new JCECrypter(this.getSslControler().getAlgorithm(), this.getSslControler().getKeySize());
-            SerialCryptedMessage sCm = null;
-            try {
-                sCm = jce.cryptOut(publicKey, in, out);
-            } catch (Exception ex) {
-                Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            System.out.println("Zaszyfrowana wiadomość: " + out.toString());
-            String cryptedMessage = out.toString();
-            System.out.println("CryptedMessage: " + cryptedMessage);
-
-            this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
-
-            /////////////
-            String url = fileSender.getjTextField1().getText();
-            //File myFile = new File("D:\\Muzyka\\Flipsyde - Someday.mp3");
-            System.out.println(url);
-            File myFile = new File(url);
-            byte[] byteArray = new byte[(int) myFile.length()];
-            FileInputStream fis = new FileInputStream(myFile);
-            BufferedInputStream bis = new BufferedInputStream(fis);
-            bis.read(byteArray, 0, byteArray.length);
-            output = this.getSSLClient().getSocket().getOutputStream();
-            System.out.println("Sending...");
-            output.write(byteArray, 0, byteArray.length);
-            output.flush();
-            output.close();
-            System.out.println("File sent.");
-        } catch (IOException ioe) {
-            System.out.println("Sending error: " + ioe.getMessage());
+            sCm = jce.cryptOut(publicKey, in, out);
+        } catch (Exception ex) {
+            Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        System.out.println("Zaszyfrowana wiadomość: " + out.toString());
+        String cryptedMessage = out.toString();
+        System.out.println("CryptedMessage: " + cryptedMessage);
+
+        this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
+        sCm = null;
+        
+        byte[] byteArray = new byte[(int) myFile.length()];
+        
+        byteArray = convertToByte(byteArray, myFile);
+        ByteArrayInputStream in2 = new ByteArrayInputStream(byteArray);
+        ByteArrayOutputStream out2 = new ByteArrayOutputStream();
+        try {
+            System.out.println("Moj klucz publiczny do szyfrowania wiadomosci" + publicKey);
+            sCm = jce.cryptOut(publicKey, in2, out2);
+        } catch (Exception ex) {
+            Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        System.out.println("Zaszyfrowana wiadomość: " + out2.toString());
+        System.out.println("CryptedMessage: " + cryptedMessage);
+        try {
+            this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
+        } catch (IOException ex) {
+            Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static byte[] getBytes(Object obj) throws java.io.IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        oos.writeObject(obj);
+        oos.flush();
+        oos.close();
+        bos.close();
+        byte[] data = bos.toByteArray();
+        return data;
+    }
+    public byte[] convertToByte(byte[] byteArray, File file) throws FileNotFoundException, IOException
+    {
+        FileInputStream fileInputStream = new FileInputStream(file);
+        fileInputStream.read(byteArray);
+        return byteArray;
     }
 
     public void addSSLSocketConnection(SSLSocketConnection sslSocketConnection) {
