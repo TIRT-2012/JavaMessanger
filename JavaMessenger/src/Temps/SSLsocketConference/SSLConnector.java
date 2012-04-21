@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Temps.SSLsocket;
+package Temps.SSLsocketConference;
 
 /**
  *
@@ -31,7 +31,7 @@ public class SSLConnector {
             ts.start();
         }
         else{
-            SSLClient c=new SSLClient();
+            SSLMultiClient c=new SSLMultiClient();
             c.setIP(ip);
             c.prepare();
             c.run();
