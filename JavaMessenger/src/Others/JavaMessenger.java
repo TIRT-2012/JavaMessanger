@@ -11,7 +11,8 @@ import GUI.ApplicationFrame;
  * @author Piotr
  */
 public class JavaMessenger {
-
+    private final String defaultCryptAlgoritm = "AES";
+    private final int defaultCryptSymetricKeySize = 128;
     /**
      * @param args the command line arguments
      */
@@ -19,6 +20,9 @@ public class JavaMessenger {
     ApplicationFrame app;
     public JavaMessenger() {
         applicationComponents=new ApplicationComponents();
+        
+        applicationComponents.getSSLController().setAlgorithm(defaultCryptAlgoritm);
+        applicationComponents.getSSLController().setKeySize(defaultCryptSymetricKeySize);
         
         app = new ApplicationFrame();
         app.setApplicationComponents(applicationComponents);
