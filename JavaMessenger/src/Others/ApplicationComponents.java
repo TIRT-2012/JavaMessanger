@@ -32,6 +32,8 @@ public class ApplicationComponents {
     private static final String[] namesSequence = {"ConferencesDAO", "ContactsDAO", "MessagesDAO", "UserToConferenceDAO", "UsersDAO"};
     private HashMap identifiers;
     private DBThreadManager dbtm;
+    
+    private static ApplicationComponents instance = new ApplicationComponents();
 
     public ApplicationComponents() {
         loginController = new LoginController(this);
@@ -52,6 +54,10 @@ public class ApplicationComponents {
                 usageArray[i][j] = false;
             }
         }
+    }
+    
+    public static ApplicationComponents getInstance(){
+        return instance;
     }
 
     public LoginController getLoginController() {

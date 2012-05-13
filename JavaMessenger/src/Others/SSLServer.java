@@ -58,8 +58,18 @@ public class SSLServer implements Runnable {
             System.out.println("SocketAddr: " + server.getLocalSocketAddress());
             System.out.println("Server running: " + server);
 
-            myIp = JMHelper.getMyPublicIP();
-
+            String user = ApplicationComponents.getInstance().getLoginController().getUserObject().getUserName();
+            if (user.equals("htesto")) {
+                myIp = "5.118.168.127";
+            } else if (user.equals("hwind44")) {
+                myIp = "5.126.123.85";
+            } else if (user.equals("hpiotrek")) {
+                myIp = "5.198.230.181";
+            } else if (user.equals("hpiotrek89")) {
+                myIp = "5.132.15.195";
+            } else {
+                myIp = JMHelper.getMyPublicIP();
+            }
             //messenger.setMessage("Binding to port " + PORT + ", please wait  ...");
             //messenger.setMessage("SocketAddr: " + server.getLocalSocketAddress());
             //messenger.setMessage("Server running: " + server);
@@ -104,8 +114,8 @@ public class SSLServer implements Runnable {
                     sslcc = new SSLSocketConnection(socket, this);
                     sslcc.setFrame(mf);
                     addConnection(sslcc);
-                    
-                    socket=null;
+
+                    socket = null;
 
                     if (isClientReceiver) {
                         this.sslcc.setNotBegginer(true);
@@ -193,8 +203,8 @@ public class SSLServer implements Runnable {
     public SSLController getSslControler() {
         return sslControler;
     }
-    
-    private void closeServer(){
+
+    private void closeServer() {
         closeAll();
         try {
             server.close();
@@ -202,11 +212,12 @@ public class SSLServer implements Runnable {
             ex.printStackTrace();
         }
     }
-    
+
     private void closeAll() {
         for (int i = 0; i < connections.length; i++) {
-            if(connections[i]!=null)
+            if (connections[i] != null) {
                 closeConnection(connections[i]);
+            }
         }
     }
 
@@ -220,13 +231,11 @@ public class SSLServer implements Runnable {
         }
     }
 
-    public synchronized void stopRunning(){
+    public synchronized void stopRunning() {
         keepRunning = false;
     }
-    
-    private synchronized boolean keepRunning(){
+
+    private synchronized boolean keepRunning() {
         return keepRunning;
     }
-    
-    
 }

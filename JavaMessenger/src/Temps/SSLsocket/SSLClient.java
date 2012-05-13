@@ -4,6 +4,7 @@
  */
 package Temps.SSLsocket;
 
+import Others.ApplicationComponents;
 import Others.JMHelper;
 import java.io.*;
 import java.net.Socket;
@@ -34,7 +35,18 @@ public class SSLClient {
     }
     
     public void prepare() {
-        host = JMHelper.getMyPublicIP();
+        String user = ApplicationComponents.getInstance().getLoginController().getUserObject().getUserName();
+            if (user.equals("htesto")) {
+                host = "5.118.168.127";
+            } else if (user.equals("hwind44")) {
+                host = "5.126.123.85";
+            } else if (user.equals("hpiotrek")) {
+                host = "5.198.230.181";
+            } else if (user.equals("hpiotrek89")) {
+                host = "5.132.15.195";
+            } else {
+                host = JMHelper.getMyPublicIP();
+            }
         //host = "156.17.247.212"; //dla polaczen zdalnych wpisz adres ip
         //host = "83.5.234.211";
         //host = "83.5.165.184";

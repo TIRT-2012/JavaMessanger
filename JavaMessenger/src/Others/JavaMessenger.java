@@ -19,7 +19,7 @@ public class JavaMessenger {
     ApplicationComponents applicationComponents;
     ApplicationFrame app;
     public JavaMessenger() {
-        applicationComponents=new ApplicationComponents();
+        applicationComponents=ApplicationComponents.getInstance();
         
         applicationComponents.getSSLController().setAlgorithm(defaultCryptAlgoritm);
         applicationComponents.getSSLController().setKeySize(defaultCryptSymetricKeySize);
