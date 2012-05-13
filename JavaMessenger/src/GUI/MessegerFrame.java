@@ -7,6 +7,7 @@ package GUI;
 import Logic.SSLController;
 import Others.SSLClient;
 import Others.SSLSocketConnection;
+import Temps.Audio.AudioConnection;
 import crypto.JCECrypter;
 import crypto.SerialCryptedMessage;
 import crypto.SerialPublicKey;
@@ -15,6 +16,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.*;
+import java.net.InetAddress;
 import java.security.PublicKey;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -252,6 +254,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
+        audioConferenceButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -303,6 +306,13 @@ public class MessegerFrame extends javax.swing.JFrame {
             }
         });
 
+        audioConferenceButton.setText("Rozmowa audio");
+        audioConferenceButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                audioConferenceButtonMouseClicked(evt);
+            }
+        });
+
         jMenu1.setText("Program");
         jMenuBar1.add(jMenu1);
 
@@ -329,26 +339,30 @@ public class MessegerFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGap(18, 18, 18)
+                        .addComponent(audioConferenceButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 256, Short.MAX_VALUE)
+                        .addGap(0, 266, Short.MAX_VALUE)
                         .addComponent(jButton1)
                         .addGap(4, 4, 4)
                         .addComponent(jButton2))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(6, 6, 6)
+                .addGap(11, 11, 11)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(audioConferenceButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -463,6 +477,22 @@ public class MessegerFrame extends javax.swing.JFrame {
         fs.setVisible(true);
     }//GEN-LAST:event_jButton3MouseClicked
 
+    private void audioConferenceButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_audioConferenceButtonMouseClicked
+        // TODO add your handling code here:
+        if(sslSocketConnection!=null){
+            InetAddress toIp=sslSocketConnection.getIp();
+            AudioConnection audioConnection=AudioConnection.getInstance();
+            try{
+                audioConnection.initialize(toIp);
+                audioConnection.start();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
+            
+        }
+    }//GEN-LAST:event_audioConferenceButtonMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -505,6 +535,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton audioConferenceButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;

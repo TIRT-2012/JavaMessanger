@@ -188,6 +188,10 @@ public class SSLSocketConnection extends Thread {
     public long getId() {
         return id;
     }
+    
+    public InetAddress getIp(){
+        return ip;
+    }
 
     public void decideIsFile(boolean isFileSender, String words) {
         if (isFileSender) {
