@@ -27,7 +27,7 @@ import javax.media.rtp.rtcp.SourceDescription;
 
 public class AudioConnection implements SessionListener, ReceiveStreamListener{
     
-    private static AudioConnection instance = new AudioConnection();
+//    private static AudioConnection instance = new AudioConnection();
     
     private DataSource microphone;
     private PushBufferDataSource  rtpSound;
@@ -46,15 +46,15 @@ public class AudioConnection implements SessionListener, ReceiveStreamListener{
     
     private SessionAnalizer sessionAnalizer;
 
-    private AudioConnection() {
+    public AudioConnection() {
         microphone = getMicrophone();
         processor = getProcessor(microphone);
         rtpSound = (PushBufferDataSource) processor.getDataOutput();
     }
 
-    public static AudioConnection getInstance() {
-        return instance;
-    }
+//    public static AudioConnection getInstance() {
+//        return instance;
+//    }
 
     public void initialize(InetAddress toIp) throws Exception {
         if(!initialized){

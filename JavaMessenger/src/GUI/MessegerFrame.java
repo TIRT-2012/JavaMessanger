@@ -5,6 +5,7 @@
 package GUI;
 
 import Logic.SSLController;
+import Others.ApplicationComponents;
 import Others.SSLClient;
 import Others.SSLSocketConnection;
 import Temps.Audio.AudioConnection;
@@ -481,7 +482,7 @@ public class MessegerFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         if(sslSocketConnection!=null){
             InetAddress toIp=sslSocketConnection.getIp();
-            AudioConnection audioConnection=AudioConnection.getInstance();
+            AudioConnection audioConnection=ApplicationComponents.getInstance().getAudioConnection();
             try{
                 audioConnection.initialize(toIp);
                 audioConnection.start();

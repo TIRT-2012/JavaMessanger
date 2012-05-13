@@ -16,6 +16,7 @@ import Logic.RegistrationController;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import Logic.SSLController;
+import Temps.Audio.AudioConnection;
 
 /**
  *
@@ -32,6 +33,7 @@ public class ApplicationComponents {
     private static final String[] namesSequence = {"ConferencesDAO", "ContactsDAO", "MessagesDAO", "UserToConferenceDAO", "UsersDAO"};
     private HashMap identifiers;
     private DBThreadManager dbtm;
+    private AudioConnection audioConnection;
     
     private static ApplicationComponents instance = new ApplicationComponents();
 
@@ -54,6 +56,11 @@ public class ApplicationComponents {
                 usageArray[i][j] = false;
             }
         }
+        audioConnection=new AudioConnection();
+    }
+    
+    public AudioConnection getAudioConnection(){
+        return audioConnection;
     }
     
     public static ApplicationComponents getInstance(){
