@@ -198,7 +198,7 @@ public class ContactFrame extends javax.swing.JFrame {
             String name = jTextField1.getText().toString();
             String temp = "";
             if (name.equals(temp)) {
-                setJlist(this.applicationComponents.getLoginController().getUsersAll()); // użytkownicy, których użytkownik nie ma w kontaktach
+                setJlist(this.applicationComponents.getLoginController().getUsersNotAddedToContacts()); // użytkownicy, których użytkownik nie ma w kontaktach
             } else {
                 setJlist(this.applicationComponents.getLoginController().getUsers(name));
             }
