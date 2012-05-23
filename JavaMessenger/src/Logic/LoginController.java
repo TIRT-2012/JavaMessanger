@@ -101,6 +101,10 @@ public class LoginController {
         return userList;
     }
 
+    /**
+     * Funkcja zwraca kontakty zalogowanego użytkownika
+     * @return lista kontaktów
+     */
     public List<Contacts> getContacts() {
         Long id = null;
         id = userObject.getId();
