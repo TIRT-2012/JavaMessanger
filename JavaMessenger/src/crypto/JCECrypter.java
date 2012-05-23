@@ -13,11 +13,11 @@ import javax.crypto.spec.IvParameterSpec;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 /**
- *
- * @author Trebronus
+ * Klasa odpowiedzialna za szyfrowanie danych w programie. 
+ * Udostępnia ona możliwość szyfrowania danych zapisanych w strumieniach
+ * przy pomocy szyfrów symetrycznych i asymetrycznego Algorytmu RSA.
  */
 public class JCECrypter {
-   /* 2040 >= RSA_KEYSIZE >= 512 */
    private final int rsaKeySize = 1024;
    private int symetricKeySize = 256;
    private static final String decryptedFile = "out.mp3";
@@ -26,17 +26,6 @@ public class JCECrypter {
    
    private static final String testString = "Hello World!";
 
-   /*
-   * Dopuszczalne wartosci: 
-   * AES (SYMETRIC_KEYSIZE: 128 || 192 || 256)
-   * Blowfish (SYMETRIC_KEYSIZE: 32 <= length <= 448 && lenght % 8 == 0)
-   * DES (SYMETRIC_KEYSIZE: 56)
-   * DESede (SYMETRIC_KEYSIZE: 112 || 168)
-   * RC2 (SYMETRIC_KEYSIZE: 40 <= length <= 1024)
-   * 
-   * i wiele, wiele innych:
-   * http://www.bouncycastle.org/specifications.html
-   */
    private String cryptographyAlgorithm = "AES";
    
    /*

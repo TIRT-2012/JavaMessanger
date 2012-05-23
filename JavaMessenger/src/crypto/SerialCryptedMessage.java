@@ -21,14 +21,4 @@ public class SerialCryptedMessage implements Serializable{
     public byte[] getByteArray(){
         return this.message;
     }
-    
-//    public void setFileByteArray(byte[] file)
-//    {
-//        this.file = file;
-//    }
-//    
-//    public byte[] getFileByteArray()
-//    {
-//        return this.file;
-//    }
 }
