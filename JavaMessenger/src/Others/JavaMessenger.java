@@ -7,8 +7,7 @@ package Others;
 import GUI.ApplicationFrame;
 
 /**
- *
- * @author Piotr
+ * Klasa uruchamiająca program i inicjująca niezbędne komponenty.
  */
 public class JavaMessenger {
     private final String defaultCryptAlgoritm = "AES";
@@ -18,6 +17,11 @@ public class JavaMessenger {
      */
     ApplicationComponents applicationComponents;
     ApplicationFrame app;
+    
+    /**
+     * Konstruktor klasy ustawia na wartości domyślne konfigurację szyfrowania wiadomości
+     * i tworzy główną formatkę programu.
+     */
     public JavaMessenger() {
         applicationComponents=ApplicationComponents.getInstance();
         

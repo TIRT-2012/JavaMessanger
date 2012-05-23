@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- * Klasa obrazuje formatkę Zarządzania konferencją
+ * Klasa obrazuje formatkę zarządzania konferencją.
  */
 public class ConferenceFrame extends javax.swing.JFrame {
     ApplicationFrame application;

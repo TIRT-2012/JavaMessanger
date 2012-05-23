@@ -7,9 +7,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import javax.persistence.EntityManager;
 
 /**
- *
- * @author SysOp
- * 
  * Klasa reprezentujaca pojedynczy watek bazodanowy. Służy do asynchronicznego 
  * wykonywania zaputań. Korzysta z mechanizmów refleksi w celu zwiększenia 
  * uniwersalności.

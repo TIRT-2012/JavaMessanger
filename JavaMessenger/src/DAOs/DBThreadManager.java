@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 /**
- *
- * @author SysOp
  * Klasa odpowiedzialna za zarządzanie wątkami reprezentującymi zadania 
  * bazodanowe. 
  */

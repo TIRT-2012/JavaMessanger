@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author SysOp
+ * Klasa odpowiedzialna za akcję logowania użytkownika. W tym celu komunikuję się
+ * z bazą danych i autoryzuje użytkownika.
  */
 public class LoginController {
 
@@ -51,6 +51,12 @@ public class LoginController {
      *
      * }
      */
+    
+     /**
+     * Funkcja pobiera z bazy danych użytkownika na podstawie jego IP.
+     * @param ip IP szukanego użytkownika
+     * @return nazwa użytkownika
+     */
     public String getUserName(String ip) {
         System.out.println("getUserName()");
         UsersDAO userDao = applicationComponent.getUsersDAO();
@@ -59,6 +65,11 @@ public class LoginController {
         return temp.getUserName();
     }
 
+     /**
+     * Funkcja dodaje nowy kontakt dla zalogowanego użytkownika
+     * @param name nazwa nowego kontaktu (login użytkownika)
+     * @return czy operacja dodania kontaktu się powiodła
+     */
     public boolean setContact(String name) {
         System.out.println("setContact()");
         boolean isAdded = false;
@@ -71,6 +82,10 @@ public class LoginController {
         return isAdded;
     }
 
+     /**
+     * Funkcja pobiera listę kontaktów zalogowanego użytkownika
+     * @return lista kontaktów
+     */
     public List<Users> getUsersNotAddedToContacts() {
         Long id = null;
         id = userObject.getId();
@@ -86,6 +101,10 @@ public class LoginController {
         return userList;
     }
 
+    /**
+     * Funkcja zwraca kontakty zalogowanego użytkownika
+     * @return lista kontaktów
+     */
     public List<Contacts> getContacts() {
         Long id = null;
         id = userObject.getId();
@@ -95,6 +114,11 @@ public class LoginController {
         return contactList;
     }
 
+     /**
+     * Funkcja zwraca listę użytkowników, których login spełnia podane kryterium.
+     * @param name kryterium nazwy użytkowników
+     * @return lista użytkowników
+     */
     public List<Users> getUsers(String name) {
         Long id = null;
         id = userObject.getId();
@@ -104,6 +128,10 @@ public class LoginController {
         return userList;
     }
 
+     /**
+     * Funkcja zwraca listę wszystkich użytkowników z bazy danych
+     * @return lista użytkowników
+     */
     public List<Users> getUsersAll() {
         Long id = null;
         id = userObject.getId();
@@ -112,7 +140,12 @@ public class LoginController {
         applicationComponent.releseDAO(userDao);
         return userList;
     }
-
+    
+    /**
+     * Funkcja pobiera IP użytkownika podanego jako parametr
+     * @param name nazwa użytkownika
+     * @return IP użytkownika
+     */
     public String getAnotherUserIp(String name) {
         System.out.println("getAnotherUserIp()");
         UsersDAO userDao = applicationComponent.getUsersDAO();
@@ -120,7 +153,10 @@ public class LoginController {
         applicationComponent.releseDAO(userDao);
         return temp.get(0).getIp();
     }
-
+    
+    /**
+     * Metoda ustawia adres IP w bazie na aktualny adres, jaki posiada zalogowany klient.
+     */
     public void setUserIp() {
         System.out.println("setUserIp()");
         UsersDAO userDao = applicationComponent.getUsersDAO();
@@ -132,12 +168,19 @@ public class LoginController {
         applicationComponent.releseDAO(userDao);
         loggedUser = true;
     }
-
+    
+    /**
+     * Metoda wylogowywuje aktualnie zalogowanego użytkownika.
+     */
     public void logout() {
         removeUserIp();
         applicationComponent.getSSLController().stopServer();
     }
-
+    
+    /**
+     * Metoda usuwa IP użytkownika z bazy danych.
+     * Jest on przez to oznaczany jako niezalogowany
+     */
     private void removeUserIp() {
         System.out.println("removeUserIp()");
         String name = userObject.getUserName();
@@ -149,7 +192,13 @@ public class LoginController {
             loggedUser = false;
         }
     }
-
+    
+    /**
+     * Funkcja sprawdza, czy użytkownik loguje się, używając poprawnych danych.
+     * @param userName podana nazwa użytkownika
+     * @param password podane hasło użytkownika
+     * @return rezultat logowania
+     */
     public boolean selectAuthentication(String userName, String password) {
         System.out.println("selectAuthentication()");
         boolean islooged = false;
