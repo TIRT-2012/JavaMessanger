@@ -30,12 +30,6 @@ public class ContactsDAO extends DataAccessObject{
         return (List<Contacts>) wrap(q, "getResultList", null, null, wait);
     }
 
-    public List<Contacts> findByNumber(int number, boolean... wait) {
-        Query q = entityManager.createNamedQuery("Contacts.findByNumber");
-        q.setParameter("number", number);
-        return (List<Contacts>) wrap(q, "getResultList", null, null, wait);
-    }
-
     public Contacts findById(Long id, boolean... wait) {
         Query q = entityManager.createNamedQuery("Contacts.findById");
         q.setParameter("id", id);
@@ -44,6 +38,12 @@ public class ContactsDAO extends DataAccessObject{
 
     public List<Contacts> findAll(boolean... wait) {
         Query q = entityManager.createNamedQuery("Contacts.findAll");
+        return (List<Contacts>) wrap(q, "getResultList", null, null, wait);
+    }
+    
+    public List<Contacts> findNotOwning(Long id, boolean... wait) {
+        Query q = entityManager.createNamedQuery("Contacts.findNotOwning");
+        q.setParameter("userId", id);
         return (List<Contacts>) wrap(q, "getResultList", null, null, wait);
     }
 }

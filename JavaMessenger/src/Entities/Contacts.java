@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Contacts.findAll", query = "SELECT c FROM Contacts c"),
     @NamedQuery(name = "Contacts.findById", query = "SELECT c FROM Contacts c WHERE c.id = :id"),
     @NamedQuery(name = "Contacts.findByUserId", query = "SELECT c FROM Contacts c WHERE c.userId = :userId"),
-    @NamedQuery(name = "Contacts.findByNumber", query = "SELECT c FROM Contacts c WHERE c.number = :number"),
+    @NamedQuery(name = "Contacts.findNotOwning", query = "SELECT c FROM Contacts WHERE c.userId <> :userId"),
     @NamedQuery(name = "Contacts.findByName", query = "SELECT c FROM Contacts c WHERE c.name = :name")})
 public class Contacts implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -38,10 +38,7 @@ public class Contacts implements Serializable {
     private Long id;
     @Basic(optional = false)
     @Column(name = "user_id")
-    private long userId;
-    @Basic(optional = false)
-    @Column(name = "number")
-    private int number;
+    private int userId;
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
@@ -53,10 +50,9 @@ public class Contacts implements Serializable {
         this.id = id;
     }
 
-    public Contacts(Long id, long userId, int number, String name) {
+    public Contacts(Long id, int userId, String name) {
         this.id = id;
         this.userId = userId;
-        this.number = number;
         this.name = name;
     }
 
@@ -68,20 +64,12 @@ public class Contacts implements Serializable {
         this.id = id;
     }
 
-    public long getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 
     public String getName() {

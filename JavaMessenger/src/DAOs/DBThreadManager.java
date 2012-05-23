@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package DAOs;
 
 import java.util.HashMap;
@@ -10,15 +6,27 @@ import java.util.Iterator;
 /**
  *
  * @author SysOp
+ * Klasa odpowiedzialna za zarządzanie wątkami reprezentującymi zadania 
+ * bazodanowe. 
  */
 public class DBThreadManager {
     
     private HashMap threads;
     
+    /**
+     * Konstruktor zarządcy wątków- tworzy mapę aktualnie obsługiwanych wątków.
+     */
     public DBThreadManager(){
         threads=new HashMap();
     }
     
+    /**
+     * 
+     * @param t
+     * @return
+     * Dodaje wątek do zarządcy i zwraca jego id w celu późniejszego odwołania 
+     * się do jego wyniku.
+     */
     public long add(DBThread t){
         t.start();
         long id=getNextId();
@@ -37,6 +45,13 @@ public class DBThreadManager {
         return id;
     }
     
+    /**
+     * 
+     * @param id
+     * @return
+     * Zwraca wynik wykonania wątku o podanym id, jeżeli wątek nie zakończył 
+     * pracy to zawiesza wątek pytający do czasu otrzymania notyfikacji.
+     */
     public Object getResult(long id){
         DBThread t=(DBThread) threads.get(id);
         return t.getResult();
