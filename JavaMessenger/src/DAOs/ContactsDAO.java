@@ -46,4 +46,10 @@ public class ContactsDAO extends DataAccessObject{
         Query q = entityManager.createNamedQuery("Contacts.findAll");
         return (List<Contacts>) wrap(q, "getResultList", null, null, wait);
     }
+    
+    public List<Contacts> findNotOwning(Long id, boolean... wait) {
+        Query q = entityManager.createNamedQuery("Contacts.findNotOwning");
+        q.setParameter("userId", id);
+        return (List<Contacts>) wrap(q, "getResultList", null, null, wait);
+    }
 }
