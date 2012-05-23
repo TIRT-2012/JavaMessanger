@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Contacts.findAll", query = "SELECT c FROM Contacts c"),
     @NamedQuery(name = "Contacts.findById", query = "SELECT c FROM Contacts c WHERE c.id = :id"),
     @NamedQuery(name = "Contacts.findByUserId", query = "SELECT c FROM Contacts c WHERE c.userId = :userId"),
-    @NamedQuery(name = "Contacts.findNotOwning", query = "SELECT c FROM Contacts WHERE c.userId <> :userId"),
+    @NamedQuery(name = "Contacts.findNotOwning", query = "SELECT c FROM Contacts c WHERE c.userId <> :userId"),
     @NamedQuery(name = "Contacts.findByName", query = "SELECT c FROM Contacts c WHERE c.name = :name")})
 public class Contacts implements Serializable {
     private static final long serialVersionUID = 1L;

@@ -131,8 +131,8 @@ public class MessegerFrame extends javax.swing.JFrame {
         String url = fileSender.getjTextField1().getText();
         System.out.println(url);
         File myFile = new File(url);
-        
-        String message = "<<%file%>>"+myFile.getName();
+
+        String message = "<<%file%>>" + myFile.getName();
         System.out.println(message);
         ByteArrayInputStream in = new ByteArrayInputStream(message.getBytes());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -151,9 +151,9 @@ public class MessegerFrame extends javax.swing.JFrame {
 
         this.sslControler.getServer().getFrameFromMap(hostIp).getSSLClient().getObjectOutputStream().writeObject(sCm);
         sCm = null;
-        
+
         byte[] byteArray = new byte[(int) myFile.length()];
-        
+
         byteArray = convertToByte(byteArray, myFile);
         ByteArrayInputStream in2 = new ByteArrayInputStream(byteArray);
         ByteArrayOutputStream out2 = new ByteArrayOutputStream();
@@ -191,15 +191,14 @@ public class MessegerFrame extends javax.swing.JFrame {
         byte[] data = bos.toByteArray();
         return data;
     }
-    
+
     /**
      * Funkcja wczytująca zawartość pliku do tablicy bajtów
      * @param byteArray pusta tablica bajtów
      * @param file wczytywany plik
      * @return tablica bajtów z zawartością pliku
      */
-    public byte[] convertToByte(byte[] byteArray, File file) throws FileNotFoundException, IOException
-    {
+    public byte[] convertToByte(byte[] byteArray, File file) throws FileNotFoundException, IOException {
         FileInputStream fileInputStream = new FileInputStream(file);
         fileInputStream.read(byteArray);
         return byteArray;
@@ -250,7 +249,6 @@ public class MessegerFrame extends javax.swing.JFrame {
 //        sslControler.quitClient();
 //
 //    }
-
     public void changeJLabel1(String profilName) {
         this.profilName = profilName;
         this.jLabel1.setText("Rozmowa z użytkownikiem: " + profilName);
@@ -338,6 +336,11 @@ public class MessegerFrame extends javax.swing.JFrame {
         audioConferenceButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 audioConferenceButtonMouseClicked(evt);
+            }
+        });
+        audioConferenceButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                audioConferenceButtonActionPerformed(evt);
             }
         });
 
@@ -511,19 +514,32 @@ public class MessegerFrame extends javax.swing.JFrame {
 
     private void audioConferenceButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_audioConferenceButtonMouseClicked
         // TODO add your handling code here:
-        if(sslSocketConnection!=null){
-            InetAddress toIp=sslSocketConnection.getIp();
-            AudioConnection audioConnection=ApplicationComponents.getInstance().getAudioConnection();
+        AudioConnection audioConnection = ApplicationComponents.getInstance().getAudioConnection();
+        if (audioConnection.isStarted()) {
             try{
-                audioConnection.initialize(toIp);
-                audioConnection.start();
+                audioConnection.stop();
+                audioConferenceButton.setText("Rozmowa audio");
             }
             catch(Exception e){
                 e.printStackTrace();
             }
-            
+        } else {
+            if (sslSocketConnection != null) {
+                InetAddress toIp = sslSocketConnection.getIp();
+                try {
+                    audioConnection.initialize(toIp);
+                    audioConnection.start();
+                    audioConferenceButton.setText("Zakoncz audio");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
         }
     }//GEN-LAST:event_audioConferenceButtonMouseClicked
+
+    private void audioConferenceButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_audioConferenceButtonActionPerformed
+    }//GEN-LAST:event_audioConferenceButtonActionPerformed
 
     /**
      * @param args the command line arguments

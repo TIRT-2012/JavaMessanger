@@ -20,11 +20,17 @@ public class JMHelper {
     public static String getMyPublicIP() {
         System.out.println("getMyPublicIP()");
         try {
-            URL readIp = new URL("http://automation.whatismyip.com/n09230945.asp");
+            URL readIp = new URL("http://ip.boo.pl/");
             BufferedReader in = new BufferedReader(new InputStreamReader(readIp.openStream()));
-            String ip_address = (in.readLine()).trim();
-
-            return ip_address;
+            String lineIn=null;
+            String ipAddress=null;
+            while((lineIn=in.readLine())!=null){
+                if(lineIn.trim().equals("<td>IP: </td>")){
+                    ipAddress=in.readLine().trim();
+                    ipAddress=ipAddress.replace("<td>", "").replace("</td>", "");
+                }
+            }
+            return ipAddress;
 
         } catch (Exception e) {
             e.printStackTrace();
