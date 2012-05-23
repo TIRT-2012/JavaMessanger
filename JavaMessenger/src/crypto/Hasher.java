@@ -8,14 +8,19 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- *
- * @author PWr
+ * Klasa udostępnia metodę obliczającą skróty dla łańcuchów tekstowych.
  */
 public class Hasher {
     public static String HASH_MD5 = "MD5";
     public static String HASH_SHA256 = "SHA-256";
     public static String HASH_SHA512 = "SHA-512";
     
+    /**
+     * Funkcja generująca skrót z podanego łańcucha tekstowego
+     * @param inputText hashowany tekst
+     * @param algorithm algorytm hashowania
+     * @return skrót tekstu
+     */
     public static String generateHash(String inputText, String algorithm){
  
         try {

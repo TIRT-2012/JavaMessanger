@@ -129,7 +129,9 @@ public class MessegerFrame extends javax.swing.JFrame {
         JCECrypter jce = new JCECrypter(this.getSslControler().getAlgorithm(), this.getSslControler().getKeySize());
         SerialCryptedMessage sCm = null;
         try {
-            sCm = jce.cryptOut(publicKey, in, out);
+            jce.crypt(publicKey, in, out);
+            sCm = new SerialCryptedMessage(out.toByteArray());
+            //sCm = jce.cryptOut(publicKey, in, out);
         } catch (Exception ex) {
             Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -147,7 +149,9 @@ public class MessegerFrame extends javax.swing.JFrame {
         ByteArrayOutputStream out2 = new ByteArrayOutputStream();
         try {
             System.out.println("Moj klucz publiczny do szyfrowania wiadomosci" + publicKey);
-            sCm = jce.cryptOut(publicKey, in2, out2);
+            jce.crypt(publicKey, in2, out2);
+            sCm = new SerialCryptedMessage(out2.toByteArray());
+            //sCm = jce.cryptOut(publicKey, in2, out2);
         } catch (Exception ex) {
             Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -406,7 +410,9 @@ public class MessegerFrame extends javax.swing.JFrame {
                 SerialCryptedMessage sCm = null;
                 try {
                     System.out.println("Moj klucz publiczny do szyfrowania wiadomosci" + publicKey);
-                    sCm = jce.cryptOut(publicKey, in, out);
+                    jce.crypt(publicKey, in, out);
+                    sCm = new SerialCryptedMessage(out.toByteArray());
+                    //sCm = jce.cryptOut(publicKey, in, out);
                 } catch (Exception ex) {
                     Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -442,7 +448,9 @@ public class MessegerFrame extends javax.swing.JFrame {
             SerialCryptedMessage sCm = null;
             try {
                 System.out.println("Moj klucz publiczny do szyfrowania wiadomosci" + publicKey);
-                sCm = jce.cryptOut(publicKey, in, out);
+                jce.crypt(publicKey, in, out);
+                sCm = new SerialCryptedMessage(out.toByteArray());
+                //sCm = jce.cryptOut(publicKey, in, out);
             } catch (Exception ex) {
                 Logger.getLogger(MessegerFrame.class.getName()).log(Level.SEVERE, null, ex);
             }
