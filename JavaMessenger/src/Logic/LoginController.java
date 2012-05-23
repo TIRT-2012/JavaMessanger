@@ -11,6 +11,7 @@ import Entities.Users;
 import Others.ApplicationComponents;
 import Others.JMHelper;
 import crypto.Hasher;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,6 +69,21 @@ public class LoginController {
         contactDao.insert(contact, true);
         applicationComponent.releseDAO(contactDao);
         return isAdded;
+    }
+
+    public List<Users> getUsersNotAddedToContacts() {
+        Long id = null;
+        id = userObject.getId();
+        ContactsDAO contactDao = applicationComponent.getContactsDAO();
+        List<Contacts> contactList = contactDao.findNotOwning(id, true);
+        List<Users> userList = new ArrayList<Users>();
+        Users user = new Users();
+        for (int i = 0; i < contactList.size(); i++) {
+            user.setUserName(contactList.get(i).getName());
+            userList.add(user);
+        }
+        applicationComponent.releseDAO(contactDao);
+        return userList;
     }
 
     public List<Contacts> getContacts() {
