@@ -5,6 +5,10 @@
 package Others;
 
 /**
+ * Klasa SSLServer to klasa modułu Serwera architektury klient-serwer opartej na
+ * szyfrowaniu SSL Obiekt ten decyduje o wysyłaniu kluczy szyfrujących,
+ * kierowaniu odpowiedzi do klientów przy inicjacji połączenia oraz odbieraniu
+ * wiadomości od klientów zewnętrznych
  *
  * @author SysOp
  */
@@ -41,6 +45,13 @@ public class SSLServer implements Runnable {
     String myIp;
     private String ipAdress;
 
+    /**
+     * Konstruktor, w którym następuje akceptacja kluczy dla certyfikatu SSL.
+     * Konstruktor tworzy listę modułów, które przesyłają informacje do klientów
+     * wewnętrznych
+     *
+     * @param evt
+     */
     public SSLServer(SSLController sslControler) {
         this.sslControler = sslControler;
         messengerFrameList = new HashMap();
@@ -49,6 +60,11 @@ public class SSLServer implements Runnable {
         System.setProperty("javax.net.ssl.trustStore", "testKey");
     }
 
+    /**
+     * Metoda prepare nawiązuje połaczenie socketowe na łączu SSL.
+     *
+     * @param evt
+     */
     public void prepare() {
         try {
             System.out.println("Binding to port " + PORT + ", please wait  ...");
@@ -90,6 +106,18 @@ public class SSLServer implements Runnable {
         }
     }
 
+    /**
+     * Run umożliwia uruchomienie serwera. Serwer SSL jest włączony w momencie
+     * zalogowania użytkownika. Metoda run steruje funkcjami Serwera tj. śledzi
+     * odpowiedzi od klientów zewnętrznych, dodaje ich do listy, łaczy się z
+     * nimi, przydziela wiadomości do klientów wewnętrznych. Wysyła również
+     * klucz publiczny klientom zewnętrznym. Deszyfruje również wiadomości od
+     * klientów zewnętrznych. Metoda Run() za każdym razem, kiedy przychodzi
+     * nowy klient zewnętrzny tworzy połączenie socketowe jako osobny wątek w
+     * klasie SSLSocketConnection.
+     *
+     * @param evt
+     */
     @Override
     public void run() {
         while (keepRunning()) {
@@ -164,6 +192,12 @@ public class SSLServer implements Runnable {
         closeServer();
     }
 
+    /**
+     * Metoda dodająca połaczenie socketowe z klientem zewnętrznym. Uruchamia
+     * wątek tego połaczenia.
+     *
+     * @param evt
+     */
     private void addConnection(SSLSocketConnection sc) {
         boolean iterate = true;
         int i = 0;
@@ -182,6 +216,12 @@ public class SSLServer implements Runnable {
         return sslcc;
     }
 
+    /**
+     * Metoda dodająca Obiekt typu MessegerFrame do listy okienek. Pozwala to na
+     * przerzucenie wiadomości od klientów zewnętrznych do klientów wewnętrznych
+     *
+     * @param evt
+     */
     public void setFrameToMap(MessegerFrame messenger1) {
         System.out.println(" Pozycja na hashMap " + messenger1.getIp());
         this.messengerFrameList.put(messenger1.getIp(), messenger1);
@@ -192,10 +232,22 @@ public class SSLServer implements Runnable {
         return (this.messengerFrameList.get(ip) != null) ? (MessegerFrame) messengerFrameList.get(ip) : null;
     }
 
+    /**
+     * Metoda sprawdzająca czy istnieje okienko wiadomości typu MessengerFrame
+     * na liście okienek, uprzednio podając ip jako identyfikator
+     *
+     * @param evt
+     */
     public boolean isFrameInMap(String ip) {
         return (this.messengerFrameList.get(ip) != null) ? true : false;
     }
 
+    /**
+     * Metoda sprawdzająca czy istnieje klient na liście klientów Serwera na
+     * liście okienek, uprzednio podając ip jako identyfikator
+     *
+     * @param evt
+     */
     public boolean isClientInClientsMap(String ip) {
         return (sslControler.getClient(ipAdress) != null) ? true : false;
     }
@@ -204,6 +256,11 @@ public class SSLServer implements Runnable {
         return sslControler;
     }
 
+    /**
+     * Zamykająca Server. Wykonywana przy wylogowaniu bądź zakończeniu aplikacji
+     *
+     * @param evt
+     */
     private void closeServer() {
         closeAll();
         try {
@@ -221,6 +278,12 @@ public class SSLServer implements Runnable {
         }
     }
 
+    /**
+     * Metoda zatrzymująca wątki klasy SSLSOcketConnection. Pozwala na
+     * zakończenie nasłuchiwania klienta zewnętrznego przez Serwer
+     *
+     * @param evt
+     */
     private void closeConnection(SSLSocketConnection sc) {
         System.out.println("closeConnection() ");
         sc.quit(); // zamyka socket sslcocketconnection czyli wątek pobierania danych od clienta

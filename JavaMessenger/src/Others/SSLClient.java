@@ -21,6 +21,9 @@ import java.util.logging.Logger;
 import javax.net.ssl.*;
 
 /**
+ * Klasa SSLClient to moduł klient w architekturze klient-serwer. Klasa
+ * SSLClienta umożliwia użytkownikowi frontowemu przesyłanie wiadomości
+ * tekstowych, plików oraz streamin audio
  *
  * @author SysOp
  */
@@ -38,15 +41,28 @@ public class SSLClient {
     private OutputStream output = null;
     private byte byteArray[] = null;
     private FileSender fileSender = null;
-    
+
+    /**
+     * Konstruktor klienta, który tworzy bezpieczene połączenie SSL na podstawie
+     * wygenerowanego klucza i certyfikatu weryfkującego klucz od serwera
+     *
+     * @param evt
+     */
     public SSLClient() {
         System.setProperty("javax.net.ssl.keyStore", "testKey");
         System.setProperty("javax.net.ssl.keyStorePassword", "tester");
         System.setProperty("javax.net.ssl.trustStore", "testKey");
-     }
-    
-    public SSLClient(String serverhost)
-    {
+    }
+
+    /**
+     * Konstruktor klienta, który tworzy bezpieczene połączenie SSL na podstawie
+     * wygenerowanego klucza i certyfikatu weryfkującego klucz od serwera.W
+     * konstruktorze tym dodatkowo tworzymy socket i zabezpieczamy szyfrowanie
+     * SSL
+     *
+     * @param evt
+     */
+    public SSLClient(String serverhost) {
         System.setProperty("javax.net.ssl.keyStore", "testKey");
         System.setProperty("javax.net.ssl.keyStorePassword", "tester");
         System.setProperty("javax.net.ssl.trustStore", "testKey");
@@ -71,13 +87,23 @@ public class SSLClient {
         } catch (IOException ioe) {
             System.out.println("Sending error: " + ioe.getMessage());
         }
-        
+
     }
-            
+
+    /**
+     * Metoda ustawiająca ip clienta
+     *
+     * @param evt
+     */
     public void setHost(String host) {
         this.host = host;
     }
 
+    /**
+     * Metoda, która zabezpiecza połączenie SSL, tworzy szyfrowany socket
+     *
+     * @param evt
+     */
     public void prepare() {
         System.out.println("Establishing connection. Please wait ...");
         try {
@@ -94,6 +120,11 @@ public class SSLClient {
         }
     }
 
+    /**
+     * Metoda, która pozwala na uruchomienie przepływu wiadomości.
+     *
+     * @param evt
+     */
     public void run() {
         try {
             //String s = messeger.getMessage(); dodac obsluge z przycisku
@@ -105,16 +136,25 @@ public class SSLClient {
         }
     }
 
-    public void sendFeedback()
-    {
+    /**
+     * Metoda, która pozwala na zwrócenie odpowiedzi od Serwera klienta
+     * zewnętrznego. Przy ustanawianiu połączenia
+     *
+     * @param evt
+     */
+    public void sendFeedback() {
         try {
             streamOut.writeUTF("Client Approved");
         } catch (IOException ex) {
             Logger.getLogger(SSLClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    
+
+    /**
+     * Metoda zamykająca połączenie - kasuje soket, bufor streamu
+     *
+     * @param evt
+     */
     public void close() {
         try {
             if (console != null) {
@@ -131,19 +171,18 @@ public class SSLClient {
         }
     }
 
-    public String getHost()
-    {
+    public String getHost() {
         return host;
     }
 
     public SSLSocket getSocket() {
         return socket;
     }
-    
+
     public DataOutputStream getStreamOut() {
         return streamOut;
     }
-    
+
     public SerialPublicKey getSerialPublicKey() {
         return serialPublicKey;
     }
@@ -159,9 +198,14 @@ public class SSLClient {
     public void setKeyPair(KeyPair keyPair) {
         this.keyPair = keyPair;
     }
-    
-    public void sendKey()
-    {
+
+    /**
+     * Metoda umożliwiająca wysłanie klucza do serwera klienta zewnętrznego, po
+     * to by serwer ten mógł odczytać szyfrowaną wiadomosć
+     *
+     * @param evt
+     */
+    public void sendKey() {
         System.out.println("sendKey()");
         try {
             System.out.println("serialPublicKey PUBLICKEY: " + serialPublicKey.getPublicKey());
@@ -174,8 +218,8 @@ public class SSLClient {
         }
         serialPublicKey = null;
     }
-    public ObjectOutputStream getObjectOutputStream()
-    {
+
+    public ObjectOutputStream getObjectOutputStream() {
         return oos;
     }
 }

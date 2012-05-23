@@ -16,6 +16,9 @@ import java.util.logging.Logger;
 import javax.net.ssl.SSLSocket;
 
 /**
+ * Klasa SSLSocketConnection to klasa "nasłuchująca" zdarzenia na serwerze od
+ * klientów zewnętrznych. Pozwala na odbieranie kluczy szyfrujących i
+ * odszyfrowywaniu wiadomości, plików
  *
  * @author SysOp
  */
@@ -37,6 +40,11 @@ public class SSLSocketConnection extends Thread {
     private boolean notBegginer = false;
     private boolean isFileSender = false;
 
+    /**
+     * Konstruktor SSLSocketConnection
+     *
+     * @param evt
+     */
     public SSLSocketConnection(SSLSocket socket, SSLServer sslServer) throws IOException {
         this.socket = socket;
         id = socket.getPort();
@@ -57,6 +65,12 @@ public class SSLSocketConnection extends Thread {
         this.notBegginer = notBegginer;
     }
 
+    /**
+     * Setter dodający okienko wiadomość dla odbiorcy wiadomośći od klienta
+     * zewnętrznego, który zainicjował rozmowę
+     *
+     * @param evt
+     */
     public void setFrame(MessegerFrame messenger) {
         this.messenger = messenger;
         this.messenger.setMessage("New client joined on port: " + id + " IP: " + ipAdress);
@@ -64,6 +78,13 @@ public class SSLSocketConnection extends Thread {
         this.messenger.setVisible(true);
     }
 
+    /**
+     * Metoda run wątku głównego klasy SSLSocketConnection. Metoda run odczytuje
+     * klucz publiczny, który używa do deszyfracji wiadomości tekstowej bądź
+     * plików.
+     *
+     * @param evt
+     */
     @Override
     public void run() {
         InputStream is = null;
@@ -172,6 +193,11 @@ public class SSLSocketConnection extends Thread {
         keepRunning = false;
     }
 
+    /**
+     * Metoda closeConnection() zamyka socket i bufor streamu 
+     *
+     * @param evt
+     */
     public final void closeConnection() {
         try {
             if (socket != null) {
@@ -188,11 +214,16 @@ public class SSLSocketConnection extends Thread {
     public long getId() {
         return id;
     }
-    
-    public InetAddress getIp(){
+
+    public InetAddress getIp() {
         return ip;
     }
 
+    /**
+     * Metoda decideIsFile() sprawdza czy wysłany obiekt to wiadomość bądź plik
+     *
+     * @param evt
+     */
     public void decideIsFile(boolean isFileSender, String words) {
         if (isFileSender) {
             this.isFile = true;
@@ -205,6 +236,10 @@ public class SSLSocketConnection extends Thread {
         }
     }
 
+    /**
+     * Metoda convertToFile() konwertuje ciąg bajtów do tablicy bajtów i tworzy plik do wysłania.
+     * @param evt
+     */
     public void convertToFile(ByteArrayOutputStream out, String fileName) throws FileNotFoundException, IOException {
         System.out.println(fileName);
         byte[] temp = out.toByteArray();

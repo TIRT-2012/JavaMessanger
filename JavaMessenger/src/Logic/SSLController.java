@@ -16,6 +16,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Klasa opowiedzialna za sterowanie architekturą client-serwer Jest używana
+ * jako inicjator połączenia pomiędzy dwoma klientami. Kontroler ten ustanawia
+ * połączenie szyfrowane SSL.
  *
  * @author Piotr
  */
@@ -31,6 +34,12 @@ public class SSLController {
     private String algorithm = null;
     private int keySize;
 
+    /**
+     * Konstruktor kontrolera, który tworzy listę klientów aktualnie
+     * nawiązujących połączenie z modułem serwera
+     *
+     * @param evt
+     */
     public SSLController(ApplicationComponents ac) {
         //runServer();
         clientsMap = new HashMap();
@@ -61,6 +70,11 @@ public class SSLController {
         this.keySize = keySize;
     }
 
+    /**
+     * Metoda zwracająca userName na podstawie ip
+     *
+     * @param evt
+     */
     public String getUserName(String ip) {
         System.out.println("getUserName()");
         UsersDAO userDao = applicationComponents.getUsersDAO();
@@ -69,6 +83,12 @@ public class SSLController {
         return (String) temp.getUserName();
     }
 
+    /**
+     * Metoda inicjująca architekturę klient serwer z poziomu dwóch modułów -
+     * serwa i klienta w zależności od zmiennej isClient
+     *
+     * @param evt
+     */
     public void setSSLConnection(boolean isClient) {
 
         isServer = (isClient) ? false : true;
@@ -89,11 +109,22 @@ public class SSLController {
         return client;
     }
 
+    /**
+     * Metoda uruchamiajaca server
+     *
+     * @param evt
+     */
     public final void runServer() {
         System.out.println("runServer()");
         setSSLConnection(false);
     }
 
+    /**
+     * Metoda uruchamiajaca klienta i dodająca obiekt klasy SSLClient do listy
+     * Clientów
+     *
+     * @param evt
+     */
     public void runClient(String ip) {
         System.out.println("runClient()");
         client = new SSLClient();
@@ -103,12 +134,23 @@ public class SSLController {
         clientsMap.put(ip, client);
     }
 
+    /**
+     * Metoda zwracająca odpowiedź od serwera do KLienta, ze można ustanowiść
+     * połączenie
+     *
+     * @param evt
+     */
     public void runFeedbackClient(String host) {
         System.out.println("runClient()");
         client = new SSLClient(host);
 
     }
 
+    /**
+     * Metoda zwracająca obiekt klasy SSLClient z list klientów
+     *
+     * @param evt
+     */
     public SSLClient getClient(String clientIp) {
         SSLClient temp = (SSLClient) this.clientsMap.get(clientIp);
         return temp;
@@ -117,8 +159,15 @@ public class SSLController {
     public SSLServer getServer() {
         return server;
     }
-    
-    public void stopServer(){
+
+    /**
+     * Metoda, która zatrzymuje wątek uruchominego SSLServera i
+     * SSLSOcketConnection powodując zamknięcie działających modułów
+     * architektury.
+     *
+     * @param evt
+     */
+    public void stopServer() {
         server.stopRunning();
     }
 }
