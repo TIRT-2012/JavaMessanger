@@ -103,6 +103,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -232,6 +233,19 @@ public class ApplicationFrame extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem2);
 
+        jMenuItem4.setText("Dodaj kontakt");
+        jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem4MouseClicked(evt);
+            }
+        });
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem4);
+
         jMenuBar2.add(jMenu4);
 
         setJMenuBar(jMenuBar2);
@@ -356,6 +370,23 @@ public class ApplicationFrame extends javax.swing.JFrame {
         cryptingFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem3MousePressed
 
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        if (this.getApplicationComponents().getLoginController().isLoggedUser()) {
+            ContactFrame contactFrame = new ContactFrame();
+            contactFrame.setApplicationController(applicationComponents);
+            contactFrame.setLocationRelativeTo(contactFrame.getRootPane());
+            contactFrame.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Aby dodać kontakt, musisz się wpierw zalogować");
+        }
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenuItem4MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -419,6 +450,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;

@@ -38,7 +38,7 @@ public class Contacts implements Serializable {
     private Long id;
     @Basic(optional = false)
     @Column(name = "user_id")
-    private int userId;
+    private long userId;
     @Basic(optional = false)
     @Column(name = "number")
     private int number;
@@ -53,7 +53,7 @@ public class Contacts implements Serializable {
         this.id = id;
     }
 
-    public Contacts(Long id, int userId, int number, String name) {
+    public Contacts(Long id, long userId, int number, String name) {
         this.id = id;
         this.userId = userId;
         this.number = number;
@@ -68,11 +68,11 @@ public class Contacts implements Serializable {
         this.id = id;
     }
 
-    public int getUserId() {
+    public long getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
