@@ -37,7 +37,7 @@
                   <Component id="jPass" alignment="1" max="32767" attributes="0"/>
                   <Component id="jLogin" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="54" max="32767" attributes="0"/>
+              <EmptySpace pref="68" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -76,12 +76,12 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Password"/>
+        <Property name="text" type="java.lang.String" value="Has&#x142;o"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Rewrite password"/>
+        <Property name="text" type="java.lang.String" value="Powt&#xf3;rz has&#x142;o:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JPasswordField" name="jPass">

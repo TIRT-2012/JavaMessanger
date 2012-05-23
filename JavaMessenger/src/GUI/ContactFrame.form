@@ -91,7 +91,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Wyszukaj U&#x17c;ytkownika"/>
+        <Property name="text" type="java.lang.String" value="Wyszukaj u&#x17c;ytkownika"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">

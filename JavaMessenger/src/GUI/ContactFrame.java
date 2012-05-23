@@ -118,7 +118,7 @@ public class ContactFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Wyszukaj Użytkownika");
+        jLabel2.setText("Wyszukaj użytkownika");
 
         jList1.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };

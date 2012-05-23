@@ -43,9 +43,9 @@ public class RegistrationFrame extends javax.swing.JFrame {
 
         jLabel1.setText("Login");
 
-        jLabel2.setText("Password");
+        jLabel2.setText("Hasło");
 
-        jLabel3.setText("Rewrite password");
+        jLabel3.setText("Powtórz hasło:");
 
         jRetypePass.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -86,7 +86,7 @@ public class RegistrationFrame extends javax.swing.JFrame {
                     .addComponent(jButton1)
                     .addComponent(jPass, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLogin))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
