@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  *
- * @author PWr
+ * Klasa odpowiedzialna za stworzenie nowego konta użytkownika
  */
 public class RegistrationController {
     
@@ -22,6 +22,12 @@ public class RegistrationController {
         applicationComponent=ac;
     }
     
+    /**
+     * Funkcja odpowiada za stworzenie nowego konta użytkownika w bazie danych.
+     * @param userName
+     * @param password
+     * @return czy operacja utworzenia konta użytkownika się powiodła
+     */
     public boolean createAccount(String userName, String password){
         System.out.println("createAccount()");
         

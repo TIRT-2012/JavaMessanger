@@ -9,8 +9,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
 /**
- *
- * @author SysOp
+ * Klasa DataAccessObject odpowiada za połączenie aplikacji z bazą danych 
+ * i mapowanie danych w postaci relacyjnej do postaci obiektowej.
  */
 public class DataAccessObject {
 

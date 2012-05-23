@@ -10,8 +10,7 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 /**
- *
- * @author Piotr
+ * Klasa definiująca wygląd listy kontaktów zalogowanego użytkownika
  */
 public class MyJlistCellRenderer extends JPanel implements ListCellRenderer {
 

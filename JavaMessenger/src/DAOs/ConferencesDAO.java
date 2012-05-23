@@ -9,8 +9,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 /**
- *
- * @author SysOp
+ * Implementacja obiektu DAO dla tabeli conferences.
  */
 public class ConferencesDAO extends DataAccessObject{
     

@@ -9,8 +9,7 @@ import java.util.List;
 import javax.persistence.Query;
 
 /**
- *
- * @author SysOp
+ * Implementacja obiektu DAO dla tabeli messenges.
  */
 public class MessagesDAO extends DataAccessObject{
     

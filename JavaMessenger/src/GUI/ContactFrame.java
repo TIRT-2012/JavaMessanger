@@ -17,8 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 /**
- *
- * @author Piotr
+ * Klasa obrazuje formatkę dodawania nowego użytkownika do kontaków.
  */
 public class ContactFrame extends javax.swing.JFrame {
 
@@ -31,6 +30,10 @@ public class ContactFrame extends javax.swing.JFrame {
         initComponents();
     }
 
+    /**
+     * Metoda wyświetla na liście dostępnych użytkowników, których nie posiadamy w kontaktach.
+     * @param userslist lista użytkowników do wyświetlenia
+     */
     public void setJlist(List<Users> userslist) {
         //implementacja własnego listmodelu z zawartoscia listy
         String userNameTab[][];
@@ -59,7 +62,11 @@ public class ContactFrame extends javax.swing.JFrame {
         }
     }
 
-    
+    /**
+     * Funkcja sprawdza, czy podany użytkownik jest już na liście kontaktów zalogowanego użytkownika.
+     * @param contactsList lista kontaktów użytkownika.
+     * @param userName nazwa uzytkownika, którego sprawdzamy
+     */
     public boolean isUserInContacts(List<Contacts> contactsList, String userName)
     {
         boolean result = false;

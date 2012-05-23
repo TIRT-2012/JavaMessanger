@@ -19,8 +19,7 @@ import Logic.SSLController;
 import Temps.Audio.AudioConnection;
 
 /**
- *
- * @author SysOp
+ * Klasa zbierająca klasy logiczne wykorzystywane w aplikacji.
  */
 public class ApplicationComponents {
 

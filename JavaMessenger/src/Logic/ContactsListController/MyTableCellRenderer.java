@@ -10,9 +10,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
 /**
- *
- * @author Piotr
+ * Klasa definiująca wygląd tabeli kontaktów zalogowanego użytkownika
  */
+
 public class MyTableCellRenderer extends DefaultTableCellRenderer {
 
         public MyTableCellRenderer()

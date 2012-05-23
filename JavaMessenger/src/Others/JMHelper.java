@@ -9,11 +9,14 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 /**
- *
- * @author SysOp
+ * Klasa udostępnia metodę pomocniczą, pobierającą zewnętrzy adres IP klienta.
  */
 public class JMHelper {
     
+    /**
+     * Metoda zwracająca zewnętrzny adres IP zalogowanego użytkownika
+     * @return adres IP użytkownika
+     */
     public static String getMyPublicIP() {
         System.out.println("getMyPublicIP()");
         try {
