@@ -8,8 +8,7 @@ import Others.ApplicationComponents;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Piotr
+ * Klasa obrazuje formatkę rejestracji nowego użytkownika w systemie.
  */
 public class RegistrationFrame extends javax.swing.JFrame {
     public static final int minLoginLenght = 5;

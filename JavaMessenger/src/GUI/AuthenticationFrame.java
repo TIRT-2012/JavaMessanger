@@ -16,8 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
- *
- * @author Piotr
+ * Klasa obrazuje formatkę logowania programu.
  */
 public class AuthenticationFrame extends javax.swing.JFrame {
 
@@ -154,7 +153,11 @@ public class AuthenticationFrame extends javax.swing.JFrame {
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
-
+    
+    /**
+     * Metoda wykonująca próbę zalogowania użytkownika na podstawie podanych w interfejsie danych 
+     * Metoda ta jest wykonywana po kliknięciu przycisku Zaloguj
+     */
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         if (this.applicationComponents.getLoginController().selectAuthentication(jTextField3.getText().toString(), jPasswordField1.getText().toString())) {

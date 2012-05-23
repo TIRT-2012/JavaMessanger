@@ -10,8 +10,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 
 /**
- *
- * @author Trebronus
+ * Klasa obrazuje formatkę wyboru algorytmu szyfrowania transmisji danych.
  */
 public class CryptingFrame extends javax.swing.JFrame {    
     ArrayList<AlgoritmSettings> set;
@@ -63,6 +62,10 @@ public class CryptingFrame extends javax.swing.JFrame {
         this.keySizeComboBox.setModel(this.getKeySizeBoxModel(0));
     }
     
+    /**
+     * Metoda odpowiada za utworzenie modelu dla comboboxa wyboru algorytmu szyfrowania.
+     * @return model dla kontrolki jComboBox
+     */
     public ComboBoxModel getAlgoritmBoxModel(){
         String[] names = new String[this.set.size()];
         for(int i = 0; i < names.length; i++)
@@ -72,6 +75,10 @@ public class CryptingFrame extends javax.swing.JFrame {
         return model;
     }
     
+     /**
+     * Metoda odpowiada za utworzenie modelu dla comboboxa wyboru długości klucza szyfru.
+     * @return model dla kontrolki jComboBox
+     */
     public ComboBoxModel getKeySizeBoxModel(int algIndex){
         AlgoritmSettings settings = this.set.get(algIndex);
         ArrayList<String> keySizes = new ArrayList<String>();
@@ -175,6 +182,11 @@ public class CryptingFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Metoda ustawiająca wybrane przez użytkownika parametry szyfrowania.
+     * Metoda jest wykonywana po kliknięciu przycisku Zastosuj.
+     * @param evt 
+     */
     private void cryptSettingsBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cryptSettingsBtnActionPerformed
         String algorithm = (String)algorithNameComboBox.getSelectedItem();
         int keySize = Integer.parseInt((String)keySizeComboBox.getSelectedItem());
@@ -183,6 +195,10 @@ public class CryptingFrame extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_cryptSettingsBtnActionPerformed
 
+    /**
+     * Metoda generuje na nowo model dla comboboxa wyboru długości klucza algorytmu szyfrowania.
+     * @param evt 
+     */
     private void algorithNameComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_algorithNameComboBoxActionPerformed
         int algIndex = this.algorithNameComboBox.getSelectedIndex();
         this.keySizeComboBox.setModel(this.getKeySizeBoxModel(algIndex));

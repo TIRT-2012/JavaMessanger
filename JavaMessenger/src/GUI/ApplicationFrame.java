@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 
 /**
- * 
+ * Klasa obrazuje główne okno programu JavaMessanger.
  */
 public class ApplicationFrame extends javax.swing.JFrame {
 
@@ -25,20 +25,33 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private SSLController sslControler = null;
 
     /**
-     * Creates new form ApplicationFrame
+     * Tworzy nową formatkę ApplicationFrame
      */
     public ApplicationFrame() {
         initComponents();
     }
 
+    /**
+     * Metoda zmienia nazwę profilu użytkownika
+     * @param profilName nazwa profilu użytkownika
+     */
     public void changeProfilName(String profilName) {
         this.jLabel2.setText("" + profilName);
     }
 
+    /**
+     * Metoda zmieniająca nazwę przycisku "Zaloguj\Wyloguj"
+     * @param buttonText nowa nazwa przycisku
+     */
     public void changeLoginButtonText(String buttonText) {
         this.jButton1.setText(buttonText);
     }
 
+    /**
+     * Metoda wyświetla listę kontaktów użytkownika, pobranych z bazy danych.
+     * Jest wykonywana po zalogowaniu użytkownika.
+     * @param userslist lista użytkowników, których zalogowany użytkownik ma w kontaktach.
+     */
     public void setJlist(List<Entities.Contacts> userslist) {
         //implementacja własnego listmodelu z zawartoscia listy
         String userNameTab[][];
@@ -102,6 +115,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -231,6 +245,19 @@ public class ApplicationFrame extends javax.swing.JFrame {
         });
         jMenu4.add(jMenuItem2);
 
+        jMenuItem4.setText("Dodaj kontakt");
+        jMenuItem4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItem4MouseClicked(evt);
+            }
+        });
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem4);
+
         jMenuBar2.add(jMenu4);
 
         setJMenuBar(jMenuBar2);
@@ -275,6 +302,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    /**
+     * Metoda, w zależności od stanu programu, powoduje wyświetlenia formatki logowania lub wylogowanie zalogowanego już użytkownika.
+     * Jest wykonywana po wciśnięciu przycisku Zaloguj\Wyloguj
+     * @param evt 
+     */
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         if (this.getApplicationComponents().getLoginController().isLoggedUser()) {
@@ -298,6 +330,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    /**
+     * Metoda odpowiedzialna za wyświetlenia formatki rejestracji.
+     * Jest ona uruchamiana po klinięciu Profil -> Rejestracja
+     * @param evt 
+     */
     private void jMenuItem1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem1MousePressed
         if (!this.getApplicationComponents().getLoginController().isLoggedUser()) {
             RegistrationFrame rf = new RegistrationFrame();
@@ -319,7 +356,12 @@ public class ApplicationFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Aby rozpocząc konferencję, musisz się wpierw zalogować");
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
-
+    
+    /**
+     * Metoda odpowiedzialna za nawiązanie komunikacji z drugim klientem.
+     * Jest wykonywana po dwukrotnym kliknięciu na pozycję w liście kontaktów
+     * @param evt 
+     */
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
         // TODO add your handling code here:
         if (evt.getClickCount() == 2) {
@@ -347,6 +389,11 @@ public class ApplicationFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    /**
+     * Metoda wyświetlająca formatkę wyboru algorytmu szyfrowania.
+     * Metoda ta jest wywoływana po kliknięciu Program -> Szyfrowanie.
+     * @param evt 
+     */
     private void jMenuItem3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem3MousePressed
         // TODO add your handling code here:
         CryptingFrame cryptingFrame = new CryptingFrame(this);
@@ -354,6 +401,23 @@ public class ApplicationFrame extends javax.swing.JFrame {
         cryptingFrame.setLocationRelativeTo(cryptingFrame.getRootPane());
         cryptingFrame.setVisible(true);
     }//GEN-LAST:event_jMenuItem3MousePressed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        if (this.getApplicationComponents().getLoginController().isLoggedUser()) {
+            ContactFrame contactFrame = new ContactFrame();
+            contactFrame.setApplicationController(applicationComponents);
+            contactFrame.setLocationRelativeTo(contactFrame.getRootPane());
+            contactFrame.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(this, "Aby dodać kontakt, musisz się wpierw zalogować");
+        }
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem4MouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenuItem4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -418,6 +482,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
