@@ -20,11 +20,11 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 public class JCECrypter {
    private final int rsaKeySize = 1024;
    private int symetricKeySize = 256;
-   private static final String decryptedFile = "out.mp3";
+   /*private static final String decryptedFile = "out.mp3";
    private static final String encryptedFile = "encrypted.enc";
    private static final String testFile = "test.mp3";
    
-   private static final String testString = "Hello World!";
+   private static final String testString = "Hello World!";*/
 
    private String cryptographyAlgorithm = "AES";
    
@@ -39,16 +39,10 @@ public class JCECrypter {
    //private static final String cryptographyMode = "";
    private String cryptographyMode = "";
    
-   public static void main(String[] args) {
-       JCECrypter cryptor = new JCECrypter("AES", 256);
-        try {
-            //c.testFileCrypting();
-            cryptor.testStringCrypting();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-   }
-   
+   /**
+    * @param algorithm wybrany algorytm szyfru symetrycznego.
+    * @param symetricKeySize długość kluczas szyfru symetrycznego.
+    */
    public JCECrypter(String algorithm, int symetricKeySize){
        Security.addProvider(new BouncyCastleProvider());
        
@@ -60,15 +54,22 @@ public class JCECrypter {
        Security.addProvider(new BouncyCastleProvider());
    }
 
+   /**
+    * @param cryptographyAlgorithm wybrany algorytm szyfru symetrycznego.
+    */
    public void setCryptographyAlgorithm(String cryptographyAlgorithm) {
         this.cryptographyAlgorithm = cryptographyAlgorithm;
    }
 
+   /**
+    * 
+    * @param symetricKeySize długość kluczas szyfru symetrycznego.
+    */
    public void setSymetricKeySize(int symetricKeySize) {
         this.symetricKeySize = symetricKeySize;
    }
    
-   public void testStringCrypting() throws Exception{
+   /*public void testStringCrypting() throws Exception{
        System.out.println("Szyfrowana wiadomość: " + testString);
        
        KeyPair RSAKey = this.generateRSAKey();
@@ -106,8 +107,14 @@ public class JCECrypter {
     public SerialCryptedMessage cryptOut(PublicKey publicKey, ByteArrayInputStream in, ByteArrayOutputStream out) throws Exception{
         crypt(publicKey, in, out);
         return new SerialCryptedMessage(out.toByteArray());
-    }
+    }*/
     
+   /**
+    * Metoda szyfrująca dane z wykorzystaniem klucza publicznego RSA, otrzymanego od drugiego klienta.
+    * @param publicKey klucz publiczny
+    * @param in strumień danych niezaszyfrowanych (jawnych)
+    * @param out strumień danych kryptogramu (dane zaszyfrowane)
+    */
    public void crypt(PublicKey publicKey, InputStream in, OutputStream out) throws Exception{
        SecretKey symetricKey = this.generateSymetricKey();
        
@@ -133,6 +140,12 @@ public class JCECrypter {
        out.close(); 
    }
    
+   /**
+    * Metoda deszyfrująca dane z wykorzystaniem własnego klucza prywatnego.
+    * @param privateKey klucz prywatny
+    * @param in strumień danych kryptogramu (dane zaszyfrowane)
+    * @param out strumień danych zdeszyfrowanych (jawnych)
+    */
    public void decrypt(PrivateKey privateKey, InputStream in, OutputStream out) throws Exception{
      int length = in.read(); 
      byte[] wrappedKey = new byte[length]; 
@@ -163,6 +176,10 @@ public class JCECrypter {
      out.close();
    }
    
+   /**
+    * Metoda generująca klucz dla szyfrów symetrycznych.
+    * @return klucz symetryczny
+    */
    public SecretKey generateSymetricKey() throws Exception{
      KeyGenerator keygen = KeyGenerator.getInstance(cryptographyAlgorithm); 
      SecureRandom random = new SecureRandom(); 
@@ -172,6 +189,11 @@ public class JCECrypter {
      return key;
    }
    
+   /**
+    * Metoda generująca parę kluczy RSA (klucz publiczny i klucz prywatny)
+    * @return obiekt zawierający klucz prywatny i klucz publiczny.
+    * @throws Exception 
+    */
    public KeyPair generateRSAKey() throws Exception{
       KeyPairGenerator pairgen = KeyPairGenerator.getInstance("RSA"); 
       SecureRandom random = new SecureRandom(); 
@@ -181,6 +203,7 @@ public class JCECrypter {
       return keyPair;
    }
    
+   /*
    public void saveRSAKeysToFiles(KeyPair keyPair, String keyName) throws Exception{
       ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(keyName + "_public.key"));
       out.writeObject(keyPair.getPublic()); 
@@ -189,8 +212,16 @@ public class JCECrypter {
       out = new ObjectOutputStream(new FileOutputStream(keyName + "_private.key")); 
       out.writeObject(keyPair.getPrivate()); 
       out.close(); 
-   }
-    
+   }*/
+   
+   /**
+    * Metoda wykonująca szyfrowanie i deszyfrowanie strumienia wejściowego danych z wykorzystaniem zadanego szyfru.
+    * @param in strumień wejściowy danych
+    * @param out strumień wyjściowy danych - rezultat działania metody
+    * @param cipher wybrany algorytm szyfrowania
+    * @throws IOException
+    * @throws GeneralSecurityException 
+    */
    private static void work(InputStream in, OutputStream out, Cipher cipher) throws IOException, GeneralSecurityException 
    { 
       int blockSize = cipher.getBlockSize(); 

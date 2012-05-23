@@ -8,7 +8,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * Klasa Hasher udostępnia metodę obliczającą skróty dla łańcuchów tekstowych.
+ * Klasa udostępnia metodę obliczającą skróty dla łańcuchów tekstowych.
  */
 public class Hasher {
     public static String HASH_MD5 = "MD5";
