@@ -58,6 +58,18 @@ public class LoginController {
         return temp.getUserName();
     }
 
+    public boolean setContact(String name) {
+        System.out.println("setContact()");
+        boolean isAdded = false;
+        ContactsDAO contactDao = applicationComponent.getContactsDAO();
+        Contacts contact = new Contacts();
+        contact.setUserId(userObject.getId());
+        contact.setName(name);
+        contactDao.insert(contact, true);
+        applicationComponent.releseDAO(contactDao);
+        return isAdded;
+    }
+
     public List<Contacts> getContacts() {
         Long id = null;
         id = userObject.getId();
@@ -65,6 +77,24 @@ public class LoginController {
         List<Contacts> contactList = contactDao.findByUserId(id, true);
         applicationComponent.releseDAO(contactDao);
         return contactList;
+    }
+
+    public List<Users> getUsers(String name) {
+        Long id = null;
+        id = userObject.getId();
+        UsersDAO userDao = applicationComponent.getUsersDAO();
+        List<Users> userList = userDao.findByUserName(name, true);
+        applicationComponent.releseDAO(userDao);
+        return userList;
+    }
+
+    public List<Users> getUsersAll() {
+        Long id = null;
+        id = userObject.getId();
+        UsersDAO userDao = applicationComponent.getUsersDAO();
+        List<Users> userList = userDao.findAll(true);
+        applicationComponent.releseDAO(userDao);
+        return userList;
     }
 
     public String getAnotherUserIp(String name) {
@@ -86,8 +116,8 @@ public class LoginController {
         applicationComponent.releseDAO(userDao);
         loggedUser = true;
     }
-    
-    public void logout(){
+
+    public void logout() {
         removeUserIp();
         applicationComponent.getSSLController().stopServer();
     }
