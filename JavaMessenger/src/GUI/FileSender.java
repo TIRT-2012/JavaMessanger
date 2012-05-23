@@ -14,8 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
- *
- * @author Piotr
+ * Klasa obrazuje formatkę wysyłania plików do drugiego klienta.
  */
 public class FileSender extends javax.swing.JFrame {
     String filePath;
