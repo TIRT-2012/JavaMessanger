@@ -25,8 +25,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
 /**
- *
- * @author Piotr
+ * Klasa obrazuje formatkę rozmowy z drugim użytkownikiem. Formatka to pozwala
+ * wysyłać wiadomości tekstowe oraz pliki, a także pozwala rozpocząć rozmowę
+ * głosową z drugim użytkowniem.
  */
 public class MessegerFrame extends javax.swing.JFrame {
 
@@ -115,6 +116,15 @@ public class MessegerFrame extends javax.swing.JFrame {
         this.conference = conf;
     }
 
+    /**
+     * Metoda odpowiedzialna za przygotowanie do transmisji pliku i jego wysłanie
+     * do drugiego klienta. Wpierw do drugiego klienta wysyłana jest zaszyfrowana 
+     * wiadomość o tym, że nastąpi transmisja pliku, następnie plik jest szyfrowany 
+     * i wysyłany do odbiorcy.
+     * 
+     * @param fileSender formatka wysyłania pliku
+     * @throws IOException 
+     */
     public void sendFile(FileSender fileSender) throws IOException {
         this.fileSender = fileSender;
 
@@ -165,6 +175,12 @@ public class MessegerFrame extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Funkcja konwertująca obiekt do postaci tablicy bajtów
+     * @param obj konwertowany obiekt
+     * @return tablica bajtów
+     * @throws java.io.IOException 
+     */
     public static byte[] getBytes(Object obj) throws java.io.IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -175,6 +191,13 @@ public class MessegerFrame extends javax.swing.JFrame {
         byte[] data = bos.toByteArray();
         return data;
     }
+    
+    /**
+     * Funkcja wczytująca zawartość pliku do tablicy bajtów
+     * @param byteArray pusta tablica bajtów
+     * @param file wczytywany plik
+     * @return tablica bajtów z zawartością pliku
+     */
     public byte[] convertToByte(byte[] byteArray, File file) throws FileNotFoundException, IOException
     {
         FileInputStream fileInputStream = new FileInputStream(file);

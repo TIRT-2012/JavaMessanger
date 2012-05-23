@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Vector;
 
 /**
- *
- * @author PWr
+ * Klasa obrazuje formatkę Zarządzania konferencją
  */
 public class ConferenceFrame extends javax.swing.JFrame {
     ApplicationFrame application;
