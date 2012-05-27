@@ -45,6 +45,7 @@ public class AudioConnection implements SessionListener, ReceiveStreamListener{
     private Player player;
     
     private SessionAnalizer sessionAnalizer;
+    private byte[] des_key = {90, 32, 12, 74, 0, 23, 112};
 
     public AudioConnection() {
         microphone = getMicrophone();
@@ -61,7 +62,21 @@ public class AudioConnection implements SessionListener, ReceiveStreamListener{
             try {
                 sessionManager = RTPManager.newInstance();
                 SessionAddress localAddr= new SessionAddress( InetAddress.getByName(InetAddress.getLocalHost().getHostName()), connectionPort);
-                sessionManager.initialize(localAddr);
+                
+                //Stary kod inicjalizacji
+                //sessionManager.initialize(localAddr);
+                //Nowy kod inicjalizacji, dodający szyfrowanie
+                String cname = SourceDescription.generateCNAME();
+                SourceDescription sourceDescription[] = {
+                    new SourceDescription(3, "jmf-user@sun.com", 1, false), new SourceDescription(1, cname, 1, false), new SourceDescription(6, "JMF RTP Player v2.0", 1, false)
+                };
+                double rtcp_bw_fraction = 0.050000000000000003D;
+                double rtcp_sender_bw_fraction = 0.25D;
+                
+                SessionAddress localAddresses[] = {localAddr};
+
+                sessionManager.initialize(localAddresses, sourceDescription, rtcp_bw_fraction, rtcp_sender_bw_fraction, new EncryptionInfo(EncryptionInfo.DES, des_key));
+                //Koniec
 
 //                for(Contact contact: conversation.getContactArray()){
 //                        SessionAddress remoteAddr = new SessionAddress(InetAddress.getByName(contact.getIpAddress()), connectionPort);
