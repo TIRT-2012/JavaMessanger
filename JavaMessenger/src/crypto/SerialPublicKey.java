@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.security.PublicKey;
 
 /**
- * Klasa służąca do przesyłania używanego algorytmu szyfrowania i klucza publicznego pozostałym klientom.
+ * Klasa służąca do przesyłania ustawień używanego algorytmu szyfrowania i klucza publicznego pozostałym klientom.
  */
 public class SerialPublicKey implements Serializable{
     private PublicKey key;
