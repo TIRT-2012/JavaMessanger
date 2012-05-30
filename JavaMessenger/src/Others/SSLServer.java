@@ -4,14 +4,6 @@
  */
 package Others;
 
-/**
- * Klasa SSLServer to klasa modułu Serwera architektury klient-serwer opartej na
- * szyfrowaniu SSL Obiekt ten decyduje o wysyłaniu kluczy szyfrujących,
- * kierowaniu odpowiedzi do klientów przy inicjacji połączenia oraz odbieraniu
- * wiadomości od klientów zewnętrznych
- *
- * @author SysOp
- */
 import GUI.MessegerFrame;
 import Logic.SSLController;
 import crypto.JCECrypter;
@@ -28,6 +20,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.net.ssl.*;
 
+/**
+ * Klasa SSLServer to klasa modułu Serwera architektury klient-serwer opartej na
+ * szyfrowaniu SSL Obiekt ten decyduje o wysyłaniu kluczy szyfrujących,
+ * kierowaniu odpowiedzi do klientów przy inicjacji połączenia oraz odbieraniu
+ * wiadomości od klientów zewnętrznych
+ *
+ * @author SysOp
+ */
 public class SSLServer implements Runnable {
 
     private static int MAX = 50;

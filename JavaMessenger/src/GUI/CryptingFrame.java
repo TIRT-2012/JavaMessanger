@@ -5,7 +5,7 @@
 package GUI;
 
 import Others.ApplicationComponents;
-import Temps.Audio.AudioConnection;
+import Others.AudioConnection;
 import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;

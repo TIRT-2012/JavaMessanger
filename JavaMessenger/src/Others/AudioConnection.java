@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Temps.Audio;
+package Others;
 
 /**
  *
@@ -25,9 +25,12 @@ import javax.media.rtp.event.ReceiveStreamEvent;
 import javax.media.rtp.event.SessionEvent;
 import javax.media.rtp.rtcp.SourceDescription;
 
+/**
+ * Klasa AudioConnection odpowiada za funkcjonalność stremingu audio. Do jej zadań należy pobranie
+ * dźwięku z urządzenia wejściowego i przesłanie go do drugiego klienta, a także za odebranie dźwięku
+ * wysłanego przez drugiego klienta i odtworzenie go.
+ */
 public class AudioConnection implements SessionListener, ReceiveStreamListener{
-    
-//    private static AudioConnection instance = new AudioConnection();
     
     public DataSource microphone;
     public PushBufferDataSource  rtpSound;
