@@ -2,13 +2,14 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package Temps.Video;
+package Others;
 
 /**
  *
  * @author Mateusz & SysOp
  */
 import Temps.Audio.*;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -32,11 +33,12 @@ public class VideoConnection implements SessionListener, ReceiveStreamListener {
 
 //    private static AudioConnection instance = new AudioConnection();
     private DataSource camera;
-    String cameraType;
-    Dimension cameraResolution;
-    CaptureDeviceInfo cam;
-    MediaLocator locator;
-    private PushBufferDataSource rtpSound;
+    private String cameraType;
+    private Dimension cameraResolution;
+    private CaptureDeviceInfo cam;
+    private MediaLocator locator;
+    private java.awt.Component videoComponent;
+    private PushBufferDataSource rtpVideo;
     private RTPManager sessionManager;
     private SendStream outStream;
     private DataSource videoInputSource1;
@@ -53,7 +55,7 @@ public class VideoConnection implements SessionListener, ReceiveStreamListener {
     public VideoConnection() {
         camera = getCamera();
         processor = getProcessor(camera);
-        rtpSound = (PushBufferDataSource) processor.getDataOutput();
+        rtpVideo = (PushBufferDataSource) processor.getDataOutput();
     }
 
 //    public static AudioConnection getInstance() {
@@ -87,7 +89,7 @@ public class VideoConnection implements SessionListener, ReceiveStreamListener {
 //                }
 
 
-                outStream = sessionManager.createSendStream(rtpSound, 0);
+                outStream = sessionManager.createSendStream(rtpVideo, 0);
 
                 sessionManager.addSessionListener(this);
                 sessionManager.addReceiveStreamListener(this);
@@ -198,6 +200,7 @@ public class VideoConnection implements SessionListener, ReceiveStreamListener {
                 player = Manager.createRealizedPlayer(stream.getDataSource());
                 if (!isPlayerMuted) {
                     player.start();
+                    videoComponent = player.getVisualComponent();
                 }
             } catch (CannotRealizeException ex) {
                 Logger.getLogger(VideoConnection.class.getName()).log(Level.SEVERE, null, ex);
@@ -265,4 +268,13 @@ public class VideoConnection implements SessionListener, ReceiveStreamListener {
             }
         }
     }
+
+    public Component getVideoComponent() {
+        return videoComponent;
+    }
+
+    public void setVideoComponent(Component videoComponent) {
+        this.videoComponent = videoComponent;
+    }
+    
 }

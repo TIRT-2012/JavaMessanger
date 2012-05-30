@@ -33,6 +33,15 @@ public class ApplicationComponents {
     private HashMap identifiers;
     private DBThreadManager dbtm;
     private AudioConnection audioConnection;
+    private VideoConnection videoConnection;
+
+    public VideoConnection getVideoConnection() {
+        return videoConnection;
+    }
+
+    public void setVideoConnection(VideoConnection videoConnection) {
+        this.videoConnection = videoConnection;
+    }
     
     private static ApplicationComponents instance = new ApplicationComponents();
 
@@ -60,6 +69,7 @@ public class ApplicationComponents {
             }
         }
         audioConnection=new AudioConnection(2);
+        videoConnection = new VideoConnection();
     }
     
     /**
