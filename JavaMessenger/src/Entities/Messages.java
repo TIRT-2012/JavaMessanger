@@ -20,8 +20,7 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author SysOp
+ * Encja odpowiedzialna na rzutowanie danych z modelu relacyjnego do obiektowego dla tabeli messenges.
  */
 @Entity
 @Table(name = "jmcdata.messages")

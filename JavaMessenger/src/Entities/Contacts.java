@@ -17,8 +17,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
- *
- * @author SysOp
+ * Encja odpowiedzialna na rzutowanie danych z modelu relacyjnego do obiektowego dla tabeli contacts.
  */
 @Entity
 @Table(name = "jmcdata.contacts")
