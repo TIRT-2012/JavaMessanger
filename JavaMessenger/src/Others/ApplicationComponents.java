@@ -59,7 +59,7 @@ public class ApplicationComponents {
                 usageArray[i][j] = false;
             }
         }
-        audioConnection=new AudioConnection();
+        audioConnection=new AudioConnection(2);
     }
     
     /**
@@ -70,6 +70,12 @@ public class ApplicationComponents {
     public AudioConnection getAudioConnection(){
         return audioConnection;
     }
+
+    public void setAudioConnection(AudioConnection audioConnection) {
+        this.audioConnection = audioConnection;
+    }
+    
+    
     
     /**
      * 

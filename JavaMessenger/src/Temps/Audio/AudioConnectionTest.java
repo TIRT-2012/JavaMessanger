@@ -17,7 +17,7 @@ public class AudioConnectionTest {
     
     public static void main(String[] args){
         try {
-            AudioConnection ac=new AudioConnection();
+            AudioConnection ac=new AudioConnection(0);
             ac.initialize(InetAddress.getByName("5.132.15.195"));
             ac.start();
             while(true){

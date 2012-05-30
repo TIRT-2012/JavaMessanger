@@ -29,13 +29,13 @@ public class AudioConnection implements SessionListener, ReceiveStreamListener{
     
 //    private static AudioConnection instance = new AudioConnection();
     
-    private DataSource microphone;
-    private PushBufferDataSource  rtpSound;
-    private RTPManager sessionManager;
+    public DataSource microphone;
+    public PushBufferDataSource  rtpSound;
+    public RTPManager sessionManager;
     private SendStream  outStream;
     private DataSource audioInputSource1;
     private int connectionPort = 5051;
-    private Processor processor;
+    public Processor processor;
     
     private boolean started=false;
     private boolean initialized = false;
@@ -45,12 +45,19 @@ public class AudioConnection implements SessionListener, ReceiveStreamListener{
     private Player player;
     
     private SessionAnalizer sessionAnalizer;
+    private byte[] empty_key = {};
     private byte[] des_key = {90, 32, 12, 74, 0, 23, 112};
+    private byte[] triple_des_key = {90, 32, 12, 74, 0, 23, 112, 90, 32, 12, 74, 0, 23, 112, 90, 32, 12, 74, 0, 23, 112};
+    private byte[] md5_key =  {90, 32, 12, 74, 0, 90, 32, 12, 74, 0, 90, 32, 12, 74, 0, 90, 32, 12, 74, 0};
+    
+    int encryptionIndex;
 
-    public AudioConnection() {
+    public AudioConnection(int encryptionIndex) {
         microphone = getMicrophone();
         processor = getProcessor(microphone);
         rtpSound = (PushBufferDataSource) processor.getDataOutput();
+        
+        this.encryptionIndex = encryptionIndex;
     }
 
 //    public static AudioConnection getInstance() {
@@ -75,7 +82,17 @@ public class AudioConnection implements SessionListener, ReceiveStreamListener{
                 
                 SessionAddress localAddresses[] = {localAddr};
 
-                sessionManager.initialize(localAddresses, sourceDescription, rtcp_bw_fraction, rtcp_sender_bw_fraction, new EncryptionInfo(EncryptionInfo.NO_ENCRYPTION, new byte[] {}));
+                EncryptionInfo einfo;
+                switch(this.encryptionIndex){
+                    case 0 : {einfo = new EncryptionInfo(EncryptionInfo.NO_ENCRYPTION, empty_key); break;}
+                    case 1 : {einfo = new EncryptionInfo(EncryptionInfo.DES, des_key); break;}
+                    case 2 : {einfo = new EncryptionInfo(EncryptionInfo.TRIPLE_DES, triple_des_key); break;}
+                    case 3 : {einfo = new EncryptionInfo(EncryptionInfo.MD5, md5_key); break;}
+                    case 4 : {einfo = new EncryptionInfo(EncryptionInfo.XOR, empty_key); break;}
+                    default : {einfo = new EncryptionInfo(EncryptionInfo.NO_ENCRYPTION, empty_key);}
+                }
+                
+                sessionManager.initialize(localAddresses, sourceDescription, rtcp_bw_fraction, rtcp_sender_bw_fraction, new EncryptionInfo(EncryptionInfo.XOR, new byte[] {}));
                 //Koniec
 
 //                for(Contact contact: conversation.getContactArray()){

@@ -23,6 +23,7 @@ public class ApplicationFrame extends javax.swing.JFrame {
 
     private ApplicationComponents applicationComponents = null;
     private SSLController sslControler = null;
+    CryptingFrame cryptingFrame;
 
     /**
      * Tworzy nową formatkę ApplicationFrame
@@ -396,10 +397,14 @@ public class ApplicationFrame extends javax.swing.JFrame {
      */
     private void jMenuItem3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItem3MousePressed
         // TODO add your handling code here:
-        CryptingFrame cryptingFrame = new CryptingFrame(this);
-        cryptingFrame.setApplicationComponents(applicationComponents);
-        cryptingFrame.setLocationRelativeTo(cryptingFrame.getRootPane());
-        cryptingFrame.setVisible(true);
+        if(cryptingFrame == null){
+            cryptingFrame = new CryptingFrame(this);
+            cryptingFrame.setApplicationComponents(applicationComponents);
+            cryptingFrame.setLocationRelativeTo(cryptingFrame.getRootPane());
+            cryptingFrame.setVisible(true);
+        }else{
+            cryptingFrame.setVisible(true);
+        }
     }//GEN-LAST:event_jMenuItem3MousePressed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed

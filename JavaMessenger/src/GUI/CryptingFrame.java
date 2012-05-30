@@ -5,6 +5,7 @@
 package GUI;
 
 import Others.ApplicationComponents;
+import Temps.Audio.AudioConnection;
 import java.util.ArrayList;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
@@ -60,6 +61,7 @@ public class CryptingFrame extends javax.swing.JFrame {
         
         this.algorithNameComboBox.setModel(this.getAlgoritmBoxModel());
         this.keySizeComboBox.setModel(this.getKeySizeBoxModel(0));
+        this.audioCryptingBox.setModel(this.getAudioAlgoritmBoxModel());
     }
     
     /**
@@ -75,7 +77,12 @@ public class CryptingFrame extends javax.swing.JFrame {
         return model;
     }
     
-    //public Co
+    public ComboBoxModel getAudioAlgoritmBoxModel(){
+        String[] names = {"Brak szyfrowania", "DES", "3DES", "XOR", "MD5"};
+        ComboBoxModel model = new DefaultComboBoxModel(names);
+        
+        return model;
+    }
     
      /**
      * Metoda odpowiada za utworzenie modelu dla comboboxa wyboru długości klucza szyfru.
@@ -220,6 +227,12 @@ public class CryptingFrame extends javax.swing.JFrame {
         this.applicationComponents.getSSLController().setAlgorithm(algorithm);
         this.applicationComponents.getSSLController().setKeySize(keySize);
         this.setVisible(false);
+        
+        this.applicationComponents.getAudioConnection().microphone.disconnect();
+        this.applicationComponents.getAudioConnection().close();
+        
+        AudioConnection audio = new AudioConnection(this.audioCryptingBox.getSelectedIndex());
+        this.applicationComponents.setAudioConnection(audio);
     }//GEN-LAST:event_cryptSettingsBtnActionPerformed
 
     /**
