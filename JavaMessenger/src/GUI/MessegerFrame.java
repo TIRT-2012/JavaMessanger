@@ -8,7 +8,7 @@ import Logic.SSLController;
 import Others.ApplicationComponents;
 import Others.SSLClient;
 import Others.SSLSocketConnection;
-import Temps.Audio.AudioConnection;
+import Others.AudioConnection;
 import crypto.JCECrypter;
 import crypto.SerialCryptedMessage;
 import crypto.SerialPublicKey;
