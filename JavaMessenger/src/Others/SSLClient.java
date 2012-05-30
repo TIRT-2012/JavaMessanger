@@ -7,7 +7,6 @@ package Others;
 import GUI.FileSender;
 import Logic.*;
 import GUI.MessegerFrame;
-import Temps.SSLsocket.*;
 import Others.JMHelper;
 import crypto.JCECrypter;
 import crypto.SerialCryptedMessage;

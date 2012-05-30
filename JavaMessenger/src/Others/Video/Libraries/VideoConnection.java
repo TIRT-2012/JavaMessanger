@@ -8,7 +8,7 @@ package Others.Video.Libraries;
  *
  * @author Mateusz & SysOp
  */
-import Temps.Audio.*;
+
 import java.awt.Dimension;
 import java.io.IOException;
 import java.net.InetAddress;

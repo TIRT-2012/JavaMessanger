@@ -8,7 +8,7 @@ package Others;
  *
  * @author Mateusz & SysOp
  */
-import Temps.Audio.*;
+
 import java.awt.Component;
 import java.awt.Dimension;
 import java.io.IOException;
