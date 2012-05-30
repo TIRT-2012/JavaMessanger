@@ -211,11 +211,11 @@ public class VideoConnection implements SessionListener, ReceiveStreamListener {
 
     //=============================PRIVATE METHODS==============================
     private DataSource getCamera(){
-        Dimension dm = new Dimension();
-        dm.width = 640;
-        dm.height = 480;
-        VideoFormat format = new VideoFormat("RGB", dm, 921600, Format.byteArray, 15.0f);
-        //VideoFormat format = new VideoFormat(null);
+//        Dimension dm = new Dimension();
+//        dm.width = 640;
+//        dm.height = 480;
+//        VideoFormat format = new VideoFormat("RGB", dm, 921600, Format.byteArray, 15.0f);
+        VideoFormat format = new VideoFormat(null);
         Vector deviceList = CaptureDeviceManager.getDeviceList(format);
         if (!deviceList.isEmpty()) {
             cam = (CaptureDeviceInfo) deviceList.firstElement();
@@ -234,14 +234,15 @@ public class VideoConnection implements SessionListener, ReceiveStreamListener {
         return null;
     }
 
-    private Processor getProcessor(DataSource soundSource) {
+    private Processor getProcessor(DataSource videoSource) {
         try {
-            Dimension dm = new Dimension();
-            dm.width = 640;
-            dm.height = 480;
-            VideoFormat[] formats = {new VideoFormat("RGB", dm, 921600, Format.byteArray, 15.0f)};
+//            Dimension dm = new Dimension();
+//            dm.width = 640;
+//            dm.height = 480;
+//            VideoFormat[] formats = {new VideoFormat("RGB", dm, 921600, Format.byteArray, 15.0f)};
+            VideoFormat[] formats = {new VideoFormat(null)};
             ContentDescriptor descriptor = new ContentDescriptor(ContentDescriptor.RAW_RTP);
-            Processor processor = Manager.createRealizedProcessor(new ProcessorModel(soundSource, formats, descriptor));
+            Processor processor = Manager.createRealizedProcessor(new ProcessorModel(videoSource, formats, descriptor));
 
             return processor;
         } catch (IOException ex) {
