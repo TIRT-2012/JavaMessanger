@@ -92,7 +92,7 @@ public class AudioConnection implements SessionListener, ReceiveStreamListener{
                     default : {einfo = new EncryptionInfo(EncryptionInfo.NO_ENCRYPTION, empty_key);}
                 }
                 
-                sessionManager.initialize(localAddresses, sourceDescription, rtcp_bw_fraction, rtcp_sender_bw_fraction, new EncryptionInfo(EncryptionInfo.XOR, new byte[] {}));
+                sessionManager.initialize(localAddresses, sourceDescription, rtcp_bw_fraction, rtcp_sender_bw_fraction, einfo);
                 //Koniec
 
 //                for(Contact contact: conversation.getContactArray()){
