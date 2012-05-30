@@ -33,12 +33,14 @@ public class VideoCaptureTest {
             Dimension dm = new Dimension();
             dm.width = 640;
             dm.height = 480;
-            VideoFormat format = new VideoFormat( "RGB", dm, 921600, Format.byteArray, 15.0f);
-            //VideoFormat format = new VideoFormat(null);
+            //VideoFormat format = new VideoFormat( "RGB", dm, 921600, Format.byteArray, 15.0f);
+            VideoFormat format = new VideoFormat(null);
             Vector deviceList = CaptureDeviceManager.getDeviceList(format);
             if (!deviceList.isEmpty()) {
+                System.out.println("CameraType1");
                 cam = (CaptureDeviceInfo) deviceList.firstElement();
                 cameraType = cam.getName();
+                System.out.println("CameraType "+cameraType);
             }
 
 //                        String str2 = "vfw:Microsoft WDM Image Capture (Win32):0";
