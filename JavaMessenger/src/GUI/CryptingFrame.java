@@ -75,6 +75,8 @@ public class CryptingFrame extends javax.swing.JFrame {
         return model;
     }
     
+    //public Co
+    
      /**
      * Metoda odpowiada za utworzenie modelu dla comboboxa wyboru długości klucza szyfru.
      * @return model dla kontrolki jComboBox
@@ -113,9 +115,12 @@ public class CryptingFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         cryptSettingsBtn = new javax.swing.JButton();
         keySizeComboBox = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        audioCryptingBox = new javax.swing.JComboBox();
+        jLabel5 = new javax.swing.JLabel();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jLabel1.setText("Wybierz algorytm szyfrowania");
+        jLabel1.setText("Wybierz algorytm szyfrowania tekstu:");
 
         jLabel2.setText("Wybrany algorytm:");
 
@@ -141,6 +146,17 @@ public class CryptingFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Wybrany algorytm:");
+
+        audioCryptingBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                audioCryptingBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel5.setText("Wybierz algorytm szyfrowania audio:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -158,7 +174,12 @@ public class CryptingFrame extends javax.swing.JFrame {
                             .addComponent(algorithNameComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(keySizeComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cryptSettingsBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cryptSettingsBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addComponent(jLabel5)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(audioCryptingBox, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -174,7 +195,13 @@ public class CryptingFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(keySizeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(audioCryptingBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(cryptSettingsBtn)
                 .addGap(27, 27, 27))
         );
@@ -207,6 +234,10 @@ public class CryptingFrame extends javax.swing.JFrame {
     private void keySizeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_keySizeComboBoxActionPerformed
 
     }//GEN-LAST:event_keySizeComboBoxActionPerformed
+
+    private void audioCryptingBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_audioCryptingBoxActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_audioCryptingBoxActionPerformed
 
     /**
      * @param args the command line arguments
@@ -251,10 +282,13 @@ public class CryptingFrame extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox algorithNameComboBox;
+    private javax.swing.JComboBox audioCryptingBox;
     private javax.swing.JButton cryptSettingsBtn;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JComboBox keySizeComboBox;
     // End of variables declaration//GEN-END:variables
 

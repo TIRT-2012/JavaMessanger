@@ -75,7 +75,7 @@ public class AudioConnection implements SessionListener, ReceiveStreamListener{
                 
                 SessionAddress localAddresses[] = {localAddr};
 
-                sessionManager.initialize(localAddresses, sourceDescription, rtcp_bw_fraction, rtcp_sender_bw_fraction, new EncryptionInfo(EncryptionInfo.DES, des_key));
+                sessionManager.initialize(localAddresses, sourceDescription, rtcp_bw_fraction, rtcp_sender_bw_fraction, new EncryptionInfo(EncryptionInfo.NO_ENCRYPTION, new byte[] {}));
                 //Koniec
 
 //                for(Contact contact: conversation.getContactArray()){
